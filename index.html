@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  
+  <meta name="description" content="Dossier Corfù 27 ago–3 set 2026: zone, programma giorni, escursioni, mappa." />
+  <meta property="og:title" content="Corfù · dossier gruppo · agosto 2026" />
+  <meta property="og:description" content="Zone dove dormire, giorni, escursioni e mappa — 3 adulti, budget casa+auto." />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#1f6f8b" />
+  <link rel="canonical" id="canonical-link" href="https://smozehzbhoeceioqxodx.supabase.co/functions/v1/corfu-vacanza-share" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Corfù · dossier gruppo · 27 ago–3 set 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <style>
+    :root {
+      --bg:#f4f1ea; --ink:#182029; --muted:#5a6470; --card:#fffdf8;
+      --line:#ddd4c5; --sea:#1f6f8b; --sea-soft:#e7f4f8;
+      --ok:#1f7a45; --ok-bg:#e8f6ee; --warn:#8a5b10; --warn-bg:#fff6e4;
+      --bad:#9b2c2c; --bad-bg:#fdecec;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:"Source Sans 3",system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.45}
+    .app-bar{position:sticky;top:0;z-index:100;background:rgba(244,241,234,.97);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:10px 14px}
+    .app-bar-inner{max-width:1180px;margin:0 auto}
+    .tabs{display:flex;flex-wrap:wrap;gap:8px}
+    .tab{appearance:none;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:10px 14px;font:inherit;font-weight:700;font-size:.9rem;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
+    .tab:hover{border-color:#b7c4cf}
+    .tab.active{background:var(--sea);border-color:var(--sea);color:#fff;box-shadow:0 4px 14px rgba(31,111,139,.28)}
+    .tab.map-full{background:var(--ink);border-color:var(--ink);color:#fff}
+    .wrap{max-width:1180px;margin:0 auto;padding:18px 14px 80px}
+    h1{font-family:Fraunces,Georgia,serif;font-size:clamp(1.55rem,3.2vw,2rem);margin:0 0 8px;line-height:1.15}
+    h2{font-family:Fraunces,Georgia,serif;font-size:1.28rem;margin:0 0 8px}
+    h3{font-size:1.02rem;margin:0 0 4px;line-height:1.25}
+    .lead{color:var(--muted);margin:0 0 10px;font-size:.95rem}
+    .panel{display:none}.panel.active{display:block}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin:0 0 14px}
+    .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+    .chip{background:#f4efe6;border:1px solid var(--line);border-radius:999px;padding:5px 10px;font-size:.8rem;font-weight:700}
+    .chip.ok{background:var(--ok-bg);border-color:#b9dfc6;color:var(--ok)}
+    .ok{background:var(--ok-bg);border:1px solid #b9dfc6;border-radius:12px;padding:12px;margin:10px 0}
+    .warn{background:var(--warn-bg);border:1px solid #efd7a0;border-radius:12px;padding:12px;margin:10px 0}
+    .note{font-size:.9rem;color:var(--muted)}
+    ul{margin:8px 0 0;padding-left:1.15rem} li{margin:5px 0}
+    .badge{font-size:.68rem;font-weight:800;padding:3px 8px;border-radius:999px;display:inline-block;vertical-align:middle}
+    .b-ok{background:var(--ok-bg);color:var(--ok)}.b-mid{background:var(--warn-bg);color:var(--warn)}.b-bad{background:var(--bad-bg);color:var(--bad)}.b-sea{background:var(--sea-soft);color:var(--sea)}
+    .check li{list-style:none;margin-left:-1.15rem}.check li::before{content:"☐ ";font-weight:700}
+    .split{display:grid;grid-template-columns:minmax(340px,1.05fr) minmax(340px,1fr);gap:14px;min-height:520px}
+    @media(max-width:900px){.split{grid-template-columns:1fr}}
+    .list-col{display:flex;flex-direction:column;gap:10px;max-height:78vh;overflow:auto;padding-right:2px}
+    @media(max-width:900px){.list-col{max-height:none}}
+    .cat-head{position:sticky;top:0;z-index:2;background:var(--bg);padding:10px 2px 4px;font-family:Fraunces,Georgia,serif;font-size:1.08rem;border-bottom:1px solid var(--line)}
+    .filters{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px}
+    .filter{appearance:none;border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 12px;font:inherit;font-size:.82rem;font-weight:700;cursor:pointer}
+    .filter.on{background:var(--sea);border-color:var(--sea);color:#fff}
+    .book-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+    .book{display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border-radius:999px;background:var(--sea-soft);color:var(--sea);text-decoration:none;font-size:.78rem;font-weight:800;border:1px solid #c5dde6}
+    .link-full{display:inline-flex;margin-top:8px;font-weight:800;color:var(--sea);text-decoration:none;font-size:.88rem;background:none;border:0;padding:0;cursor:pointer;font:inherit}
+    .stamp{font-size:.78rem;color:var(--muted);margin-top:18px}
+    .src-note{font-size:.75rem;color:var(--muted);margin-top:6px}
+
+    /* === CARD LAYOUT: testo prima, foto seria === */
+    .pick{border:1px solid var(--line);border-radius:14px;background:#fff;cursor:pointer;overflow:hidden;display:grid;grid-template-columns:96px 1fr;min-height:96px}
+    .pick:hover{border-color:#9db7c4}
+    .pick.on{border-color:var(--sea);box-shadow:0 0 0 2px rgba(31,111,139,.18);background:var(--sea-soft)}
+    .pick-cover{width:96px;min-height:96px;background:#d7e0e6;overflow:hidden}
+    .pick-cover img{width:100%;height:100%;object-fit:cover;display:block;min-height:96px}
+    .pick-body{padding:11px 12px;display:flex;flex-direction:column;justify-content:center;gap:3px;min-width:0}
+    .pick-kicker{font-size:.72rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+    .pick-title{font-weight:800;font-size:1rem;line-height:1.2}
+    .pick-sub{font-size:.9rem;color:var(--ink)}
+    .pick-meta{font-size:.84rem;color:var(--muted)}
+    .pick-price{font-size:.9rem;font-weight:800;color:var(--sea);margin-top:2px}
+
+    /* Escursioni: cover più largo */
+    .pick.esc{grid-template-columns:120px 1fr;min-height:110px}
+    .pick.esc .pick-cover{width:120px;min-height:110px}
+    .pick.esc .pick-cover img{min-height:110px}
+
+    /* Zone: cover + testo, dettaglio costi a destra */
+    .pick.zone{grid-template-columns:110px 1fr;min-height:108px}
+    .pick.zone .pick-cover{width:110px}
+
+    .map-col{position:sticky;top:64px;height:78vh;min-height:420px;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#e8eef1;display:flex;flex-direction:column}
+    @media(max-width:900px){.map-col{position:relative;top:auto;height:auto;min-height:0}}
+    .detail-pane{background:var(--card);border-bottom:1px solid var(--line);padding:12px 14px;flex:0 0 auto;max-height:46%;overflow:auto}
+    .detail-pane h3{font-family:Fraunces,Georgia,serif;font-size:1.15rem;margin:0 0 6px}
+    .detail-pane .hero{width:100%;height:140px;object-fit:cover;border-radius:12px;display:block;margin:0 0 10px;background:#d7e0e6}
+    .cost-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}
+    .cost-grid div{background:#faf7f0;border:1px solid #ece5d8;border-radius:10px;padding:8px 10px}
+    .cost-grid b{display:block;font-size:.68rem;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+    .cost-grid .big{font-size:1.05rem;font-weight:800}
+    .near{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+    .near span{background:#f4efe6;border:1px solid var(--line);border-radius:999px;padding:4px 9px;font-size:.76rem;font-weight:700}
+    .photo-stage{position:relative;height:34%;min-height:140px;background:#1c2430;flex:0 0 auto}
+    .photo-stage img{width:100%;height:100%;object-fit:cover;display:block}
+    .photo-nav{position:absolute;inset:auto 8px 8px auto;display:flex;gap:6px;z-index:3}
+    .photo-nav button{appearance:none;border:0;background:rgba(255,253,248,.92);border-radius:999px;width:34px;height:34px;font-weight:800;cursor:pointer}
+    .photo-dots{position:absolute;left:10px;bottom:10px;display:flex;gap:5px;z-index:3}
+    .photo-dots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.45)}
+    .photo-dots i.on{background:#fff}
+    .map-wrap{position:relative;flex:1;min-height:200px}
+    .map-box{width:100%;height:100%}
+    .map-caption{position:absolute;left:10px;right:10px;bottom:10px;z-index:500;background:rgba(255,253,248,.94);border:1px solid var(--line);border-radius:12px;padding:8px 10px;font-size:.84rem;pointer-events:none}
+    .map-col.with-detail .photo-stage{display:none}
+    .day-num{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;background:var(--sea);color:#fff;font-size:.78rem;font-weight:800;margin-right:6px;flex:0 0 auto}
+    .pick.day{grid-template-columns:1fr}
+    .pick.day .pick-body{padding:12px 14px}
+    .pick.day .row{display:flex;align-items:flex-start;gap:10px}
+    .pick.day .mini{width:72px;height:72px;border-radius:10px;object-fit:cover;flex:0 0 auto;background:#d7e0e6}
+  
+    @media(max-width:900px){
+      .map-col.with-detail .detail-pane{max-height:none}
+      .map-wrap{min-height:280px;height:45vh}
+      .photo-stage{min-height:180px;height:28vh}
+      .split{min-height:0}
+      .tab{padding:9px 12px;font-size:.85rem}
+      .pick.day .mini{width:64px;height:64px}
+    }
+  </style>
+</head>
+<body>
+    <div id="share-bar" style="background:#1f6f8b;color:#fff;padding:10px 14px;font-size:.9rem">
+      <div style="max-width:1180px;margin:0 auto;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between">
+        <span><strong>Link per gli amici (copia questo):</strong> <a id="share-url" href="https://smozehzbhoeceioqxodx.supabase.co/functions/v1/corfu-vacanza-share" style="color:#fff;word-break:break-all">https://smozehzbhoeceioqxodx.supabase.co/functions/v1/corfu-vacanza-share</a></span>
+        <button type="button" id="share-copy" style="border:0;background:#fff;color:#1f6f8b;font-weight:800;padding:8px 12px;border-radius:999px;cursor:pointer">Copia link</button>
+      </div>
+    </div>
+    <script>
+      (function(){
+        if (location.protocol === 'file:') return;
+        var OFFICIAL = "https://smozehzbhoeceioqxodx.supabase.co/functions/v1/corfu-vacanza-share";
+        if (location.pathname.indexOf('/storage/') >= 0) {
+          location.replace(OFFICIAL);
+          return;
+        }
+        var u = OFFICIAL;
+        var bar = document.getElementById('share-bar');
+        var urlEl = document.getElementById('share-url');
+        var canon = document.getElementById('canonical-link');
+        if (canon) canon.href = u;
+        if (urlEl) { urlEl.textContent = u; urlEl.setAttribute('href', u); }
+        var btn = document.getElementById('share-copy');
+        if (btn) btn.addEventListener('click', function(){
+          navigator.clipboard.writeText(u).then(function(){ btn.textContent = 'Copiato!'; setTimeout(function(){ btn.textContent = 'Copia link'; }, 2000); });
+        });
+      })();
+    </script>
+
+  <div class="app-bar">
+    <div class="app-bar-inner">
+      <div class="tabs" id="tabs">
+        <button type="button" class="tab active" data-tab="home">Home</button>
+        <button type="button" class="tab" data-tab="zone">Zone</button>
+        <button type="button" class="tab" data-tab="giorni">Giorni</button>
+        <button type="button" class="tab" data-tab="escursioni">Escursioni</button>
+        <button type="button" class="tab" data-tab="auto">Auto</button>
+        <button type="button" class="tab" data-tab="valigia">Valigia</button>
+        <a class="tab map-full" href="mappa.html">Apri mappa grande</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <section class="panel active" id="panel-home">
+      <div class="card">
+        <h1>Corfù · dossier del gruppo</h1>
+        <p class="lead">Voli già fatti · date congelate. Scegliete zona (con costi chiari), programma giorni, poi max 1–2 escursioni a pagamento.</p>
+        <div class="chips">
+          <span class="chip ok">27 ago → 3 set 2026</span>
+          <span class="chip ok">3 adulti</span>
+          <span class="chip">Casa+auto €500–650</span>
+          <span class="chip">Solo auto</span>
+          <span class="chip">Splitwise sempre</span>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Ordine consigliato</h2>
+        <ol>
+          <li><strong>Zone</strong> — dove dormire, con range di spesa</li>
+          <li><strong>Giorni</strong> — programma scritto giorno per giorno</li>
+          <li><strong>Escursioni</strong> — solo quelle a pagamento (foto + prezzi)</li>
+        </ol>
+        <div class="warn"><strong>Budget casa+auto:</strong> €500–650 totali di gruppo. Escursioni a parte.</div>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-zone">
+      <div class="card" style="margin-bottom:12px">
+        <h2>Zone dove dormire</h2>
+        <p class="lead">Clicca una zona a sinistra. A destra: costi semplici, budget, cosa c’è vicino, mappa.</p>
+      </div>
+      <div class="split">
+        <div class="list-col" id="zone-list"></div>
+        <div class="map-col with-detail" id="stage-zone">
+          <div class="detail-pane" id="detail-zone"><p class="note">Seleziona una zona</p></div>
+          <div class="map-wrap"><div id="map-zone" class="map-box"></div><div class="map-caption" id="cap-zone">Seleziona una zona</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-giorni">
+      <div class="card" style="margin-bottom:12px">
+        <h2>Programma giorni</h2>
+        <p class="lead">Un giorno = una meta principale. Clicca il giorno → vedi dove si trova sulla mappa.</p>
+      </div>
+      <div class="split">
+        <div class="list-col" id="giorni-list"></div>
+        <div class="map-col with-detail" id="stage-giorni">
+          <div class="detail-pane" id="detail-giorni"><p class="note">Seleziona un giorno</p></div>
+          <div class="map-wrap"><div id="map-giorni" class="map-box"></div><div class="map-caption" id="cap-giorni">Seleziona un giorno</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-escursioni">
+      <div class="card" style="margin-bottom:12px">
+        <h2>Escursioni a pagamento (e alternative gratis)</h2>
+        <p class="lead">Filtra per tipo. Ogni scheda: una foto chiara + prezzo + perché. Max 1 grossa + 1 corta.</p>
+        <div class="filters" id="esc-filters"></div>
+        <div class="book-row">
+          <a class="book" href="https://www.getyourguide.it/corfu-l405/" target="_blank" rel="noopener">GetYourGuide →</a>
+          <a class="book" href="https://www.civitatis.com/it/corfu/" target="_blank" rel="noopener">Civitatis →</a>
+          <a class="book" href="https://www.viator.com/Corfu/d4279-ttd" target="_blank" rel="noopener">Viator →</a>
+        </div>
+        <p class="src-note">Prezzi indicativi estate 2026 (GetYourGuide / Civitatis). Controllate prima di prenotare.</p>
+      </div>
+      <div class="split">
+        <div class="list-col" id="esc-list"></div>
+        <div class="map-col" id="stage-esc">
+          <div class="photo-stage"><img id="photo-esc" alt="" /><div class="photo-nav"><button type="button" data-photo="esc" data-dir="-1">‹</button><button type="button" data-photo="esc" data-dir="1">›</button></div><div class="photo-dots" id="dots-esc"></div></div>
+          <div class="map-wrap"><div id="map-esc" class="map-box"></div><div class="map-caption" id="cap-esc">Seleziona un’escursione</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-auto">
+      <div class="card">
+        <h2>Auto · ritiro aeroporto</h2>
+        <p class="lead">Solo auto. 4–5 posti. Dentro il tetto casa+auto.</p>
+        <div class="ok">Economy 5 posti tipica <strong>~€140–200</strong> / settimana. Media/SUV spesso €750+ → fuori tetto.</div>
+        <ul>
+          <li>Ritiro CFU · niente auto da 2 posti</li>
+          <li>Foto al ritiro e alla riconsegna</li>
+          <li>Pagamento → Splitwise</li>
+        </ul>
+        <a class="link-full" href="mappa.html#cars">Apri mappa grande · noleggi →</a>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-valigia">
+      <div class="card check">
+        <h2>Valigia · eSIM · emergenze</h2>
+        <div class="cost-grid">
+          <div><b>Valigia</b>Costume ×2 · asciugamano · ciabatte · scarpe · felpa · cappello · occhiali · SPF 50 · powerbank · patente · documento</div>
+          <div><b>Telefono / soldi</b>eSIM · mappe offline · Splitwise · screenshot casa/auto · contanti · foto auto</div>
+          <div><b>Farmaci</b>Personali · antidolorifico · cerotti · disinfettante · dopo-puntura · mal d’auto</div>
+          <div><b>Emergenze</b><strong>112</strong> · indirizzo casa · pin Maps · assistenza noleggio</div>
+        </div>
+      </div>
+    </section>
+
+    <p class="stamp">Scheda blu = attiva · costi zone = casa+auto di gruppo · foto Wikimedia Commons · prezzi escursioni GetYourGuide/Civitatis.</p>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script>
+    const IMG = {"messonghi": ["https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/2018-06-17_Messonghi_Beach_Holiday_Resort_%28Corfu%29_1.jpg/960px-2018-06-17_Messonghi_Beach_Holiday_Resort_%28Corfu%29_1.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/2018-06-17_Messonghi_Beach_Holiday_Resort_%28Corfu%29_3.jpg/960px-2018-06-17_Messonghi_Beach_Holiday_Resort_%28Corfu%29_3.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/2018-06-17_Messonghi_Beach_Holiday_Resort_%28Corfu%29_6.jpg/960px-2018-06-17_Messonghi_Beach_Holiday_Resort_%28Corfu%29_6.jpg"], "moraitika": ["https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Moraitika%2C_Corfu%2C_July_1985_%2803%29.jpg/960px-Moraitika%2C_Corfu%2C_July_1985_%2803%29.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Moraitika%2C_Corfu%2C_June_1985_%2801%29.jpg/960px-Moraitika%2C_Corfu%2C_June_1985_%2801%29.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Moraitika%2C_Corfu%2C_June_1985_%2806%29.jpg/960px-Moraitika%2C_Corfu%2C_June_1985_%2806%29.jpg"], "lefkimmi": ["https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Lefkimmi%2C_Corfu%2C_1990.jpg/960px-Lefkimmi%2C_Corfu%2C_1990.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Lefkimmi%2C_Corfu%2C_1990_%282%29.jpg/960px-Lefkimmi%2C_Corfu%2C_1990_%282%29.jpg"], "benitses": ["https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Benitses.jpg/960px-Benitses.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Benitses_02.jpg/960px-Benitses_02.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Benitses_03.jpg/960px-Benitses_03.jpg"], "agios": ["https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Agios_Gordios_Corfu_Sunset_View_2026-04-23.jpg/960px-Agios_Gordios_Corfu_Sunset_View_2026-04-23.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Agios_Gordios_Corfu_View_2026-04-23.jpg/960px-Agios_Gordios_Corfu_View_2026-04-23.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Corfu_Agios_Gordis_R04.jpg/960px-Corfu_Agios_Gordis_R04.jpg"], "gouvia": ["https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Corfu_Gouvia_Marina_R01.jpg/960px-Corfu_Gouvia_Marina_R01.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Corfu_Old_Fortress_R07.jpg/960px-Corfu_Old_Fortress_R07.jpg"], "paleo": ["https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Korfu_%28GR%29%2C_Paleokastritsa%2C_Kloster_--_2018_--_1243.jpg/960px-Korfu_%28GR%29%2C_Paleokastritsa%2C_Kloster_--_2018_--_1243.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Korfu_%28GR%29%2C_Paleokastritsa%2C_Kloster_--_2018_--_1250.jpg/960px-Korfu_%28GR%29%2C_Paleokastritsa%2C_Kloster_--_2018_--_1250.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Korfu_%28GR%29%2C_Paleokastritsa%2C_Kloster_--_2018_--_1251.jpg/960px-Korfu_%28GR%29%2C_Paleokastritsa%2C_Kloster_--_2018_--_1251.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Korfu_%28GR%29%2C_Paleokastritsa%2C_Kloster_--_2018_--_1256.jpg/960px-Korfu_%28GR%29%2C_Paleokastritsa%2C_Kloster_--_2018_--_1256.jpg"], "town": ["https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Corfu_Old_Fortress_R07.jpg/960px-Corfu_Old_Fortress_R07.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Korfu_%28GR%29%2C_Korfu%2C_Alte_Festung_--_2018_--_1137.jpg/960px-Korfu_%28GR%29%2C_Korfu%2C_Alte_Festung_--_2018_--_1137.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Liston_-_Corfu_Old_Town.jpg/960px-Liston_-_Corfu_Old_Town.jpg"], "achilleion": ["https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Corfu_Achilleion_R05.jpg/960px-Corfu_Achilleion_R05.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Corfu_Achilleion_R06.jpg/960px-Corfu_Achilleion_R06.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Korfu_%28GR%29%2C_Gastouri%2C_Achilleion_--_2018_--_1312.jpg/960px-Korfu_%28GR%29%2C_Gastouri%2C_Achilleion_--_2018_--_1312.jpg"], "glyfada": ["https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Aerial_view_of_Glyfada_Beach_in_Corfu%2C_Greece_%2853698024373%29.jpg/960px-Aerial_view_of_Glyfada_Beach_in_Corfu%2C_Greece_%2853698024373%29.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Aerial_view_of_resorts_at_Glyfada_Beach_in_Corfu%2C_Greece_%2853698024028%29.jpg/960px-Aerial_view_of_resorts_at_Glyfada_Beach_in_Corfu%2C_Greece_%2853698024028%29.jpg", "https://upload.wikimedia.org/wikipedia/commons/9/97/Corfu_glyfada_beach.jpg"], "halikounas": ["https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Issos_Sandy.jpg/960px-Issos_Sandy.jpg", "https://upload.wikimedia.org/wikipedia/commons/b/b3/Issos_kerkyra.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/2018-06-17_Messonghi_Beach_Holiday_Resort_%28Corfu%29_1.jpg/960px-2018-06-17_Messonghi_Beach_Holiday_Resort_%28Corfu%29_1.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/2018-06-17_Messonghi_Beach_Holiday_Resort_%28Corfu%29_3.jpg/960px-2018-06-17_Messonghi_Beach_Holiday_Resort_%28Corfu%29_3.jpg"], "paxos": ["https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Panagia_island_next_to_Paxoi.jpg/960px-Panagia_island_next_to_Paxoi.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Paxos_Blue_Caves.jpg/960px-Paxos_Blue_Caves.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Antipaxos_vrika_beach_bgiu.jpg/960px-Antipaxos_vrika_beach_bgiu.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Antipaxos_vrika_beach_overview_bgiu.jpg/960px-Antipaxos_vrika_beach_overview_bgiu.jpg"], "antipaxos": ["https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Antipaxos_vrika_beach_bgiu.jpg/960px-Antipaxos_vrika_beach_bgiu.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Antipaxos_vrika_beach_overview_bgiu.jpg/960px-Antipaxos_vrika_beach_overview_bgiu.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Antipaxos_vrika_beach_water_bgiu.jpg/960px-Antipaxos_vrika_beach_water_bgiu.jpg"], "sidari": ["https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Canal_d%27amour_at_Sidari_in_Corfu.JPG/960px-Canal_d%27amour_at_Sidari_in_Corfu.JPG", "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Canal_d%27amour_at_Sidari_in_Corfu.jpg/960px-Canal_d%27amour_at_Sidari_in_Corfu.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Sidari%2C_Corfu%2C_Canal_d%27Amour_%28248847007%29.jpg/960px-Sidari%2C_Corfu%2C_Canal_d%27Amour_%28248847007%29.jpg"], "mouse": ["https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Islet_of_Pontikonisi%2C_Corfu%2C_Greece_-_2010.jpg/960px-Islet_of_Pontikonisi%2C_Corfu%2C_Greece_-_2010.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Pontikonisi_-_Mouse_island%2C_Corfu_1.JPG/960px-Pontikonisi_-_Mouse_island%2C_Corfu_1.JPG"], "airport": ["https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Corfu_Airport_Terminal_02.jpg/960px-Corfu_Airport_Terminal_02.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Corfu_Airport_Terminal_09.jpg/960px-Corfu_Airport_Terminal_09.jpg"], "boat": ["https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Paxos_Blue_Caves.jpg/960px-Paxos_Blue_Caves.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Panagia_island_next_to_Paxoi.jpg/960px-Panagia_island_next_to_Paxoi.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Paxos_rocky_coast_DSC06069.jpg/960px-Paxos_rocky_coast_DSC06069.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Antipaxos_vrika_beach_bgiu.jpg/960px-Antipaxos_vrika_beach_bgiu.jpg"], "kayak": ["https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Agios_Gordios_Corfu_Sunset_View_2026-04-23.jpg/960px-Agios_Gordios_Corfu_Sunset_View_2026-04-23.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Agios_Gordios_Corfu_View_2026-04-23.jpg/960px-Agios_Gordios_Corfu_View_2026-04-23.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Corfu_Agios_Gordis_R04.jpg/960px-Corfu_Agios_Gordis_R04.jpg"], "snorkel": ["https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Antipaxos_vrika_beach_bgiu.jpg/960px-Antipaxos_vrika_beach_bgiu.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Antipaxos_vrika_beach_overview_bgiu.jpg/960px-Antipaxos_vrika_beach_overview_bgiu.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Antipaxos_vrika_beach_water_bgiu.jpg/960px-Antipaxos_vrika_beach_water_bgiu.jpg"], "sunset": ["https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Agios_Gordios_Corfu_Sunset_View_2026-04-23.jpg/960px-Agios_Gordios_Corfu_Sunset_View_2026-04-23.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Aerial_view_of_Glyfada_Beach_in_Corfu%2C_Greece_%2853698024373%29.jpg/960px-Aerial_view_of_Glyfada_Beach_in_Corfu%2C_Greece_%2853698024373%29.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Korfu_%28GR%29%2C_Paleokastritsa%2C_Kloster_--_2018_--_1243.jpg/960px-Korfu_%28GR%29%2C_Paleokastritsa%2C_Kloster_--_2018_--_1243.jpg"], "porto": ["https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Porto_Timoni_Beach.jpg/960px-Porto_Timoni_Beach.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Porto_Timoni_Beach_%281%29.jpg/960px-Porto_Timoni_Beach_%281%29.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Porto_Timoni_Beach_%283%29.jpg/960px-Porto_Timoni_Beach_%283%29.jpg"]};
+
+    const zones = [
+      {
+        id:"messonghi", name:"Messonghi", lat:39.4667, lng:19.926,
+        badge:"MIGLIOR BILANCIO", badgeClass:"b-ok",
+        drive:"30–40 min", driveKm:"22 km",
+        houseFrom:531, houseNote:"appartamenti da ~€531 / 7 notti (3 adulti)",
+        carNote:"economy ~€140–200",
+        totalLow:670, totalHigh:730,
+        fit:"Stretto / leggermente sopra", fitClass:"b-mid",
+        budgetLine:"Casa ~€530 + auto ~€150 ≈ €680 (un filo sopra i 650: cercate casa ≤€500)",
+        near:["Mare sotto casa","Moraitika 5 min","Achilleion 20 min","Spiagge sud"],
+        pros:"Prezzi bassi, mare vicino, buona base sud-est",
+        cons:"Meno scenografica dell’ovest",
+        pickIf:"Volete stare nel budget senza rinunciare al mare",
+        imgs: IMG.messonghi,
+        mapUrl:"mappa.html#zone=messonghi"
+      },
+      {
+        id:"moraitika", name:"Moraitika", lat:39.478, lng:19.932,
+        badge:"OK SE CASA BASSA", badgeClass:"b-ok",
+        drive:"30–35 min", driveKm:"20 km",
+        houseFrom:644, houseNote:"da ~€644 / 7 notti — spesso sopra il tetto",
+        carNote:"economy ~€140–200",
+        totalLow:780, totalHigh:850,
+        fit:"Fuori salvo casa ≤€500", fitClass:"b-mid",
+        budgetLine:"Solo se trovate casa ≤€500. Altrimenti fuori dai 500–650.",
+        near:["Messonghi","Sabbia","Supermercati","Locale serale leggero"],
+        pros:"Comoda, spiaggia, servizi",
+        cons:"Prezzi medi più alti di Messonghi",
+        pickIf:"Casa davvero economica",
+        imgs: IMG.moraitika,
+        mapUrl:"mappa.html#zone=moraitika"
+      },
+      {
+        id:"lefkimmi", name:"Lefkimmi", lat:39.4234, lng:20.0709,
+        badge:"RISPARMIO ESTREMO", badgeClass:"b-ok",
+        drive:"50–60 min", driveKm:"40 km",
+        houseFrom:561, houseNote:"da ~€561 / 7 notti",
+        carNote:"economy ~€140–200 (+ più benzina)",
+        totalLow:700, totalHigh:780,
+        fit:"Stretto", fitClass:"b-mid",
+        budgetLine:"Casa ok, ma guidate di più ogni giorno → benzina in più.",
+        near:["Sud quieto","Partenze barca Paxos","Meno turismo"],
+        pros:"Economica, calma",
+        cons:"Lontana da Paleokastritsa / Town",
+        pickIf:"Ok fare tanti km",
+        imgs: IMG.lefkimmi.length ? IMG.lefkimmi : IMG.messonghi,
+        mapUrl:"mappa.html#zone=lefkimmi"
+      },
+      {
+        id:"benitses", name:"Benitses", lat:39.5475, lng:19.9125,
+        badge:"COMODA MA CARA", badgeClass:"b-bad",
+        drive:"15–20 min", driveKm:"12 km",
+        houseFrom:834, houseNote:"da ~€834 / 7 notti",
+        carNote:"economy ~€140–200",
+        totalLow:970, totalHigh:1050,
+        fit:"Fuori budget", fitClass:"b-bad",
+        budgetLine:"Casa da sola già sopra i 650. Solo se alzate il tetto.",
+        near:["Aeroporto","Achilleion","Town 20 min","Mare"],
+        pros:"Vicino all’aereo, posizione centrale",
+        cons:"Cara per il vostro tetto",
+        pickIf:"Alzate il budget casa+auto",
+        imgs: IMG.benitses,
+        mapUrl:"mappa.html#zone=benitses"
+      },
+      {
+        id:"agios-gordios", name:"Agios Gordios", lat:39.531, lng:19.849,
+        badge:"GITA, NON BASE", badgeClass:"b-mid",
+        drive:"25–35 min", driveKm:"16 km",
+        houseFrom:1004, houseNote:"da ~€1.004 / 7 notti",
+        carNote:"economy ~€140–200",
+        totalLow:1140, totalHigh:1250,
+        fit:"Fuori come base", fitClass:"b-bad",
+        budgetLine:"Bellissima baia, troppo cara per dormirci. Meglio meta di giornata.",
+        near:["Baia ovest","Tramonti","Glyfada vicino"],
+        pros:"Paesaggio wow",
+        cons:"Fuori budget come alloggio",
+        pickIf:"Solo come gita dal sud-est",
+        imgs: IMG.agios,
+        mapUrl:"mappa.html#poi=agios-gordios"
+      },
+      {
+        id:"gouvia", name:"Gouvia / Dassia", lat:39.661, lng:19.845,
+        badge:"COMODA NORD", badgeClass:"b-mid",
+        drive:"15–25 min", driveKm:"11–16 km",
+        houseFrom:850, houseNote:"da ~€850 / 7 notti",
+        carNote:"economy ~€140–200",
+        totalLow:990, totalHigh:1100,
+        fit:"Fuori budget", fitClass:"b-bad",
+        budgetLine:"Comoda per Town, ma casa tipica fuori dai 500–650.",
+        near:["Corfù Town","Marina","Nord-est"],
+        pros:"Vicini alla città",
+        cons:"Prezzi medi alti",
+        pickIf:"Non siete sul tetto stretto",
+        imgs: IMG.gouvia,
+        mapUrl:"mappa.html#zone=gouvia-dassia"
+      }
+    ];
+
+    const giorni = [
+      { id:"d1", n:1, day:"Giovedì 27 agosto", short:"Arrivo", meta:"Casa + mare sotto casa", lat:39.4667, lng:19.926, why:"Giorno volo: zero stress. Sistematevi, mare vicino, spesa leggera.", tip:"Ritiro auto CFU → casa → spiaggia.", poi:"messonghi-beach", imgs: IMG.messonghi },
+      { id:"d2", n:2, day:"Venerdì 28 agosto", short:"Mare base", meta:"Spiaggia della zona (sud-est)", lat:39.4667, lng:19.926, why:"Recupero. Acqua calda, poca benzina, ritmo lento.", tip:"Tenete forze per Paleokastritsa.", poi:"messonghi-beach", imgs: IMG.messonghi },
+      { id:"d3", n:3, day:"Sabato 29 agosto", short:"Giorno wow", meta:"Paleokastritsa", lat:39.6728, lng:19.7108, why:"La meta forte della settimana. Partite presto. Opzione: barca grotte.", tip:"Parcheggio pieno dopo le 10–11.", poi:"paleokastritsa", imgs: IMG.paleo },
+      { id:"d4", n:4, day:"Domenica 30 agosto", short:"Città", meta:"Corfù Town (UNESCO)", lat:39.6242, lng:19.9216, why:"Centro storico a piedi. Auto fuori. Fortezza + Liston.", tip:"Sera più viva qui.", poi:"corfu-town", imgs: IMG.town },
+      { id:"d5", n:5, day:"Lunedì 31 agosto", short:"Ovest", meta:"Agios Gordios (o Glyfada)", lat:39.531, lng:19.849, why:"Costa ovest: baia e tramonto. Andata e ritorno in giornata.", tip:"Tramonto merita.", poi:"agios-gordios", imgs: IMG.agios },
+      { id:"d6", n:6, day:"Martedì 1 settembre", short:"Natura", meta:"Halikounas / Issos", lat:39.445, lng:19.875, why:"Spiagge più naturali, poca cementificazione. Vicino se dormite a sud.", tip:"Vento a volte forte.", poi:"halikounas", imgs: IMG.halikounas },
+      { id:"d7", n:7, day:"Mercoledì 2 settembre", short:"Flessibile", meta:"Achilleion + mare — oppure Paxos", lat:39.5625, lng:19.9042, why:"Giorno jolly: palazzo vicino + mare, oppure usate questo giorno per l’escursione Paxos.", tip:"Se fate Paxos, prenotate prima.", poi:"achilleion", imgs: IMG.achilleion },
+      { id:"d8", n:8, day:"Giovedì 3 settembre", short:"Partenza", meta:"Aeroporto CFU", lat:39.6019, lng:19.9117, why:"Pieno, riconsegna auto, margine code. Niente mete lontane.", tip:"Uscite con calma.", poi:"airport", imgs: IMG.airport }
+    ];
+
+    const categories = [
+      { id:"all", label:"Tutte" },
+      { id:"barca", label:"Barca & grotte" },
+      { id:"isole", label:"Isole (Paxos)" },
+      { id:"tramonto", label:"Tramonto / party" },
+      { id:"cultura", label:"Cultura" },
+      { id:"avventura", label:"Kayak / SUP" },
+      { id:"gratis", label:"Con l’auto (gratis)" }
+    ];
+
+    const escursioni = [
+      { id:"e1", cat:"barca", name:"Paleokastritsa · barca grotte", lat:39.6728, lng:19.7108, cost:"da ~€40 / persona", dur:"mezzagiornata", why:"Grotte e calette dall’acqua. Molto amata su GetYourGuide (~4,7).", paid:true, book:"https://www.getyourguide.it/palaiokastritsa-l146620/cruises-boat-tours-tc48/", imgs: IMG.paleo.length ? IMG.paleo : IMG.boat },
+      { id:"e2", cat:"isole", name:"Paxos + Antipaxos + Grotte Blu", lat:39.20, lng:20.16, cost:"da ~€50–70 / persona", dur:"7–10 ore", why:"La grande uscita della settimana. Civitatis da ~€50 · GYG da ~€52.", paid:true, book:"https://www.getyourguide.it/corfu-l405/corfu-paxos-and-antipaxos-boat-cruise-t166244/", imgs: IMG.paxos },
+      { id:"e3", cat:"isole", name:"Paxos da Lefkimmi (motoscafo)", lat:39.4234, lng:20.0709, cost:"da ~€65 / persona", dur:"~7 ore", why:"Utile se dormite a sud: partenza più vicina.", paid:true, book:"https://www.getyourguide.it/corfu-l405/", imgs: IMG.antipaxos },
+      { id:"e4", cat:"tramonto", name:"Crociera al tramonto", lat:39.6242, lng:19.9216, cost:"da ~€42–45 / persona", dur:"~3 ore", why:"Serata facile, senza giornata intera in mare.", paid:true, book:"https://www.getyourguide.it/corfu-l405/", imgs: IMG.sunset },
+      { id:"e5", cat:"tramonto", name:"Laguna Blu · fondo trasparente", lat:39.445, lng:19.875, cost:"da ~€30 / persona", dur:"~4,5 ore", why:"Più corta e spesso più economica del Paxos full-day.", paid:true, book:"https://www.getyourguide.it/corfu-l405/", imgs: IMG.halikounas },
+      { id:"e6", cat:"barca", name:"Veliero costa nord", lat:39.70, lng:19.84, cost:"da ~€113 / persona", dur:"~6,5 ore", why:"Più premium. Solo se alzate il budget escursioni.", paid:true, book:"https://www.civitatis.com/it/corfu/", imgs: IMG.boat },
+      { id:"e7", cat:"cultura", name:"Achilleion", lat:39.5625, lng:19.9042, cost:"~€10–15 / persona", dur:"2–3 ore", why:"Palazzo + giardini. Si fa anche in auto senza tour.", paid:true, book:"https://www.viator.com/Corfu/d4279-ttd", imgs: IMG.achilleion },
+      { id:"e8", cat:"cultura", name:"Vecchia Fortezza · Town", lat:39.6235, lng:19.9255, cost:"~€6–10 / persona", dur:"2–4 ore", why:"Vista città/mare. Auto fuori dal centro.", paid:true, book:"https://www.getyourguide.it/corfu-l405/", imgs: IMG.town },
+      { id:"e9", cat:"avventura", name:"Kayak / SUP", lat:39.531, lng:19.849, cost:"~€15–35 / persona", dur:"1–3 ore", why:"Attivo, costa meno di una crociera.", paid:true, book:"https://www.getyourguide.it/corfu-l405/", imgs: IMG.kayak },
+      { id:"e10", cat:"avventura", name:"Snorkeling in caletta", lat:39.6728, lng:19.7108, cost:"spesso incluso in barca", dur:"mezzo giorno", why:"Meglio con barca Paleokastritsa o ad Antipaxos.", paid:false, book:"https://www.getyourguide.it/palaiokastritsa-l146620/cruises-boat-tours-tc48/", imgs: IMG.snorkel },
+      { id:"e11", cat:"gratis", name:"Porto Timoni + Afionas", lat:39.742, lng:19.657, cost:"solo benzina", dur:"mezzo giorno", why:"Baia doppia wow. Sentiero. Tour organizzato da ~€70 se non volete guidare.", paid:false, book:"https://www.getyourguide.it/corfu-l405/", imgs: IMG.porto || IMG.agios },
+      { id:"e12", cat:"gratis", name:"Canal d’Amour · Sidari", lat:39.792, lng:19.708, cost:"solo benzina", dur:"mezzo giorno", why:"Rocce rosse famose. Turistico ma da vedere una volta.", paid:false, book:"https://www.getyourguide.it/corfu-l405/", imgs: IMG.sidari },
+      { id:"e13", cat:"gratis", name:"Mouse Island (vista Kanoni)", lat:39.591, lng:19.917, cost:"gratis (vista)", dur:"1–2 ore", why:"Cartolina classica, vicino all’aereo.", paid:false, book:"https://www.civitatis.com/it/corfu/", imgs: IMG.mouse },
+      { id:"e14", cat:"gratis", name:"Solo guida libera", lat:39.445, lng:19.875, cost:"solo benzina", dur:"flessibile", why:"Massimo risparmio: spiagge + Achilleion fai-da-te.", paid:false, book:"mappa.html#pois", imgs: IMG.halikounas }
+    ];
+
+    const tabs = document.querySelectorAll(".tab[data-tab]");
+    const panels = {
+      home: document.getElementById("panel-home"),
+      zone: document.getElementById("panel-zone"),
+      giorni: document.getElementById("panel-giorni"),
+      escursioni: document.getElementById("panel-escursioni"),
+      auto: document.getElementById("panel-auto"),
+      valigia: document.getElementById("panel-valigia")
+    };
+    const maps = {};
+    const markers = { zone:{}, giorni:{}, esc:{} };
+    const photoState = { esc:{list:[], i:0} };
+    let escFilter = "all";
+    let selectedZone = null;
+    let selectedDay = null;
+
+    function showTab(id) {
+      Object.entries(panels).forEach(([k, el]) => el.classList.toggle("active", k === id));
+      tabs.forEach((t) => t.classList.toggle("active", t.dataset.tab === id));
+      history.replaceState(null, "", "#" + id);
+      setTimeout(() => {
+        const m = id === "escursioni" ? maps.escursioni : maps[id];
+        if (m) m.invalidateSize();
+      }, 120);
+    }
+    tabs.forEach((t) => t.addEventListener("click", () => showTab(t.dataset.tab)));
+
+    function makeMap(domId) {
+      const map = L.map(domId, { scrollWheelZoom: true }).setView([39.62, 19.85], 10);
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 18, attribution: "&copy; OpenStreetMap" }).addTo(map);
+      return map;
+    }
+    function focus(map, lat, lng, zoom) {
+      if (!map || !Number.isFinite(lat) || !Number.isFinite(lng)) return;
+      const z = zoom || 12;
+      try {
+        const size = map.getSize();
+        if (!size.x || !size.y) { map.setView([lat, lng], z); return; }
+        map.flyTo([lat, lng], z, { duration: 0.55 });
+      } catch (err) { map.setView([lat, lng], z); }
+    }
+    function euro(n){ return "€" + Math.round(n).toLocaleString("it-IT"); }
+
+    function setPhotos(key, list, alt) {
+      const arr = (list && list.length) ? list : [];
+      photoState[key] = { list: arr, i: 0 };
+      const img = document.getElementById("photo-" + key);
+      if (!img) return;
+      img.alt = alt || "";
+      img.src = arr[0] || "";
+      const dots = document.getElementById("dots-" + key);
+      if (dots) dots.innerHTML = arr.map((_, i) => `<i class="${i===0?"on":""}"></i>`).join("");
+    }
+    function stepPhoto(key, dir) {
+      const st = photoState[key];
+      if (!st || !st.list.length) return;
+      st.i = (st.i + dir + st.list.length) % st.list.length;
+      document.getElementById("photo-" + key).src = st.list[st.i];
+      const dots = document.getElementById("dots-" + key);
+      if (dots) [...dots.children].forEach((d, i) => d.classList.toggle("on", i === st.i));
+    }
+    document.querySelectorAll("[data-photo]").forEach((b) => {
+      b.addEventListener("click", (e) => { e.stopPropagation(); stepPhoto(b.getAttribute("data-photo"), Number(b.getAttribute("data-dir"))); });
+    });
+
+    function renderZoneDetail(z) {
+      const cover = (z.imgs && z.imgs[0]) || "";
+      document.getElementById("detail-zone").innerHTML = `
+        ${cover ? `<img class="hero" src="${cover}" alt="${z.name}" />` : ""}
+        <h3>${z.name} <span class="badge ${z.badgeClass}">${z.badge}</span></h3>
+        <p class="pick-meta" style="margin:0 0 8px">${z.budgetLine}</p>
+        <div class="cost-grid">
+          <div><b>Casa (7 notti · 3 adulti)</b><span class="big">da ${euro(z.houseFrom)}</span><div class="pick-meta">${z.houseNote}</div></div>
+          <div><b>Auto (settimana)</b><span class="big">${z.carNote.replace("economy ","")}</span><div class="pick-meta">ritiro aeroporto CFU</div></div>
+          <div><b>Totale stimato casa+auto</b><span class="big">${euro(z.totalLow)} – ${euro(z.totalHigh)}</span><div class="pick-meta">range di gruppo</div></div>
+          <div><b>Nel vostro budget 500–650?</b><span class="badge ${z.fitClass}">${z.fit}</span><div class="pick-meta" style="margin-top:6px">Aeroporto: ${z.driveKm} · ${z.drive}</div></div>
+        </div>
+        <div><b style="font-size:.72rem;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)">Vicino a</b>
+          <div class="near">${z.near.map((x)=>`<span>${x}</span>`).join("")}</div>
+        </div>
+        <div class="cost-grid" style="margin-top:10px">
+          <div><b>Pro</b>${z.pros}</div>
+          <div><b>Contro</b>${z.cons}</div>
+        </div>
+        <a class="link-full" href="${z.mapUrl}">Apri case e prezzi sulla mappa grande →</a>`;
+      document.getElementById("cap-zone").textContent = z.name + " · casa da " + euro(z.houseFrom) + " · totale ~" + euro(z.totalLow) + "–" + euro(z.totalHigh);
+    }
+
+    function renderDayDetail(g) {
+      const cover = (g.imgs && g.imgs[0]) || "";
+      document.getElementById("detail-giorni").innerHTML = `
+        ${cover ? `<img class="hero" src="${cover}" alt="${g.meta}" />` : ""}
+        <h3><span class="day-num">${g.n}</span>${g.day}</h3>
+        <p class="pick-title" style="margin:6px 0 4px">Meta: ${g.meta}</p>
+        <p class="pick-meta" style="margin:0 0 8px">${g.why}</p>
+        <div class="cost-grid">
+          <div><b>Tipo di giornata</b>${g.short}</div>
+          <div><b>Consiglio pratico</b>${g.tip}</div>
+        </div>
+        <a class="link-full" href="mappa.html#poi=${g.poi}">Apri questa meta sulla mappa grande →</a>`;
+      document.getElementById("cap-giorni").textContent = g.day + " · " + g.meta;
+    }
+
+    function initZones() {
+      maps.zone = makeMap("map-zone");
+      const list = document.getElementById("zone-list");
+      zones.forEach((z, i) => {
+        const m = L.circleMarker([z.lat, z.lng], { radius: 9, color: "#fff", weight: 2, fillColor: "#1f6f8b", fillOpacity: 0.95 }).addTo(maps.zone);
+        m.bindPopup(`<strong>${z.name}</strong><br>Casa da ${euro(z.houseFrom)}<br>Totale ~${euro(z.totalLow)}–${euro(z.totalHigh)}`);
+        markers.zone[z.id] = m;
+        const el = document.createElement("article");
+        el.className = "pick zone" + (i === 0 ? " on" : "");
+        const cover = (z.imgs && z.imgs[0]) || "";
+        el.innerHTML = `
+          <div class="pick-cover">${cover ? `<img src="${cover}" alt="" loading="lazy" />` : ""}</div>
+          <div class="pick-body">
+            <div class="pick-kicker">${z.driveKm} dall’aeroporto</div>
+            <div class="pick-title">${z.name} <span class="badge ${z.badgeClass}">${z.badge}</span></div>
+            <div class="pick-price">Casa da ${euro(z.houseFrom)} · totale ~${euro(z.totalLow)}–${euro(z.totalHigh)}</div>
+            <div class="pick-meta">Budget 500–650: <strong>${z.fit}</strong></div>
+          </div>`;
+        el.addEventListener("click", () => {
+          list.querySelectorAll(".pick").forEach((p) => p.classList.remove("on"));
+          el.classList.add("on");
+          selectedZone = z;
+          focus(maps.zone, z.lat, z.lng);
+          markers.zone[z.id].openPopup();
+          renderZoneDetail(z);
+        });
+        list.appendChild(el);
+      });
+      selectedZone = zones[0];
+      renderZoneDetail(zones[0]);
+    }
+
+    function initGiorni() {
+      maps.giorni = makeMap("map-giorni");
+      const list = document.getElementById("giorni-list");
+      giorni.forEach((g, i) => {
+        const m = L.circleMarker([g.lat, g.lng], { radius: 9, color: "#fff", weight: 2, fillColor: "#0f766e", fillOpacity: 0.95 }).addTo(maps.giorni);
+        m.bindPopup(`<strong>${g.day}</strong><br>${g.meta}<br>${g.why}`);
+        markers.giorni[g.id] = m;
+        const el = document.createElement("article");
+        el.className = "pick day" + (i === 0 ? " on" : "");
+        const cover = (g.imgs && g.imgs[0]) || "";
+        el.innerHTML = `
+          <div class="pick-body">
+            <div class="row">
+              ${cover ? `<img class="mini" src="${cover}" alt="" loading="lazy" />` : ""}
+              <div style="min-width:0">
+                <div class="pick-kicker">Giorno ${g.n} · ${g.short}</div>
+                <div class="pick-title">${g.day}</div>
+                <div class="pick-sub"><strong>Meta:</strong> ${g.meta}</div>
+                <div class="pick-meta">${g.why}</div>
+              </div>
+            </div>
+          </div>`;
+        el.addEventListener("click", () => {
+          list.querySelectorAll(".pick").forEach((p) => p.classList.remove("on"));
+          el.classList.add("on");
+          selectedDay = g;
+          focus(maps.giorni, g.lat, g.lng);
+          markers.giorni[g.id].openPopup();
+          renderDayDetail(g);
+        });
+        list.appendChild(el);
+      });
+      selectedDay = giorni[0];
+      renderDayDetail(giorni[0]);
+    }
+
+    function renderEsc() {
+      maps.escursioni = maps.escursioni || makeMap("map-esc");
+      const list = document.getElementById("esc-list");
+      Object.values(markers.esc).forEach((m) => maps.escursioni.removeLayer(m));
+      markers.esc = {};
+      list.innerHTML = "";
+      const filtered = escursioni.filter((e) => escFilter === "all" || e.cat === escFilter);
+      const byCat = {};
+      filtered.forEach((e) => { (byCat[e.cat] = byCat[e.cat] || []).push(e); });
+      const order = categories.map((c) => c.id).filter((id) => id !== "all");
+      let first = null;
+      order.forEach((catId) => {
+        const items = byCat[catId];
+        if (!items || !items.length) return;
+        if (escFilter === "all") {
+          const h = document.createElement("div");
+          h.className = "cat-head";
+          h.textContent = categories.find((c) => c.id === catId)?.label || catId;
+          list.appendChild(h);
+        }
+        items.forEach((e) => {
+          if (!first) first = e;
+          const m = L.circleMarker([e.lat, e.lng], { radius: 9, color: "#fff", weight: 2, fillColor: e.paid ? "#b7791f" : "#2f7d4a", fillOpacity: 0.95 }).addTo(maps.escursioni);
+          m.bindPopup(`<strong>${e.name}</strong><br>${e.cost}<br>${e.why}`);
+          markers.esc[e.id] = m;
+          const cover = (e.imgs && e.imgs[0]) || "";
+          const el = document.createElement("article");
+          el.className = "pick esc";
+          el.dataset.id = e.id;
+          el.innerHTML = `
+            <div class="pick-cover">${cover ? `<img src="${cover}" alt="" loading="lazy" />` : ""}</div>
+            <div class="pick-body">
+              <div class="pick-kicker">${categories.find(c=>c.id===e.cat)?.label || e.cat} · ${e.dur}</div>
+              <div class="pick-title">${e.name}</div>
+              <div class="pick-price">${e.cost}</div>
+              <div class="pick-meta">${e.why}</div>
+            </div>`;
+          el.addEventListener("click", () => selectEsc(e, el));
+          list.appendChild(el);
+        });
+      });
+      if (first) {
+        const el = list.querySelector(`.pick[data-id="${first.id}"]`);
+        if (el) selectEsc(first, el);
+      }
+      setTimeout(() => maps.escursioni.invalidateSize(), 100);
+    }
+
+    function selectEsc(e, el) {
+      document.querySelectorAll("#esc-list .pick").forEach((p) => p.classList.remove("on"));
+      if (el) el.classList.add("on");
+      focus(maps.escursioni, e.lat, e.lng, e.cat === "isole" ? 9 : 12);
+      if (markers.esc[e.id]) markers.esc[e.id].openPopup();
+      setPhotos("esc", e.imgs, e.name);
+      document.getElementById("cap-esc").innerHTML = `<strong>${e.name}</strong> · ${e.cost}` +
+        (e.book ? ` · <a class="link-full" style="pointer-events:auto;display:inline" href="${e.book}" target="_blank" rel="noopener">Prenota</a>` : "");
+      // caption has pointer-events none - put book in photo stage area via caption override
+      document.getElementById("cap-esc").style.pointerEvents = "auto";
+    }
+
+    function initEscFilters() {
+      const box = document.getElementById("esc-filters");
+      categories.forEach((c) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "filter" + (c.id === "all" ? " on" : "");
+        b.textContent = c.label;
+        b.addEventListener("click", () => {
+          escFilter = c.id;
+          box.querySelectorAll(".filter").forEach((x) => x.classList.remove("on"));
+          b.classList.add("on");
+          renderEsc();
+        });
+        box.appendChild(b);
+      });
+      renderEsc();
+    }
+
+    initZones(); initGiorni(); initEscFilters();
+    const start = (location.hash || "#home").replace("#","") || "home";
+    showTab(panels[start] ? start : "home");
+  </script>
+</body>
+</html>

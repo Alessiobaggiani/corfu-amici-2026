@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  
+  <meta name="description" content="Dossier Corfù 27 ago–3 set 2026: zone, programma giorni, escursioni, mappa." />
+  <meta property="og:title" content="Corfù · dossier gruppo · agosto 2026" />
+  <meta property="og:description" content="Zone dove dormire, giorni, escursioni e mappa — 3 adulti, budget casa+auto." />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#1f6f8b" />
+  <link rel="canonical" id="canonical-link" href="" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Corfù · 3 persone · 27 ago–3 set 2026 — zone, km e prezzi reali</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <style>
+    :root {
+      --bg: #f3efe6;
+      --ink: #1c2430;
+      --muted: #5a6574;
+      --card: #fffdf8;
+      --line: #d9d2c4;
+      --sea: #1f6f8b;
+      --sea-soft: #d7eef5;
+      --cheap: #2f7d4a;
+      --cheap-bg: #e6f4ea;
+      --mid: #b7791f;
+      --mid-bg: #fff4db;
+      --pricey: #b42318;
+      --pricey-bg: #fdecea;
+      --scenic: #1d4e89;
+      --scenic-bg: #e8f0fb;
+      --shadow: 0 10px 30px rgba(28, 36, 48, 0.08);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; }
+    body {
+      font-family: "Source Sans 3", system-ui, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(1200px 500px at 10% -10%, #e8f4f7 0%, transparent 55%),
+        radial-gradient(900px 400px at 100% 0%, #f7e9d8 0%, transparent 50%),
+        var(--bg);
+    }
+    .app {
+      display: grid;
+      grid-template-columns: minmax(300px, 380px) 1fr;
+      height: 100vh;
+    }
+    .panel {
+      overflow: auto;
+      padding: 24px 20px 40px;
+      border-right: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,253,248,0.96), rgba(243,239,230,0.92));
+    }
+    h1 {
+      font-family: Fraunces, Georgia, serif;
+      font-size: 1.75rem;
+      line-height: 1.15;
+      margin: 0 0 8px;
+      letter-spacing: -0.02em;
+    }
+    .subtitle {
+      color: var(--muted);
+      margin: 0 0 14px;
+      font-size: 0.95rem;
+      line-height: 1.45;
+    }
+    .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+    .pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      border-radius: 999px; padding: 6px 11px;
+      font-size: 0.8rem; font-weight: 600;
+      border: 1px solid var(--line); background: var(--card);
+    }
+    .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+    .dot.cheap { background: var(--cheap); }
+    .dot.mid { background: var(--mid); }
+    .dot.pricey { background: var(--pricey); }
+    .dot.scenic { background: var(--scenic); }
+    .dot.airport { background: #111; }
+    .dot.car { background: #6b3fa0; }
+
+    .car-marker-icon {
+      background: #6b3fa0;
+      color: #fff;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.25);
+    }
+
+    .callout {
+      background: var(--sea-soft);
+      border: 1px solid #b8d9e5;
+      border-radius: 14px;
+      padding: 13px;
+      margin-bottom: 14px;
+      box-shadow: var(--shadow);
+      font-size: 0.9rem;
+      line-height: 1.45;
+    }
+    .callout strong { color: var(--sea); }
+    .callout p { margin: 6px 0 0; }
+
+    .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+    .filters button {
+      border: 1px solid var(--line);
+      background: var(--card);
+      border-radius: 10px;
+      padding: 8px 11px;
+      font: inherit;
+      font-weight: 600;
+      font-size: 0.84rem;
+      cursor: pointer;
+    }
+    .filters button.active {
+      background: var(--ink);
+      color: #fff;
+      border-color: var(--ink);
+    }
+
+    .zone {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 13px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+    .zone:hover, .zone.active {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow);
+      border-color: #b7c0cc;
+    }
+    .zone-top {
+      display: flex; justify-content: space-between; gap: 10px; align-items: flex-start;
+      margin-bottom: 4px;
+    }
+    .zone h2 {
+      font-family: Fraunces, Georgia, serif;
+      font-size: 1.12rem;
+      margin: 0;
+    }
+    .badge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      padding: 5px 8px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+    .badge.cheap { background: var(--cheap-bg); color: var(--cheap); }
+    .badge.mid { background: var(--mid-bg); color: var(--mid); }
+    .badge.pricey { background: var(--pricey-bg); color: var(--pricey); }
+    .badge.scenic { background: var(--scenic-bg); color: var(--scenic); }
+
+    .drive {
+      margin: 0 0 6px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .drive span { color: var(--sea); }
+    .meta { color: var(--muted); font-size: 0.84rem; margin: 0 0 8px; }
+
+    .deals { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+    .deal {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 10px 11px;
+      background: #faf7f0;
+      transition: border-color .15s ease, background .15s ease;
+    }
+    .deal:hover {
+      border-color: var(--sea);
+      background: #eef7fa;
+    }
+    .deal-name {
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 2px;
+    }
+    .deal-price {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--cheap);
+    }
+    .deal-price.mid { color: var(--mid); }
+    .deal-price.high { color: var(--pricey); }
+    .deal-sub {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    .deal-cta {
+      margin-top: 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--sea);
+    }
+    .search-all {
+      display: inline-block;
+      margin-top: 10px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: var(--sea);
+    }
+
+    .section-title {
+      font-family: Fraunces, Georgia, serif;
+      font-size: 1.05rem;
+      margin: 20px 0 10px;
+    }
+    .car-box, .next-box {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 13px;
+      font-size: 0.88rem;
+      line-height: 1.45;
+      margin-bottom: 12px;
+    }
+    .car-box li, .next-box li { margin-bottom: 6px; }
+    .footnote {
+      font-size: 0.76rem;
+      color: var(--muted);
+      margin-top: 16px;
+      line-height: 1.4;
+    }
+    #map { width: 100%; height: 100%; min-height: 420px; }
+    .leaflet-popup-content-wrapper {
+      border-radius: 12px;
+      font-family: "Source Sans 3", system-ui, sans-serif;
+    }
+    .popup-title { font-family: Fraunces, Georgia, serif; font-weight: 700; margin-bottom: 4px; }
+    .popup-drive { font-weight: 700; margin: 4px 0; color: var(--sea); }
+    .popup-deal { font-size: 0.88rem; margin-top: 6px; }
+    .popup-deal a { color: var(--sea); font-weight: 700; }
+
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding: 10px 14px;
+      background: rgba(255,253,248,.96);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(8px);
+    }
+    .topbar .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      background: #1f6f8b;
+      color: #fff !important;
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 1rem;
+      white-space: nowrap;
+      box-shadow: 0 4px 14px rgba(31,111,139,.28);
+    }
+    .topbar .back:hover { opacity: .92; }
+    .topbar .hint {
+      color: var(--muted);
+      font-size: .86rem;
+      line-height: 1.35;
+      max-width: 520px;
+    }
+    .topbar .hint strong { color: var(--ink); }
+    .poi-marker-icon {
+      background: #0f766e;
+      color: #fff;
+      border: 2px solid #fff;
+      border-radius: 10px;
+      width: 26px;
+      height: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.25);
+    }
+    .app { height: calc(100vh - 56px); }
+    @media (max-width: 900px) {
+      .app { height: auto; min-height: calc(100vh - 72px); }
+      .topbar { position: sticky; }
+    }
+    @media (max-width: 900px) {
+      .app { grid-template-columns: 1fr; grid-template-rows: 46vh 1fr; height: auto; min-height: calc(100vh - 72px); }
+      .panel { border-right: 0; border-top: 1px solid var(--line); order: 2; }
+      #map { order: 1; height: 46vh; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <a class="back" href="index.html">← Torna al dossier</a>
+    <div class="hint">
+      <strong>Mappa di supporto alle scelte.</strong>
+      Usa i pin per zone (dormire), mete/attrazioni (gite) e auto (viola). Poi torna al dossier.
+    </div>
+  </div>
+  <div class="app">
+    <aside class="panel">
+      <h1>Corfù · mappa scelta</h1>
+      <p class="subtitle">
+        3 adulti · <strong>27 agosto → 3 settembre 2026</strong> (date congelate · voli già fatti) ·
+        budget casa+auto <strong>€500–650</strong> · solo auto · spese su Splitwise.
+        Per ogni zona: parametri completi per decidere.
+      </p>
+
+      <div class="pill-row">
+        <span class="pill"><span class="dot cheap"></span> Economica</span>
+        <span class="pill"><span class="dot mid"></span> Compromesso</span>
+        <span class="pill"><span class="dot scenic"></span> Bella</span>
+        <span class="pill"><span class="dot pricey"></span> Cara</span>
+        <span class="pill"><span class="dot airport"></span> Aeroporto</span>
+        <span class="pill"><span class="dot car"></span> Noleggio auto</span>
+      </div>
+
+      <div class="callout">
+        <strong>Budget gruppo: casa + auto €500–650</strong>
+        <p>
+          Mirate a case ≤ ~€520 + auto economy 5 posti ~€144–200.
+          <strong>1ª zona:</strong> Messonghi. Pin viola = noleggi.
+          Per tornare alle spiegazioni: pulsante nero in alto <strong>← Torna al dossier</strong>.
+          Ogni spesa comune → Splitwise.
+        </p>
+      </div>
+
+      <div class="filters" id="filters">
+        <button type="button" data-filter="all" class="active">Case</button>
+        <button type="button" data-filter="cars">Noleggi auto</button>
+        <button type="button" data-filter="cheap">Case economiche</button>
+        <button type="button" data-filter="best">Case consigliate</button>
+        <button type="button" data-filter="near">Vicine all’aereo</button>
+        <button type="button" data-filter="pois">Mete / attrazioni</button>
+      </div>
+      <div id="pois-panel" style="display:none"></div>
+
+      <div id="cars-panel" class="hidden-panel" style="display:none"></div>
+      <div id="zones"></div>
+
+      <h3 class="section-title">Ordine di approfondimento</h3>
+      <div class="next-box">
+        <ol>
+          <li><strong>Messonghi</strong> — 1ª per budget casa+auto €500–650.</li>
+          <li><strong>Moraitika</strong> — solo con casa ≤ €520.</li>
+          <li><strong>Lefkimmi / inland</strong> — risparmio estremo, più guida.</li>
+          <li>Ogni spesa comune → <strong>Splitwise</strong>. Dossier completo: <a href="index.html">index.html</a>.</li>
+        </ol>
+      </div>
+
+      <p class="footnote">
+        Case: Booking.com 24/07/2026 · Auto: Kayak.it 24/07/2026 · date 27/08–03/09/2026.
+        I prezzi auto “da €144” sono il totale settimana più basso visto (spesso senza assicurazione full / con cauzione alta):
+        leggete bene cosa include prima di prenotare. Per 3 persone + bagagli evitate le mini da 2 posti.
+      </p>
+    </aside>
+    <div id="map" role="application" aria-label="Mappa interattiva di Corfù"></div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script>
+    const CHECKIN = "2026-08-27";
+    const CHECKOUT = "2026-09-03";
+
+    function bookUrl(slug) {
+      return `https://www.booking.com${slug}.it.html?checkin=${CHECKIN}&checkout=${CHECKOUT}&group_adults=3&req_adults=3&no_rooms=1&group_children=0&req_children=0`;
+    }
+    function searchUrl(ss) {
+      return `https://www.booking.com/searchresults.it.html?ss=${encodeURIComponent(ss)}&checkin=${CHECKIN}&checkout=${CHECKOUT}&group_adults=3&no_rooms=1&group_children=0&order=price&nflt=ht_id%3D201`;
+    }
+    function priceClass(total) {
+      if (total <= 700) return "";
+      if (total <= 1000) return "mid";
+      return "high";
+    }
+    function perNight(total) {
+      return Math.round(total / 7);
+    }
+
+    const zones = [
+      {
+        id: "messonghi",
+        name: "Messonghi",
+        lat: 39.4667, lng: 19.926,
+        tier: "cheap", badge: "Economica ★",
+        recommended: true, nearAirport: false,
+        km: 22, min: "30–40 min",
+        meta: "Sud-est · spiaggia · famiglie",
+        search: "Messonghi, Corfu",
+        decision: {"budgetFit": "Stretto ma migliore candidata (casa bassa + auto economica)", "beach": "Sì", "noise": "Basso/medio · famiglie", "pros": "Prezzi bassi, mare vicino, acqua calda", "cons": "Meno “wow” del paesaggio ovest", "pickIf": "Volete risparmio massimo + mare sotto casa"},
+        deals: [
+          { name: "Papiri Beach", total: 531, score: "9,2", slug: "/hotel/gr/papiri-beach" },
+          { name: "Aleka apartment 5", total: 546, score: "8,9", slug: "/hotel/gr/aleka-apartment-5-kerkura" },
+          { name: "Foteinos Apartments", total: 624, score: "8,3", slug: "/hotel/gr/foteinos-apartments" }
+        ]
+      },
+      {
+        id: "moraitika",
+        name: "Moraitika",
+        lat: 39.478, lng: 19.932,
+        tier: "cheap", badge: "Economica ★",
+        recommended: true, nearAirport: false,
+        km: 20, min: "30–35 min",
+        meta: "Sud-est · sabbia · servizi",
+        search: "Moraitika, Corfu",
+        decision: {"budgetFit": "Spesso fuori se casa >€520 · ok solo con affare", "beach": "Sì", "noise": "Medio", "pros": "Comoda, sabbia, servizi", "cons": "Un filo più cara/turistica", "pickIf": "Trovate casa ≤ €520"},
+        deals: [
+          { name: "Villa Corfiota Moraitika Beach", total: 644, score: "7,3", slug: "/hotel/gr/villa-corfiota-moraitika-beach-kerkira" },
+          { name: "Aggelos Family Hotel", total: 686, score: "8,0", slug: "/hotel/gr/aggelos-family" },
+          { name: "Golden Keys Apartment", total: 727, score: "9,4", slug: "/hotel/gr/apartment-ground-floor-with-balcony" }
+        ]
+      },
+      {
+        id: "lefkimmi",
+        name: "Lefkimmi",
+        lat: 39.4234, lng: 20.0709,
+        tier: "cheap", badge: "Economica",
+        recommended: false, nearAirport: false,
+        km: 40, min: "50–60 min",
+        meta: "Estremo sud · locale · quiete",
+        search: "Lefkimmi, Corfu",
+        decision: {"budgetFit": "Stretto · casa economica ma più benzina", "beach": "Dipende dalla casa", "noise": "Basso · locale", "pros": "Prezzi bassi, quiete", "cons": "Lontana, meno spiagge famose sotto casa", "pickIf": "Accettate guidare di più per spendere meno"},
+        deals: [
+          { name: "Olive terra holiday apartments", total: 561, score: "8,8", slug: "/hotel/gr/olive-terra-holiday-aparments" },
+          { name: "Beach House", total: 686, score: "6,9", slug: "/hotel/gr/beach-house-leukimme" },
+          { name: "Case d'oro", total: 736, score: "8,7", slug: "/hotel/gr/case-d-39-oro" }
+        ]
+      },
+      {
+        id: "acharavi",
+        name: "Acharavi / Roda",
+        lat: 39.793, lng: 19.815,
+        tier: "cheap", badge: "Economica nord",
+        recommended: false, nearAirport: false,
+        km: 42, min: "50–65 min",
+        meta: "Nord · famiglie · lunga spiaggia",
+        search: "Acharavi, Corfu",
+        decision: {"budgetFit": "Difficile (lontananza + benzina)", "beach": "Sì · lunga", "noise": "Basso", "pros": "Famiglie, spiaggia lunga", "cons": "50–65 min dall’aereo", "pickIf": "Volete il nord e vi sta bene la distanza"},
+        deals: [
+          { name: "Claire", total: 559, score: "—", slug: "/hotel/gr/claire-acharavi" },
+          { name: "Dimitris Studios", total: 821, score: "9,4", slug: "/hotel/gr/dimitris-studios-acharavi" },
+          { name: "Antonios Olive Garden", total: 826, score: "9,0", slug: "/hotel/gr/antonios-acharavi" }
+        ]
+      },
+      {
+        id: "benitses",
+        name: "Benitses",
+        lat: 39.5475, lng: 19.9125,
+        tier: "mid", badge: "Compromesso ★",
+        recommended: true, nearAirport: true,
+        km: 12, min: "15–20 min",
+        meta: "Sud-est vicino · comoda · relax",
+        search: "Benitses, Corfu",
+        decision: {"budgetFit": "Fuori tetto (case da ~€834)", "beach": "Sì", "noise": "Medio-basso", "pros": "Vicino all’aereo, paesino carino", "cons": "Troppo cara per €500–650 casa+auto", "pickIf": "Alzate il budget"},
+        deals: [
+          { name: "Corfu Sunflower Apartments", total: 834, score: "9,4", slug: "/hotel/gr/corfu-sunflower-appartments" },
+          { name: "Corfu Bay sea view apartments", total: 924, score: "4,7", slug: "/hotel/gr/corfu-bay-corfu" },
+          { name: "Fiorado", total: 967, score: "8,3", slug: "/hotel/gr/fiorado" }
+        ]
+      },
+      {
+        id: "gouvia-dassia",
+        name: "Gouvia / Dassia",
+        lat: 39.661, lng: 19.845,
+        tier: "mid", badge: "Compromesso ★",
+        recommended: true, nearAirport: true,
+        km: 11, min: "15–25 min",
+        meta: "Est centrale · vicina a Corfù Town",
+        search: "Gouvia, Corfu",
+        decision: {"budgetFit": "Fuori", "beach": "Sì ma meno wow", "noise": "Medio", "pros": "Comoda per Corfù Town", "cons": "Prezzi medi/alti", "pickIf": "Non state sul tetto 500–650"},
+        deals: [
+          { name: "Fotis and Linda Apartment 3 or 4", total: 856, score: "9,0", slug: "/hotel/gr/fotis-and-linda-apartment-3-or-4-in-corfu" },
+          { name: "Fotis and Linda Apartments 1 & 2", total: 896, score: "—", slug: "/hotel/gr/fotis-and-linda-apartments-1-amp-2-in-corfu" },
+          { name: "Nikoleta's Corfu Apartments", total: 1029, score: "8,7", slug: "/hotel/gr/nikoleta-39-s-corfu-apartment" }
+        ]
+      },
+      {
+        id: "ipsos",
+        name: "Ipsos / Pyrgi",
+        lat: 39.695, lng: 19.838,
+        tier: "mid", badge: "Vivace",
+        recommended: false, nearAirport: true,
+        km: 15, min: "25–35 min",
+        meta: "Est · movimento · budget medio",
+        search: "Ipsos, Corfu",
+        decision: {"budgetFit": "Fuori", "beach": "Sì · sottile", "noise": "Medio/alto", "pros": "Vivace, prezzi medi", "cons": "Può essere rumorosa", "pickIf": "Vi piace movimento sera"},
+        deals: [
+          { name: "Alexandros and Georgia", total: 840, score: "—", slug: "/hotel/gr/alexandros-and-georgia" },
+          { name: "Errica Apartments in Ipsos", total: 863, score: "—", slug: "/hotel/gr/errica-apartments-in-ipsos" },
+          { name: "Waterfront Studio", total: 866, score: "6,7", slug: "/hotel/gr/waterfront-studio" }
+        ]
+      },
+      {
+        id: "kavos",
+        name: "Kavos",
+        lat: 39.386, lng: 20.108,
+        tier: "cheap", badge: "Economica · festa",
+        recommended: false, nearAirport: false,
+        km: 45, min: "55–65 min",
+        meta: "Sud · nightlife · rumorosa",
+        search: "Kavos, Corfu",
+        decision: {"budgetFit": "Casa bassa ma vibe sbagliata", "beach": "Sì", "noise": "Alto · festa", "pros": "Prezzi bassi", "cons": "Rumore, party", "pickIf": "Mai, se volete dormire"},
+        deals: [
+          { name: "Ionian Blue Beach (adults only)", total: 577, score: "3,6", slug: "/hotel/gr/ionian-blue-beach-adults-only" },
+          { name: "Lemon Grove Hotels And Studios", total: 604, score: "5,9", slug: "/hotel/gr/lemon-grove-hotels-and-studios" },
+          { name: "Naos Studios", total: 628, score: "8,2", slug: "/hotel/gr/idiotiko-diamerisma" }
+        ]
+      },
+      {
+        id: "sidari",
+        name: "Sidari",
+        lat: 39.792, lng: 19.708,
+        tier: "cheap", badge: "Economica nord",
+        recommended: false, nearAirport: false,
+        km: 38, min: "50–60 min",
+        meta: "Nord-ovest · Canal d’Amour · turistica",
+        search: "Sidari, Corfu",
+        decision: {"budgetFit": "Difficile · lontana", "beach": "Sì · Canal d’Amour vicino", "noise": "Medio · turistica", "pros": "Attrazione famosa", "cons": "Lontana e turistica", "pickIf": "Solo come gita, non base"},
+        deals: [
+          { name: "Zeus Greekgod Apartments", total: 749, score: "4,3", slug: "/hotel/gr/greekgod-apartments" },
+          { name: "Apollo Greekgod Apartments", total: 749, score: "4,5", slug: "/hotel/gr/apollo-greekgod-apartments" },
+          { name: "Katerina Studios & Apartments", total: 767, score: "7,8", slug: "/hotel/gr/katerina-studios-amp-apartments" }
+        ]
+      },
+      {
+        id: "agios-gordios",
+        name: "Agios Gordios",
+        lat: 39.531, lng: 19.849,
+        tier: "scenic", badge: "Bella / media",
+        recommended: true, nearAirport: true,
+        km: 16, min: "25–35 min",
+        meta: "Ovest · baia · paesaggio",
+        search: "Agios Gordios, Corfu",
+        decision: {"budgetFit": "Fuori", "beach": "Sì · baia bella", "noise": "Medio", "pros": "Paesaggio top", "cons": "Case da ~€1000", "pickIf": "Come meta di giornata"},
+        deals: [
+          { name: "Villa Rebecca", total: 1004, score: "9,0", slug: "/hotel/gr/rebecca-agios-gordios" },
+          { name: "Sunny views studios", total: 1099, score: "8,7", slug: "/hotel/gr/sunny-views-studios" },
+          { name: "Stella's Apartments", total: 1234, score: "9,2", slug: "/hotel/gr/stella-39-s-apartments" }
+        ]
+      },
+      {
+        id: "paleokastritsa",
+        name: "Paleokastritsa (+ Liapades)",
+        lat: 39.6728, lng: 19.7108,
+        tier: "scenic", badge: "Bella",
+        recommended: false, nearAirport: false,
+        km: 24, min: "40–50 min",
+        meta: "Ovest · baie · tramonti",
+        search: "Paleokastritsa, Corfu",
+        decision: {"budgetFit": "Fuori come base", "beach": "Baie stupende", "noise": "Medio di giorno", "pros": "Il posto più bello", "cons": "Cara / piena", "pickIf": "Solo gita"},
+        deals: [
+          { name: "Villa Maria (2) — Liapades vicino", total: 736, score: "7,7", slug: "/hotel/gr/villa-maria-2-liapades" },
+          { name: "Villa Maria 4", total: 926, score: "6,2", slug: "/hotel/gr/villa-lepeniotis" },
+          { name: "Athina Studios", total: 1124, score: "8,8", slug: "/hotel/gr/athina-studios-paleokastritsa" }
+        ]
+      },
+      {
+        id: "corfu-town",
+        name: "Corfù Town (e dintorni)",
+        lat: 39.6242, lng: 19.9216,
+        tier: "pricey", badge: "Centrale",
+        recommended: false, nearAirport: true,
+        km: 3, min: "5–10 min",
+        meta: "Città · cultura · parcheggio difficile",
+        search: "Corfu Town",
+        decision: {"budgetFit": "Fuori / scomoda con auto", "beach": "No sotto casa", "noise": "Città", "pros": "Cultura UNESCO", "cons": "Parcheggio incubo", "pickIf": "Solo visita"},
+        deals: [
+          { name: "Issos Apartments (verificare mappa)", total: 800, score: "7,5", slug: "/hotel/gr/issos-apartments" },
+          { name: "Karydia Apartment Almyros", total: 852, score: "9,0", slug: "/hotel/gr/karydia-apartment-almyros" },
+          { name: "Alex apartment", total: 886, score: "7,8", slug: "/hotel/gr/alex-appartment" }
+        ]
+      },
+      {
+        id: "kassiopi",
+        name: "Kassiopi",
+        lat: 39.791, lng: 19.919,
+        tier: "pricey", badge: "Premium",
+        recommended: false, nearAirport: false,
+        km: 36, min: "55–75 min",
+        meta: "Nord-est · chic · quiete",
+        search: "Kassiopi, Corfu",
+        decision: {"budgetFit": "Fuori", "beach": "Baie belle", "noise": "Basso-chic", "pros": "Elegante", "cons": "Cara e lontana", "pickIf": "No per questo budget"},
+        deals: [
+          { name: "Philippos Kassiopi Apartments", total: 1051, score: "8,1", slug: "/hotel/gr/philippos-kassiopi-apartments" },
+          { name: "Lefkothea Apartments", total: 1120, score: "8,9", slug: "/hotel/gr/lefkothea-apartments-kassiope" },
+          { name: "Balaris Apartments", total: 1221, score: "8,5", slug: "/hotel/gr/balaris-apartments" }
+        ]
+      },
+      {
+        id: "inland",
+        name: "Villaggi interni (Sinarades…)",
+        lat: 39.5798, lng: 19.8415,
+        tier: "mid", badge: "Interno",
+        recommended: false, nearAirport: true,
+        km: 14, min: "20–30 min",
+        meta: "Collina · quiete · serve macchina",
+        search: "Sinarades, Corfu",
+        decision: {"budgetFit": "Possibile se casa bassa", "beach": "No a piedi", "noise": "Molto basso", "pros": "Quiete, a volte prezzi ok", "cons": "Ogni mare richiede auto", "pickIf": "Volete silenzio assoluto"},
+        deals: [
+          { name: "Agnes Rooms (Pelekas, zona)", total: 532, score: "6,7", slug: "/hotel/gr/agnes-rooms-pelekas" },
+          { name: "Panagiota Xrisida's Apartment", total: 681, score: "8,9", slug: "/hotel/gr/panagiota-xrisidas-apartment" },
+          { name: "Country traditional house", total: 972, score: "7,4", slug: "/hotel/gr/country-traditional-house-in-corfu-village-greece" }
+        ]
+      }
+    ];
+
+    const airport = { lat: 39.6019, lng: 19.9117, name: "Aeroporto Corfù (CFU)" };
+    const tierColor = { cheap: "#2f7d4a", mid: "#b7791f", pricey: "#b42318", scenic: "#1d4e89" };
+    const KAYAK_CARS = "https://www.kayak.it/cars/CFU-a1200/CFU-a1200/2026-08-27/2026-09-03/?sort=price_a";
+    const DISCOVER_CARS = "https://www.discovercars.com/greece/corfu/cfu?date_from=2026-08-27&time_from=12%3A00&date_to=2026-09-03&time_to=12%3A00&age=35";
+
+    // Punti ritiro + offerte reali Kayak 27/08–03/09/2026 (letti oggi)
+    const carSpots = [
+      {
+        id: "car-airport-desk",
+        name: "Aeroporto · banconi in arrivi",
+        lat: 39.6019, lng: 19.9117,
+        how: "Dentro il terminal (Arrivi). Niente navetta.",
+        companies: "Avis, Hertz, Budget, Enterprise / National, Sixt e altri grandi",
+        note: "Solitamente più comodi; a volte un filo più cari dei locali con navetta."
+      },
+      {
+        id: "car-airport-shuttle",
+        name: "Aeroporto · navetta / deposito vicino",
+        lat: 39.5985, lng: 19.9065,
+        how: "Uscite, prendete la navetta gratuita del noleggiatore (pochi minuti).",
+        companies: "Green Motion, Autounion, Centauro, Surprice e vari locali",
+        note: "Qui spesso i prezzi più bassi. Controllate tempo di attesa (a volte 15–40 min)."
+      },
+      {
+        id: "car-airport-meet",
+        name: "Aeroporto · incontro in arrivi",
+        lat: 39.6050, lng: 19.9155,
+        how: "Qualcuno vi aspetta in arrivi con cartello e vi porta all’auto.",
+        companies: "Molti broker / agenzie locali (Meet & Greet)",
+        note: "Comodo se il volo è in ritardo — chiedete se l’orario è coperto."
+      },
+      {
+        id: "car-port",
+        name: "Porto di Corfù",
+        lat: 39.6275, lng: 19.9035,
+        how: "Utile se arrivate in traghetto, non in aereo.",
+        companies: "Avis e alcune agenzie in zona porto",
+        note: "Per voi (aereo) meglio ritiro CFU."
+      },
+      {
+        id: "car-gouvia",
+        name: "Gouvia / Kontokali (secondario)",
+        lat: 39.651, lng: 19.848,
+        how: "Alcune agenzie locali consegnano vicino alla marina.",
+        companies: "Locali / consegna hotel",
+        note: "Ha senso solo se dormite già lì e non volete guidare dall’aereo."
+      }
+    ];
+
+    const carOffers = [
+      {
+        name: "Skoda Citigo (o simile) · Economy",
+        total: 144, day: 21, seats: 4, bags: "2",
+        pickup: "Navetta aeroporto", score: "7,8",
+        via: "bsp-auto / Kayak", warn: "Prezzo aggressivo: controllate cauzione e assicurazione.",
+        okFor3: true
+      },
+      {
+        name: "Fiat 500 (o simile) · Piccola",
+        total: 154, day: 22, seats: 2, bags: "1",
+        pickup: "Navetta aeroporto", score: "9,4",
+        via: "Booking.com Cars", warn: "Solo 2 posti — NO per voi tre.",
+        okFor3: false
+      },
+      {
+        name: "Economy / Piccola 5 posti",
+        total: 192, day: 27, seats: 5, bags: "2",
+        pickup: "Navetta aeroporto", score: "9,0",
+        via: "bsp-auto / EconomyBookings", warn: "Buon equilibrio prezzo/posti per 3 adulti.",
+        okFor3: true
+      },
+      {
+        name: "Economy automatica (o simile)",
+        total: 194, day: 28, seats: 4, bags: "2",
+        pickup: "Navetta aeroporto", score: "7,2",
+        via: "bsp-auto", warn: "Se preferite cambio automatico.",
+        okFor3: true
+      },
+      {
+        name: "Kia XCeed (o simile) · Media",
+        total: 759, day: 108, seats: 5, bags: "3–4",
+        pickup: "CFU (DiscoverCars)", score: "—",
+        via: "DiscoverCars", warn: "Più spazio bagagli · prezzo alto stagione.",
+        okFor3: true
+      },
+      {
+        name: "Suzuki Vitara (o simile) · SUV",
+        total: 768, day: 110, seats: 5, bags: "3–4",
+        pickup: "CFU (DiscoverCars)", score: "—",
+        via: "DiscoverCars", warn: "Comoda sulle strade di montagna.",
+        okFor3: true
+      },
+      {
+        name: "Renault Clio (o simile) · Compatta",
+        total: 886, day: 127, seats: 5, bags: "2–3",
+        pickup: "CFU (DiscoverCars)", score: "—",
+        via: "DiscoverCars", warn: "Compatta “comoda”, non il prezzo più basso.",
+        okFor3: true
+      }
+    ];
+
+    const map = L.map("map", { scrollWheelZoom: true }).setView([39.62, 19.85], 10);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 18,
+      attribution: "&copy; OpenStreetMap"
+    }).addTo(map);
+
+    const markers = {};
+    const carMarkers = {};
+
+    function popupHtml(z) {
+      const best = z.deals[0];
+      return `
+        <div class="popup-title">${z.name}</div>
+        <div class="popup-drive">🚗 ${z.km} km · ${z.min} dall’aeroporto</div>
+        <div class="popup-deal">
+          Più basso trovato: <strong>€ ${best.total}</strong> / 7 notti<br>
+          <a href="${bookUrl(best.slug)}" target="_blank" rel="noopener">${best.name} → prenota</a>
+        </div>
+      `;
+    }
+
+    zones.forEach((z) => {
+      const marker = L.circleMarker([z.lat, z.lng], {
+        radius: z.recommended ? 11 : 8,
+        color: "#fff",
+        weight: 2,
+        fillColor: tierColor[z.tier],
+        fillOpacity: 0.92
+      }).addTo(map);
+      marker.bindPopup(popupHtml(z));
+      marker.on("click", () => selectZone(z.id, false));
+      markers[z.id] = marker;
+    });
+
+    const carIcon = L.divIcon({
+      className: "",
+      html: '<div class="car-marker-icon">🚗</div>',
+      iconSize: [28, 28],
+      iconAnchor: [14, 14]
+    });
+
+    carSpots.forEach((c) => {
+      const m = L.marker([c.lat, c.lng], { icon: carIcon }).addTo(map);
+      m.bindPopup(`
+        <div class="popup-title">${c.name}</div>
+        <div class="popup-deal">
+          <strong>Come funziona:</strong> ${c.how}<br>
+          <strong>Chi trovate:</strong> ${c.companies}<br>
+          ${c.note}<br><br>
+          <a href="${KAYAK_CARS}" target="_blank" rel="noopener">Confronta prezzi auto (Kayak) →</a>
+        </div>
+      `);
+      carMarkers[c.id] = m;
+    });
+
+    L.marker([airport.lat, airport.lng]).addTo(map)
+      .bindPopup(`
+        <div class="popup-title">${airport.name}</div>
+        <div class="popup-deal">
+          Hub principale noleggi.<br>
+          Economy da <strong>~€144–200</strong> / settimana · Media/SUV spesso <strong>€750+</strong><br>
+          <a href="${KAYAK_CARS}" target="_blank" rel="noopener">Apri confronto Kayak →</a>
+        </div>
+      `);
+
+    L.polygon([
+      [39.56, 19.90], [39.52, 19.90], [39.45, 19.92], [39.45, 19.96], [39.56, 19.94]
+    ], { color: "#2f7d4a", weight: 1, fillColor: "#2f7d4a", fillOpacity: 0.08 }).addTo(map)
+      .bindTooltip("Fascia economica sud-est", { sticky: true });
+
+    const list = document.getElementById("zones");
+    const carsPanel = document.getElementById("cars-panel");
+
+    function renderCars() {
+      list.style.display = "none";
+      carsPanel.style.display = "block";
+      carsPanel.innerHTML = `
+        <div class="callout">
+          <strong>Noleggi auto · 27 ago → 3 set · ritiro CFU</strong>
+          <p>
+            Prezzi letti oggi su Kayak (409 offerte). Per voi tre: scegliete auto da
+            <strong>almeno 4–5 posti</strong> e controllate bagagli.
+            I pin <strong>viola</strong> sulla mappa sono i punti di ritiro.
+          </p>
+        </div>
+        ${carSpots.map((c) => `
+          <article class="zone" data-car="${c.id}">
+            <div class="zone-top">
+              <h2>${c.name}</h2>
+              <span class="badge" style="background:#efe6ff;color:#6b3fa0">Noleggio</span>
+            </div>
+            <p class="meta">${c.how}</p>
+            <p class="meta"><strong>Agenzie tipiche:</strong> ${c.companies}</p>
+            <p class="tagline">${c.note}</p>
+          </article>
+        `).join("")}
+        <h3 class="section-title">Offerte reali trovate (totale 7 giorni)</h3>
+        <div class="deals">
+          ${carOffers.map((o) => `
+            <a class="deal" href="${KAYAK_CARS}" target="_blank" rel="noopener">
+              <div class="deal-name">${o.name}${o.okFor3 ? "" : " ⚠️"}</div>
+              <div class="deal-price ${o.total > 500 ? "high" : ""}">
+                € ${o.total.toLocaleString("it-IT")} totali · ≈ € ${o.day}/giorno
+              </div>
+              <div class="deal-sub">
+                ${o.seats} posti · bagagli ~${o.bags} · ${o.pickup}
+                ${o.score !== "—" ? " · voto " + o.score : ""} · via ${o.via}
+              </div>
+              <div class="deal-sub">${o.warn}</div>
+              <div class="deal-cta">Apri confronto e prenota →</div>
+            </a>
+          `).join("")}
+        </div>
+        <a class="search-all" href="${KAYAK_CARS}" target="_blank" rel="noopener">Kayak · tutte le auto CFU →</a><br>
+        <a class="search-all" href="${DISCOVER_CARS}" target="_blank" rel="noopener">DiscoverCars · stessa ricerca →</a>
+      `;
+      carsPanel.querySelectorAll("[data-car]").forEach((el) => {
+        el.addEventListener("click", () => {
+          const id = el.getAttribute("data-car");
+          const spot = carSpots.find((x) => x.id === id);
+          if (!spot) return;
+          carMarkers[id]?.openPopup();
+          map.flyTo([spot.lat, spot.lng], 13, { duration: 0.7 });
+        });
+      });
+      map.flyTo([airport.lat, airport.lng], 12, { duration: 0.7 });
+    }
+
+    const poisPanel = document.getElementById("pois-panel");
+
+    function renderPois() {
+      list.style.display = "none";
+      carsPanel.style.display = "none";
+      if (poisPanel) poisPanel.style.display = "block";
+      if (!poisPanel) return;
+      poisPanel.innerHTML = `
+        <div class="callout">
+          <strong>Mete e attrazioni sulla mappa</strong>
+          <p>Pin verdi ★. Clicca una riga per centrare la mappa. Poi <a href="index.html">torna al dossier</a> per il programma giorni.</p>
+        </div>
+        ${pois.map((p) => `
+          <article class="zone" data-poi="${p.id}">
+            <div class="zone-top"><h2>★ ${p.name}</h2><span class="badge scenic">Meta</span></div>
+            <p class="meta">${p.why}</p>
+            <p class="tagline">Clicca per vederla sulla mappa</p>
+          </article>
+        `).join("")}
+      `;
+      poisPanel.querySelectorAll("[data-poi]").forEach((el) => {
+        el.addEventListener("click", () => {
+          const id = el.getAttribute("data-poi");
+          const p = pois.find((x) => x.id === id);
+          if (!p) return;
+          poiMarkers[id]?.openPopup();
+          map.flyTo([p.lat, p.lng], 12, { duration: 0.7 });
+        });
+      });
+    }
+
+    function renderList(filter) {
+      if (filter === "cars") {
+        if (poisPanel) poisPanel.style.display = "none";
+        renderCars();
+        return;
+      }
+      if (filter === "pois") {
+        renderPois();
+        return;
+      }
+      if (poisPanel) poisPanel.style.display = "none";
+      carsPanel.style.display = "none";
+      list.style.display = "block";
+      list.innerHTML = "";
+      const sorted = [...zones].sort((a, b) => a.deals[0].total - b.deals[0].total);
+      sorted.forEach((z) => {
+        let show = true;
+        if (filter === "cheap") show = z.tier === "cheap";
+        if (filter === "best") show = z.recommended;
+        if (filter === "near") show = z.nearAirport;
+        if (!show) return;
+
+        const el = document.createElement("article");
+        el.className = "zone";
+        el.dataset.id = z.id;
+        el.innerHTML = `
+          <div class="zone-top">
+            <h2>${z.name}</h2>
+            <span class="badge ${z.tier}">${z.badge}</span>
+          </div>
+          <p class="drive">🚗 Dall’aeroporto: <span>${z.km} km · ${z.min}</span></p>
+          <p class="meta">${z.meta}</p>
+          ${z.decision ? `<div class="meta" style="background:#faf7f0;border:1px solid #ece5d8;border-radius:10px;padding:8px 10px;margin:8px 0">
+            <div><strong>Budget 500–650:</strong> ${z.decision.budgetFit}</div>
+            <div><strong>Spiaggia a piedi:</strong> ${z.decision.beach}</div>
+            <div><strong>Rumore sera:</strong> ${z.decision.noise}</div>
+            <div><strong>Pro:</strong> ${z.decision.pros}</div>
+            <div><strong>Contro:</strong> ${z.decision.cons}</div>
+            <div><strong>Sceglila se:</strong> ${z.decision.pickIf}</div>
+          </div>` : ""}
+          <div class="deals">
+            ${z.deals.map((d) => `
+              <a class="deal" href="${bookUrl(d.slug)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+                <div class="deal-name">${d.name}</div>
+                <div class="deal-price ${priceClass(d.total)}">€ ${d.total.toLocaleString("it-IT")} totali · ≈ € ${perNight(d.total)}/notte</div>
+                <div class="deal-sub">7 notti · 3 adulti · voto ${d.score}</div>
+                <div class="deal-cta">Apri su Booking e prenota →</div>
+              </a>
+            `).join("")}
+          </div>
+          <a class="search-all" href="${searchUrl(z.search)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+            Vedi tutti gli appartamenti in questa zona (ordinati dal più basso) →
+          </a>
+        `;
+        el.addEventListener("click", () => selectZone(z.id, true));
+        list.appendChild(el);
+      });
+    }
+
+    function selectZone(id, pan) {
+      document.querySelectorAll(".zone").forEach((el) => {
+        el.classList.toggle("active", el.dataset.id === id);
+      });
+      const z = zones.find((x) => x.id === id);
+      if (!z) return;
+      markers[id].openPopup();
+      if (pan) map.flyTo([z.lat, z.lng], 12, { duration: 0.75 });
+    }
+
+    document.getElementById("filters").addEventListener("click", (e) => {
+      const btn = e.target.closest("button");
+      if (!btn) return;
+      document.querySelectorAll("#filters button").forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+      renderList(btn.dataset.filter);
+    });
+
+
+    // Mete / attrazioni (supporto scelte gite)
+    const pois = [
+      { id: "paleokastritsa", name: "Paleokastritsa", lat: 39.6728, lng: 19.7108, why: "Mare più bello dell’isola · baie turchesi. Meta #1 in giornata." },
+      { id: "glyfada", name: "Glyfada", lat: 39.582, lng: 19.825, why: "Spiaggia ovest ampia · tramonti. Buona alternativa ad Agios Gordios." },
+      { id: "agios-gordios", name: "Agios Gordios (meta)", lat: 39.531, lng: 19.849, why: "Baia da cartolina · ideale mezza giornata, non come base budget." },
+      { id: "halikounas", name: "Halikounas / Issos", lat: 39.445, lng: 19.875, why: "Grandi spiagge naturali · poca cementificazione · vento." },
+      { id: "corfu-town", name: "Corfù Town", lat: 39.6242, lng: 19.9216, why: "Centro UNESCO · fortezza · Liston. Auto fuori, resto a piedi." },
+      { id: "achilleion", name: "Achilleion", lat: 39.5625, lng: 19.9042, why: "Palazzo + giardini · vicino al sud-est · visita corta." },
+      { id: "sidari", name: "Canal d’Amour (Sidari)", lat: 39.792, lng: 19.708, why: "Rocce famose · più lontano · solo se vi va il nord." },
+      { id: "messonghi-beach", name: "Spiaggia Messonghi", lat: 39.4667, lng: 19.926, why: "Mare sotto la base consigliata · giorni pigri a costo zero." }
+    ];
+
+    const poiIcon = L.divIcon({
+      className: "",
+      html: '<div class="poi-marker-icon">★</div>',
+      iconSize: [26, 26],
+      iconAnchor: [13, 13]
+    });
+    const poiMarkers = {};
+    pois.forEach((p) => {
+      const m = L.marker([p.lat, p.lng], { icon: poiIcon }).addTo(map);
+      m.bindPopup(`
+        <div class="popup-title">★ ${p.name}</div>
+        <div class="popup-deal">${p.why}<br><br>
+        <a href="index.html#programma">Vedi nel programma del dossier →</a></div>
+      `);
+      poiMarkers[p.id] = m;
+    });
+
+    // Apri focus da link del dossier: #zone=messonghi oppure #poi=paleokastritsa oppure #cars
+    function focusFromHash() {
+      const raw = (location.hash || "").replace(/^#/, "");
+      if (!raw) return;
+      const [kind, id] = raw.includes("=") ? raw.split("=") : [raw, ""];
+      if (kind === "cars" || raw === "cars") {
+        document.querySelectorAll("#filters button").forEach((b) => b.classList.toggle("active", b.dataset.filter === "cars"));
+        renderList("cars");
+        return;
+      }
+      if (kind === "pois" || raw === "pois") {
+        document.querySelectorAll("#filters button").forEach((b) => b.classList.toggle("active", b.dataset.filter === "pois"));
+        renderList("pois");
+        return;
+      }
+      if (kind === "zone" && id && markers[id]) {
+        document.querySelectorAll("#filters button").forEach((b) => b.classList.toggle("active", b.dataset.filter === "all"));
+        renderList("all");
+        selectZone(id, true);
+        return;
+      }
+      if (kind === "poi" && id && poiMarkers[id]) {
+        const p = pois.find((x) => x.id === id);
+        poiMarkers[id].openPopup();
+        if (p) map.flyTo([p.lat, p.lng], 12, { duration: 0.7 });
+        return;
+      }
+      // shorthand: #messonghi
+      if (markers[raw]) {
+        renderList("all");
+        selectZone(raw, true);
+      }
+    }
+    window.addEventListener("hashchange", focusFromHash);
+
+    renderList("all");
+    setTimeout(focusFromHash, 350);
+  </script>
+
+    <script>
+      (function(){
+        function fixLinks(){
+          if (location.pathname.indexOf('corfu-vacanza-share') < 0) return;
+          var b = location.pathname.split('?')[0];
+          document.querySelectorAll('a[href*="mappa.html"]').forEach(function(a){
+            a.setAttribute('href', b + '?page=mappa.html');
+          });
+          document.querySelectorAll('a[href*="index.html"]').forEach(function(a){
+            a.setAttribute('href', b);
+          });
+        }
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fixLinks);
+        else fixLinks();
+      })();
+    </script>
+
+  </body>
+</html>
