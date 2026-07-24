@@ -8,7 +8,7 @@
   <meta property="og:description" content="Zone dove dormire, giorni, escursioni e mappa — 3 adulti, budget casa+auto." />
   <meta property="og:type" content="website" />
   <meta name="theme-color" content="#1f6f8b" />
-  <link rel="canonical" id="canonical-link" href="https://smozehzbhoeceioqxodx.supabase.co/functions/v1/corfu-vacanza-share" />
+  <link rel="canonical" id="canonical-link" href="https://alessiobaggiani.github.io/corfu-amici-2026/" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Corfù · dossier gruppo · 27 ago–3 set 2026</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -125,15 +125,15 @@
 <body>
     <div id="share-bar" style="background:#1f6f8b;color:#fff;padding:10px 14px;font-size:.9rem">
       <div style="max-width:1180px;margin:0 auto;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between">
-        <span><strong>Link per gli amici (copia questo):</strong> <a id="share-url" href="https://smozehzbhoeceioqxodx.supabase.co/functions/v1/corfu-vacanza-share" style="color:#fff;word-break:break-all">https://smozehzbhoeceioqxodx.supabase.co/functions/v1/corfu-vacanza-share</a></span>
+        <span><strong>Link per gli amici (copia questo):</strong> <a id="share-url" href="https://alessiobaggiani.github.io/corfu-amici-2026/" style="color:#fff;word-break:break-all">https://alessiobaggiani.github.io/corfu-amici-2026/</a></span>
         <button type="button" id="share-copy" style="border:0;background:#fff;color:#1f6f8b;font-weight:800;padding:8px 12px;border-radius:999px;cursor:pointer">Copia link</button>
       </div>
     </div>
     <script>
       (function(){
         if (location.protocol === 'file:') return;
-        var OFFICIAL = "https://smozehzbhoeceioqxodx.supabase.co/functions/v1/corfu-vacanza-share";
-        if (location.pathname.indexOf('/storage/') >= 0) {
+        var OFFICIAL = "https://alessiobaggiani.github.io/corfu-amici-2026/";
+        if (location.hostname.indexOf('supabase.co') >= 0) {
           location.replace(OFFICIAL);
           return;
         }
@@ -660,5 +660,23 @@
     const start = (location.hash || "#home").replace("#","") || "home";
     showTab(panels[start] ? start : "home");
   </script>
-</body>
+
+    <script>
+      (function(){
+        function fixLinks(){
+          if (location.pathname.indexOf('corfu-vacanza-share') < 0) return;
+          var b = location.pathname.split('?')[0];
+          document.querySelectorAll('a[href*="mappa.html"]').forEach(function(a){
+            a.setAttribute('href', b + '?page=mappa.html');
+          });
+          document.querySelectorAll('a[href*="index.html"]').forEach(function(a){
+            a.setAttribute('href', b);
+          });
+        }
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fixLinks);
+        else fixLinks();
+      })();
+    </script>
+
+  </body>
 </html>
