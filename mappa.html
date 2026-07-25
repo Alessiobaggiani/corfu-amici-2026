@@ -111,6 +111,35 @@
       font: 700 10px/1.3 system-ui, sans-serif;
       text-align: center;
     }
+    .saranda-car-marker-icon {
+      position: relative;
+      background: #0f766e;
+      color: #fff;
+      border: 3px solid #fff;
+      border-radius: 50%;
+      width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.25);
+    }
+    .saranda-car-marker-icon span {
+      position: absolute;
+      right: -8px;
+      bottom: -7px;
+      min-width: 17px;
+      height: 17px;
+      padding: 0 3px;
+      border: 2px solid #fff;
+      border-radius: 10px;
+      background: #172033;
+      color: #fff;
+      font: 800 10px/13px system-ui, sans-serif;
+      text-align: center;
+      box-shadow: 0 1px 4px rgba(0,0,0,.25);
+    }
     .stay-marker-icon {
       position: relative;
       display: flex;
@@ -571,6 +600,15 @@
     .prima-notte-actions a { color:var(--sea); font-weight:800; font-size:.78rem; }
     .prima-notte-pin { display:flex; align-items:center; justify-content:center; width:31px; height:31px; border:3px solid #fff; border-radius:50%; background:#0f766e; color:#fff; font:800 12px/1 system-ui,sans-serif; box-shadow:0 2px 9px rgba(0,0,0,.34); }
 
+
+    .prima-notte-centro { display:flex; align-items:center; justify-content:center; width:38px; height:38px; border:3px solid #fff; border-radius:50%; background:#c78317; color:#fff; font:800 16px/1 system-ui,sans-serif; box-shadow:0 2px 10px rgba(0,0,0,.4); }
+    .leaflet-tooltip.prima-notte-centro-label { border:1px solid #9b6815; border-radius:8px; background:#fffdf8; color:#513600; box-shadow:0 2px 8px rgba(0,0,0,.2); font:800 12px/1.25 system-ui,sans-serif; padding:5px 7px; }
+
+
+    .dopo-battello-port { display:flex; align-items:center; justify-content:center; width:39px; height:39px; border:3px solid #fff; border-radius:50%; background:#254f7a; color:#fff; font:800 15px/1 system-ui,sans-serif; box-shadow:0 2px 10px rgba(0,0,0,.42); }
+    .leaflet-tooltip.dopo-battello-port-label { border:1px solid #254f7a; border-radius:8px; background:#fffdf8; color:#183552; box-shadow:0 2px 8px rgba(0,0,0,.2); font:800 12px/1.25 system-ui,sans-serif; padding:5px 7px; }
+    .dopo-battello-panel .prima-notte-head { background:#edf2fb; border-color:#b8c9e8; }
+
   </style>
 </head>
 <body>
@@ -578,14 +616,14 @@
     <a class="back" href="index.html">← Torna al dossier</a>
     <div class="hint">
       <strong>Mappa di supporto alle scelte.</strong>
-      Apri “Alloggi Corfù · 1–3 set” per 50 case di rientro con foto, prezzi e collegamento diretto; “Saranda · 28 ago → 1 set” conserva i 40 appartamenti dell'andata.
+      Apri “Alloggi Corfù · 1–3 set” per 50 case di rientro con foto, prezzi e collegamento diretto; “Saranda · 28 ago → 1 set” conserva i 40 appartamenti e il ritorno Saranda → Corfù del 1 settembre.
     </div>
   </div>
   <div class="app">
     <aside class="panel">
       <h1>Corfù · mappa scelta</h1>
       <p class="subtitle">
-        3 adulti · arrivo da <strong>Ksamil (Xamil) il 1 settembre 2026</strong> ·
+        3 adulti · ritorno da <strong>Saranda → Corfù il 1 settembre 2026</strong> ·
         2 notti a Corfù. Le case qui sotto sono nella costa est/nord-est indicata nello screenshot.
       </p>
 
@@ -610,11 +648,13 @@
 
       <div class="filters" id="filters">
         <button type="button" data-filter="prima-notte">Corfù · prima notte</button>
+        <button type="button" data-filter="dopo-battello">Corfù · dopo battello (1–3 set)</button>
         <button type="button" data-filter="alloggi-31-agosto" class="active">Alloggi Corfù · 1–3 set</button>
         <button type="button" data-filter="saranda">Saranda · 28 ago → 1 set</button>
         <button type="button" data-filter="ksamil">Tragitto per Ksamil</button>
         <button type="button" data-filter="all">Case</button>
         <button type="button" data-filter="cars">Noleggi auto</button>
+        <button type="button" data-filter="saranda-cars">Noleggi Saranda · 28 ago</button>
         <button type="button" data-filter="cheap">Case economiche</button>
         <button type="button" data-filter="best">Case consigliate</button>
         <button type="button" data-filter="near">Vicine all’aereo</button>
@@ -626,6 +666,7 @@
       <div id="stays-panel" style="display:none"></div>
 
       <div id="cars-panel" class="hidden-panel" style="display:none"></div>
+      <div id="saranda-cars-panel" class="hidden-panel" style="display:none"></div>
       <div id="zones"></div>
 
       <div id="corfu-decision">
@@ -935,29 +976,92 @@
       }
     ];
 
-    // Prezzi di partenza pubblicati dalle agenzie. Il totale reale appare dopo avere inserito le date.
+    // Prezzi di partenza pubblicati dalle agenzie. Le simulazioni qui sotto mostrano con chiarezza il semplice calcolo usato.
     const carOffers = [
-      { agency:"Vidos Cars", spot:"car-terminal", car:"Peugeot 108, Hyundai i10, Kia Rio", price:"da €14,30/giorno", card:"Niente carta e niente deposito dichiarati", url:"https://vidoscars.com/", where:"Consegna gratuita agli Arrivi", booking:"Ritiro e riconsegna: Corfu Airport · date del viaggio · scegli 5 posti" },
-      { agency:"Value Plus", spot:"car-terminal", car:"Fiat 500 Hybrid, Panda, Skoda Fabia automatica", price:"da €37,87/giorno", card:"Senza carta con protezione Gold", url:"https://corfucarrentals.com/", where:"Consegna e ritiro gratuiti agli Arrivi", booking:"Corfu Airport · date del viaggio · piano Gold se non avete carta" },
-      { agency:"First Corfu", spot:"car-terminal", car:"Fiat Panda o Toyota Aygo · 5 posti", price:"da €11/giorno", card:"Nessun deposito dichiarato", url:"https://firstcorfu.com/corfu-airport-car-rental/", where:"Ufficio a 300 m; navetta o incontro agli Arrivi", booking:"Airport (Office) · date del viaggio · 3 adulti · 5 posti" },
-      { agency:"Auto Corfu", spot:"car-terminal", car:"VW Up, Kia Picanto, Hyundai i10, Fiat Panda", price:"prezzo dopo le date", card:"Senza carta con protezione UltraFull", url:"https://autocorfu.com/en/", where:"Consegna al terminal o al vostro hotel", booking:"Corfu Airport · date del viaggio · scelta protezione UltraFull" },
-      { agency:"Ansa Car Rental", spot:"car-terminal", car:"Suzuki Celerio, VW Polo, Fiat Tipo", price:"da €30/giorno", card:"Da chiedere prima di pagare", url:"https://ansacorfu.gr/", where:"Consegna gratuita all’aeroporto", booking:"Corfu Airport · date del viaggio · auto 5 posti" },
-      { agency:"Corfu Auto Rent", spot:"car-terminal", car:"Hyundai i10, Hyundai i20", price:"da €14,90/giorno", card:"Niente carta e niente deposito dichiarati", url:"https://www.corfuautorent.com/", where:"Consegna e ritiro in aeroporto", booking:"Corfu Airport · date del viaggio · categoria economy" },
-      { agency:"RentCorfu", spot:"car-terminal", car:"Piccola, economy e famiglia", price:"prezzo dopo le date", card:"Carta di debito accettata, nessun blocco dichiarato", url:"https://rentcorfu.com/airport", where:"Punto a pochi minuti a piedi dagli Arrivi", booking:"Airport · date del viaggio · auto 5 posti" },
-      { agency:"Eurorent Economy", spot:"car-terminal", car:"Economy e famiglia", price:"prezzo dopo le date", card:"Niente carta e niente deposito dichiarati", url:"https://economycorfucarrental.com/", where:"Servizio aeroporto di Corfù", booking:"Corfu Airport · date del viaggio · categoria economy" },
-      { agency:"Go Car", spot:"car-terminal", car:"Flotta visibile dopo la scelta delle date", price:"prezzo dopo le date", card:"Da chiedere prima di pagare", url:"https://corfuairportcarhire.gr/", where:"Corfu Airport, 49100", booking:"Corfu Airport · date del viaggio · 5 posti" },
-      { agency:"Avis", spot:"car-terminal", car:"Categoria 5 posti / 2 valigie", price:"prezzo dopo le date", card:"Da controllare nel preventivo", url:"https://www.avis.gr/en/", where:"Bancone dentro gli Arrivi", booking:"Corfu Airport · date del viaggio · categoria economy 5 posti" },
-      { agency:"Budget", spot:"car-terminal", car:"Categoria 5 posti / 2 valigie", price:"prezzo dopo le date", card:"Da controllare nel preventivo", url:"https://www.budget.gr/en/", where:"Bancone dentro gli Arrivi", booking:"Corfu Airport · date del viaggio · categoria economy 5 posti" },
-      { agency:"Enterprise", spot:"car-terminal", car:"Mini, economy, compatta e famiglia", price:"prezzo dopo le date", card:"Carta del guidatore e somma bloccata", url:"https://www.enterprise.gr/en/car-hire-locations/gr/corfu-airport-lga8.html", where:"Bancone dentro gli Arrivi", booking:"Corfu Airport · date del viaggio · economy 5 posti" },
-      { agency:"Hertz", spot:"car-terminal", car:"Mini, compatta e SUV", price:"prezzo dopo le date", card:"Carta e somma di garanzia richieste", url:"https://www.hertz.gr/en/", where:"Bancone dentro gli Arrivi", booking:"Corfu Airport · date del viaggio · categoria 5 posti" },
-      { agency:"Thrifty", spot:"car-terminal", car:"Mini, compatta e famiglia", price:"prezzo dopo le date", card:"Carta e somma di garanzia da verificare", url:"https://www.thrifty.com/", where:"Bancone Hertz/Thrifty negli Arrivi", booking:"Corfu Airport · date del viaggio · categoria 5 posti" },
-      { agency:"Sixt", spot:"car-terminal", car:"Compatta, famiglia e SUV", price:"prezzo dopo le date", card:"Carta del guidatore e somma bloccata", url:"https://www.sixt.com/car-rental/greece/corfu/corfu-airport/", where:"Bancone dentro gli Arrivi", booking:"Corfu Airport · date del viaggio · categoria 5 posti" },
-      { agency:"UNO Car Hire", spot:"car-kosta", car:"Peugeot 108, Fiat Panda, Seat Arona", price:"prezzo dopo le date", card:"Carta di credito non obbligatoria", url:"https://unocorfu.com/it/", where:"Kosta Georgaki 31 · circa 300 m dagli Arrivi", booking:"Kosta Georgaki 31 · date del viaggio · categoria e valigie" },
-      { agency:"Volta4u", spot:"car-kosta", car:"Piccola, compatta e automatica", price:"prezzo dopo le date", card:"Carta da verificare prima di pagare", url:"https://www.volta4u.com/", where:"Kosta Georgaki 31", booking:"Kosta Georgaki 31 · date del viaggio · categoria auto" },
-      { agency:"Europcar", spot:"car-kosta", car:"Economy, compatta e famiglia", price:"prezzo dopo le date", card:"Carta da controllare nel preventivo", url:"https://www.europcar.com/", where:"Meet and Greet vicino a Kosta Georgaki", booking:"Corfu Airport · date del viaggio · categoria 5 posti" },
-      { agency:"AutoRent Corfu", spot:"car-eptanisou", car:"Fiat Panda, Hyundai i10, Toyota Yaris", price:"da €28,32/giorno", card:"Senza carta solo Smart o Premium", url:"https://autorentcorfu.com/", where:"Leoforos Eptanisou 8 · navetta gratuita", booking:"Corfu Airport + navetta · date del viaggio · Smart/Premium senza carta" },
-      { agency:"Driveaway Corfu", spot:"car-riga", car:"Opel Corsa, Hyundai i10 automatica, Suzuki Ignis", price:"da €14/giorno", card:"Niente carta e niente deposito dichiarati", url:"https://rentalcarcorfuairport.com/", where:"Riga Feraiou 21", booking:"Riga Feraiou 21 · date del viaggio · modello scelto" },
-      { agency:"Fair Deal", spot:"car-riga", car:"Nissan Micra automatica, 7 e 9 posti", price:"da €9/giorno", card:"Carta non necessaria per prenotare online", url:"https://corfucarsrental.com/", where:"Riga Feraiou 21", booking:"Riga Feraiou 21 · date del viaggio · categoria e bagagli" }
+      { agency:"Vidos Cars", spot:"car-terminal", car:"Peugeot 108, Hyundai i10, Kia Rio", price:"Tariffa pubblicata: da €14,30/giorno", daily:14.30, card:"Niente carta e niente deposito dichiarati", url:"https://vidoscars.com/", where:"Consegna gratuita agli Arrivi", booking:"Ritiro e riconsegna: Corfu Airport · date del viaggio · scegli 5 posti" },
+      { agency:"Value Plus", spot:"car-terminal", car:"Fiat 500 Hybrid, Panda, Skoda Fabia automatica", price:"Tariffa pubblicata: da €37,87/giorno", daily:37.87, card:"Senza carta con protezione Gold", url:"https://corfucarrentals.com/", where:"Consegna e ritiro gratuiti agli Arrivi", booking:"Corfu Airport · date del viaggio · piano Gold se non avete carta" },
+      { agency:"First Corfu", spot:"car-terminal", car:"Fiat Panda o Toyota Aygo · 5 posti", price:"Tariffa pubblicata: da €16/giorno", daily:16, card:"Nessun deposito dichiarato", url:"https://firstcorfu.com/corfu-airport-car-rental/", where:"Ufficio a 300 m; navetta o incontro agli Arrivi", booking:"Airport (Office) · date del viaggio · 3 adulti · 5 posti" },
+      { agency:"Auto Corfu", spot:"car-terminal", car:"VW Up, Kia Picanto, Hyundai i10, Fiat Panda", price:"Tariffa non pubblicata", daily:null, card:"Senza carta con protezione UltraFull", url:"https://autocorfu.com/en/", where:"Consegna al terminal o al vostro hotel", booking:"Corfu Airport · date del viaggio · scelta protezione UltraFull" },
+      { agency:"Ansa Car Rental", spot:"car-terminal", car:"Suzuki Celerio, VW Polo, Fiat Tipo", price:"Tariffa da confermare", daily:null, card:"Da chiedere prima di pagare", url:"https://ansacorfu.gr/", where:"Consegna gratuita all’aeroporto", booking:"Corfu Airport · date del viaggio · auto 5 posti" },
+      { agency:"Corfu Auto Rent", spot:"car-terminal", car:"Hyundai i10, Hyundai i20", price:"Tariffa pubblicata: da €14,90/giorno", daily:14.90, card:"Niente carta e niente deposito dichiarati", url:"https://www.corfuautorent.com/", where:"Consegna e ritiro in aeroporto", booking:"Corfu Airport · date del viaggio · categoria economy" },
+      { agency:"RentCorfu", spot:"car-terminal", car:"Piccola, economy e famiglia", price:"Tariffa non pubblicata", daily:null, card:"Carta di debito accettata, nessun blocco dichiarato", url:"https://rentcorfu.com/airport", where:"Punto a pochi minuti a piedi dagli Arrivi", booking:"Airport · date del viaggio · auto 5 posti" },
+      { agency:"Eurorent Economy", spot:"car-terminal", car:"Economy e famiglia", price:"Tariffa non pubblicata", daily:null, card:"Niente carta e niente deposito dichiarati", url:"https://economycorfucarrental.com/", where:"Servizio aeroporto di Corfù", booking:"Corfu Airport · date del viaggio · categoria economy" },
+      { agency:"Go Car", spot:"car-terminal", car:"Flotta visibile dopo la scelta delle date", price:"Tariffa non pubblicata", daily:null, card:"Da chiedere prima di pagare", url:"https://corfuairportcarhire.gr/", where:"Corfu Airport, 49100", booking:"Corfu Airport · date del viaggio · 5 posti" },
+      { agency:"Avis", spot:"car-terminal", car:"Categoria 5 posti / 2 valigie", price:"Tariffa non pubblicata", daily:null, card:"Da controllare nel preventivo", url:"https://www.avis.gr/en/", where:"Bancone dentro gli Arrivi", booking:"Corfu Airport · date del viaggio · categoria economy 5 posti" },
+      { agency:"Budget", spot:"car-terminal", car:"Categoria 5 posti / 2 valigie", price:"Tariffa non pubblicata", daily:null, card:"Da controllare nel preventivo", url:"https://www.budget.gr/en/", where:"Bancone dentro gli Arrivi", booking:"Corfu Airport · date del viaggio · categoria economy 5 posti" },
+      { agency:"Enterprise", spot:"car-terminal", car:"Mini, economy, compatta e famiglia", price:"Tariffa non pubblicata", daily:null, card:"Carta del guidatore e somma bloccata", url:"https://www.enterprise.gr/en/car-hire-locations/gr/corfu-airport-lga8.html", where:"Bancone dentro gli Arrivi", booking:"Corfu Airport · date del viaggio · economy 5 posti" },
+      { agency:"Hertz", spot:"car-terminal", car:"Mini, compatta e SUV", price:"Tariffa non pubblicata", daily:null, card:"Carta e somma di garanzia richieste", url:"https://www.hertz.gr/en/", where:"Bancone dentro gli Arrivi", booking:"Corfu Airport · date del viaggio · categoria 5 posti" },
+      { agency:"Thrifty", spot:"car-terminal", car:"Mini, compatta e famiglia", price:"Tariffa non pubblicata", daily:null, card:"Carta e somma di garanzia da verificare", url:"https://www.thrifty.com/", where:"Bancone Hertz/Thrifty negli Arrivi", booking:"Corfu Airport · date del viaggio · categoria 5 posti" },
+      { agency:"Sixt", spot:"car-terminal", car:"Compatta, famiglia e SUV", price:"Tariffa non pubblicata", daily:null, card:"Carta del guidatore e somma bloccata", url:"https://www.sixt.com/car-rental/greece/corfu/corfu-airport/", where:"Bancone dentro gli Arrivi", booking:"Corfu Airport · date del viaggio · categoria 5 posti" },
+      { agency:"UNO Car Hire", spot:"car-kosta", car:"Peugeot 108, Fiat Panda, Seat Arona", price:"Tariffa non pubblicata", daily:null, card:"Carta di credito non obbligatoria", url:"https://unocorfu.com/it/", where:"Kosta Georgaki 31 · circa 300 m dagli Arrivi", booking:"Kosta Georgaki 31 · date del viaggio · categoria e valigie" },
+      { agency:"Volta4u", spot:"car-kosta", car:"Piccola, compatta e automatica", price:"Tariffa non pubblicata", daily:null, card:"Carta da verificare prima di pagare", url:"https://www.volta4u.com/", where:"Kosta Georgaki 31", booking:"Kosta Georgaki 31 · date del viaggio · categoria auto" },
+      { agency:"Europcar", spot:"car-kosta", car:"Economy, compatta e famiglia", price:"Tariffa non pubblicata", daily:null, card:"Carta da controllare nel preventivo", url:"https://www.europcar.com/", where:"Meet and Greet vicino a Kosta Georgaki", booking:"Corfu Airport · date del viaggio · categoria 5 posti" },
+      { agency:"AutoRent Corfu", spot:"car-eptanisou", car:"Fiat Panda, Hyundai i10, Toyota Yaris", price:"Tariffa pubblicata: da €12,35/giorno", daily:12.35, card:"Senza carta solo Smart o Premium", url:"https://autorentcorfu.com/", where:"Leoforos Eptanisou 8 · navetta gratuita", booking:"Corfu Airport + navetta · date del viaggio · Smart/Premium senza carta" },
+      { agency:"Driveaway Corfu", spot:"car-riga", car:"Opel Corsa, Hyundai i10 automatica, Suzuki Ignis", price:"Tariffa pubblicata: da €14/giorno", daily:14, card:"Niente carta e niente deposito dichiarati", url:"https://rentalcarcorfuairport.com/", where:"Riga Feraiou 21", booking:"Riga Feraiou 21 · date del viaggio · modello scelto" },
+      { agency:"Fair Deal", spot:"car-riga", car:"Nissan Micra automatica, 7 e 9 posti", price:"Tariffa pubblicata: da €9/giorno", daily:9, card:"Carta non necessaria per prenotare online", url:"https://corfucarsrental.com/", where:"Riga Feraiou 21", booking:"Riga Feraiou 21 · date del viaggio · categoria e bagagli" }
+    ];
+
+    // Saranda: ritiro 28 agosto 2026, riconsegna 2 settembre 2026. I pin raccolgono solo punti fisici o punti di consegna che l'agenzia dichiara.
+    const SARANDA_RENTAL_DAYS = 5;
+    const sarandaCarSpots = [
+      {
+        id:"saranda-port",
+        name:"Porto di Saranda · terminal passeggeri",
+        lat:39.8746, lng:20.0048,
+        exact:"Terminal passeggeri, Rruga Abedin Dino 148. Per National: dopo il controllo passaporti, ascensore al 2° piano, poi a sinistra per circa 10 metri.",
+        mapQuery:"Saranda Port Terminal, Rruga Abedin Dino 148, Sarande",
+        note:"Qui arrivate con il traghetto da Corfù. È il ritiro più comodo se non volete prendere un taxi prima dell'auto."
+      },
+      {
+        id:"saranda-mitat",
+        name:"Lungomare sud · Rruga Mitat Hoxha",
+        lat:39.8708723, lng:19.9976907,
+        exact:"Rruga Mitat Hoxha, Saranda 9701. ItaSaranda pubblica questo indirizzo.",
+        mapQuery:"ItaSaranda, Rruga Mitat Hoxha, Sarande",
+        note:"Punto sul lungomare a sud del porto. L'indirizzo è pubblicato dall'agenzia."
+      },
+      {
+        id:"saranda-idriz",
+        name:"Centro · 1 Rruga Idriz Alidhima",
+        lat:39.8741574, lng:19.9927002,
+        exact:"1 Rruga Idriz Alidhima, Saranda 9702. Saranda Rental Car dichiara anche consegna gratuita in hotel o al porto.",
+        mapQuery:"Saranda Rental Car, 1 Rruga Idriz Alidhima, Sarande",
+        note:"L'indirizzo viene dalla pagina dell'agenzia; il pulsante Maps apre il punto nominativo prima che prenotiate."
+      },
+      {
+        id:"saranda-onhezmi",
+        name:"Centro · Rruga Onhezmi 65-43",
+        lat:39.8751577, lng:20.0088164,
+        exact:"65-43, Rruga Onhezmi, Saranda 9701. Indirizzo pubblicato da Nexhipi Car Rental.",
+        mapQuery:"Nexhipi Car Rental, 65-43 Rruga Onhezmi, Sarande",
+        note:"Ufficio nel centro interno. Controllate l'orario di ritiro nella conferma scritta."
+      },
+      {
+        id:"saranda-skenderbeu",
+        name:"Centro · Rruga Skenderbeu",
+        lat:39.8764, lng:20.0106,
+        exact:"Rruga Skenderbeu, Saranda. Saranda Holiday pubblica la via ma non il numero civico.",
+        mapQuery:"Saranda Holiday Rent a Car, Rruga Skenderbeu, Sarande",
+        note:"Il pin indica la via dichiarata. Aprite Maps per il punto dell'attività prima di uscire dall'hotel."
+      },
+      {
+        id:"saranda-sh81",
+        name:"Verso Ksamil · SH81 / Rruga Butrinti",
+        lat:39.8694, lng:20.0288,
+        exact:"SH81, Saranda. Fama Car Rental pubblica la strada, senza numero civico.",
+        mapQuery:"Fama Car Rental, SH81, Sarande",
+        note:"È la zona più comoda se volete partire verso Ksamil e Butrinto. Il pulsante Maps serve a verificare il punto esatto dell'attività."
+      }
+    ];
+    const sarandaCarOffers = [
+      { agency:"National · porto", spot:"saranda-port", car:"Mini, economy e compatta dopo la scelta delle date", price:"Prezzo calcolato sul sito", daily:null, card:"Sì: Visa o Mastercard di credito intestata al guidatore. Deposito: €290 mini/economy, €390 compatta/intermedia.", url:"https://www.nationalcar.ie/en/car-hire-locations/al/saranda-port-jens.html", where:"Bancone al 2° piano del terminal", booking:"Saranda Port · 28 agosto 2026 → 2 settembre 2026 · guidatore principale", safety:"Contratto, deposito e ritiro sono i più chiari della ricerca." },
+      { agency:"RentCarsSaranda · consegna", spot:"saranda-port", car:"Economy 5 posti o categoria superiore, mostrata dopo le date", price:"Fascia estiva pubblicata: economy da €42/giorno", daily:42, card:"No per la maggior parte delle categorie: carta di debito accettata e nessun deposito dichiarato.", url:"https://rentcarsaranda.com/", where:"Consegna al porto o al vostro hotel", booking:"Saranda Port o hotel · 28 agosto 2026 → 2 settembre 2026 · economy · 3 adulti", safety:"L'opzione più semplice se non volete bloccare soldi sulla carta." },
+      { agency:"Rental Saranda · consegna", spot:"saranda-port", car:"Flotta e disponibilità dopo le date", price:"Tariffa non pubblicata", daily:null, card:"Pagamento in contanti o carta a seconda dell'auto. Copertura completa facoltativa.", url:"https://rentalsaranda.com/", where:"Consegna al porto e nelle zone vicine", booking:"Saranda Port o hotel · 28 agosto 2026 → 2 settembre 2026 · auto 5 posti", safety:"Buona riserva per un preventivo scritto, ma senza prezzo base da confrontare." },
+      { agency:"ItaSaranda", spot:"saranda-mitat", car:"Toyota Auris · 5 posti · manuale · diesel", price:"Tariffa pubblicata: da €31/giorno", daily:31, card:"Sì per la cauzione: carta di credito Visa/Mastercard intestata al guidatore. Debito o contanti per il noleggio richiedono copertura aggiuntiva.", url:"https://itasaranda.com/product/lambo-yellow-limited/", where:"Rruga Mitat Hoxha, Saranda 9701", booking:"Saranda · 28 agosto 2026 → 2 settembre 2026 · Toyota Auris · 3 adulti", safety:"Miglior equilibrio prezzo e regole chiare se avete una carta di credito." },
+      { agency:"Saranda Rental Car", spot:"saranda-idriz", car:"Toyota Yaris · 5 posti · manuale · aria condizionata", price:"Tariffa pubblicata: da €30/giorno", daily:30, card:"La pagina mostra informazioni discordanti: parla sia di nessun anticipo sia di deposito PayPal del 10%. Chiedete conferma scritta prima di pagare.", url:"https://sarandarentalcar.com/?page_id=15", where:"1 Rruga Idriz Alidhima oppure consegna in hotel/porto", booking:"Saranda · 28 agosto 2026 → 2 settembre 2026 · Toyota Yaris · 3 adulti", safety:"Prezzo basso, ma da confermare per iscritto prima della prenotazione." },
+      { agency:"Nexhipi Car Rental", spot:"saranda-onhezmi", car:"Toyota Yaris, Golf 5/6/7, Volkswagen Touran", price:"Tariffa non pubblicata", daily:null, card:"Carta e deposito non pubblicati. Da chiedere prima della prenotazione.", url:"https://www.nexhipi-car-rental.al/", where:"65-43, Rruga Onhezmi", booking:"Saranda · 28 agosto 2026 → 2 settembre 2026 · 5 posti · cambio richiesto", safety:"Agenzia con ufficio e flotta dichiarati, ma non va scelta al buio senza totale e cauzione scritti." },
+      { agency:"Saranda Holiday Rent a Car", spot:"saranda-skenderbeu", car:"Fiat Panda, Fiat Punto, Toyota Yaris", price:"Listino pubblicato: Panda/Punto €35 al giorno", daily:35, card:"Carta e deposito non pubblicati sul listino. Da chiedere per messaggio prima di pagare.", url:"https://www.saranda-holiday-rent-a-car-makina-me-qera-ne-sarande.com/", where:"Rruga Skenderbeu", booking:"Saranda · 28 agosto 2026 → 2 settembre 2026 · Fiat Panda o Toyota Yaris · 3 adulti", safety:"Il sito avvisa che in alta stagione le tariffe possono cambiare: la simulazione è solo una base." },
+      { agency:"Fama Car Rental", spot:"saranda-sh81", car:"Toyota Yaris · 5 posti · manuale · diesel", price:"Tariffa pubblicata: 4.000 ALL/giorno", daily:4000, currency:"ALL", card:"Carta e deposito non pubblicati. Chiedete totale, copertura e cauzione prima di inviare dati o soldi.", url:"https://fama-car-rental.al/cars.html", where:"SH81, Saranda, zona Rruga Butrinti", booking:"Saranda · 28 agosto 2026 → 2 settembre 2026 · Toyota Yaris · 3 adulti", safety:"Prezzo base interessante, ma senza condizioni pubbliche non è la prima scelta per sicurezza." }
     ];
 
     const map = L.map("map", { scrollWheelZoom: true }).setView([39.62, 19.85], 10);
@@ -1011,11 +1115,22 @@
       return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(query);
     }
 
+    const RENTAL_DAYS = 7;
+
+    function simulationText(offer) {
+      if (typeof offer.daily !== "number") {
+        return "Nessuna simulazione: questa agenzia non pubblica una tariffa da cui calcolare un totale.";
+      }
+      const total = (offer.daily * RENTAL_DAYS).toLocaleString("it-IT", { style: "currency", currency: "EUR" });
+      return `${total} per ${RENTAL_DAYS} giorni (7 × ${offer.daily.toLocaleString("it-IT", { style: "currency", currency: "EUR" })}).`;
+    }
+
     function rentalRows(offers) {
       return offers.map((offer) => `
         <div style="margin-top:9px;padding-top:9px;border-top:1px solid #ddd">
           <strong>${offer.agency}</strong><br>
           <span style="color:#2f7d4a;font-weight:700">${offer.price}</span><br>
+          <span style="color:#1f6f8b;font-weight:700">Simulazione: ${simulationText(offer)}</span><br>
           <span style="color:#5a6574">${offer.car}</span><br>
           <span style="color:#5a6574">Carta/deposito: ${offer.card}</span><br>
           <a href="${offer.url}" target="_blank" rel="noopener">Prenota con ${offer.agency} →</a>
@@ -1041,6 +1156,76 @@
       m.bindTooltip(`${offersAt(c.id).length} agenzie`, { direction: "top" });
       carMarkers[c.id] = m;
     });
+
+    const sarandaCarLayer = L.layerGroup();
+    const sarandaCarMarkers = {};
+
+    function sarandaOffersAt(spotId) {
+      return sarandaCarOffers.filter((offer) => offer.spot === spotId);
+    }
+
+    function sarandaCarIconFor(count) {
+      return L.divIcon({
+        className: "",
+        html: `<div class="saranda-car-marker-icon">🚗<span>${count}</span></div>`,
+        iconSize: [34, 34],
+        iconAnchor: [17, 17]
+      });
+    }
+
+    function sarandaMoney(value, currency = "EUR") {
+      if (currency === "ALL") return `${value.toLocaleString("it-IT")} ALL`;
+      return value.toLocaleString("it-IT", { style: "currency", currency: "EUR" });
+    }
+
+    function sarandaSimulationText(offer) {
+      if (typeof offer.daily !== "number") {
+        return "Nessuna simulazione: qui l'agenzia non pubblica una tariffa giornaliera affidabile.";
+      }
+      const currency = offer.currency || "EUR";
+      const total = sarandaMoney(offer.daily * SARANDA_RENTAL_DAYS, currency);
+      return `${total} per ${SARANDA_RENTAL_DAYS} giorni (${SARANDA_RENTAL_DAYS} × ${sarandaMoney(offer.daily, currency)}).`;
+    }
+
+    function sarandaRentalRows(offers) {
+      return offers.map((offer) => `
+        <div style="margin-top:9px;padding-top:9px;border-top:1px solid #ddd">
+          <strong>${offer.agency}</strong><br>
+          <span style="color:#2f7d4a;font-weight:700">${offer.price}</span><br>
+          <span style="color:#0f766e;font-weight:700">Simulazione 5 giorni: ${sarandaSimulationText(offer)}</span><br>
+          <span style="color:#5a6574">Auto: ${offer.car}</span><br>
+          <span style="color:#5a6574">Carta/cauzione: ${offer.card}</span><br>
+          <a href="${offer.url}" target="_blank" rel="noopener">Apri la prenotazione →</a>
+        </div>
+      `).join("");
+    }
+
+    function sarandaRentalPopup(spot) {
+      const offers = sarandaOffersAt(spot.id);
+      return `
+        <div class="popup-title">${spot.name}</div>
+        <div class="popup-deal">
+          <strong>Dove:</strong> ${spot.exact}<br>
+          <a href="${mapsUrl(spot.mapQuery)}" target="_blank" rel="noopener">Apri il punto su Maps →</a>
+          ${sarandaRentalRows(offers)}
+        </div>
+      `;
+    }
+
+    sarandaCarSpots.forEach((spot) => {
+      const marker = L.marker([spot.lat, spot.lng], { icon: sarandaCarIconFor(sarandaOffersAt(spot.id).length) }).addTo(sarandaCarLayer);
+      marker.bindPopup(sarandaRentalPopup(spot), { maxWidth: 360 });
+      marker.bindTooltip(`${sarandaOffersAt(spot.id).length} proposte`, { direction: "top" });
+      sarandaCarMarkers[spot.id] = marker;
+    });
+
+    function showSarandaCarMarkers() {
+      if (!map.hasLayer(sarandaCarLayer)) sarandaCarLayer.addTo(map);
+    }
+
+    function hideSarandaCarMarkers() {
+      if (map.hasLayer(sarandaCarLayer)) map.removeLayer(sarandaCarLayer);
+    }
 
     // Due percorsi reali per Ksamil: il più economico via Igoumenitsa e il più comodo via Saranda.
     const ksamilStops = {
@@ -1083,6 +1268,7 @@
 
     const list = document.getElementById("zones");
     const carsPanel = document.getElementById("cars-panel");
+    const sarandaCarsPanel = document.getElementById("saranda-cars-panel");
     const ksamilPanel = document.getElementById("ksamil-panel");
     const alloggiPanel = document.getElementById("alloggi-panel");
     const corfuBudget = document.getElementById("corfu-budget");
@@ -1217,8 +1403,11 @@
     function renderCars() {
       list.style.display = "none";
       carsPanel.style.display = "block";
+      if (sarandaCarsPanel) sarandaCarsPanel.style.display = "none";
+      hideSarandaCarMarkers();
       if (ksamilPanel) ksamilPanel.style.display = "none";
       if (alloggiPanel) alloggiPanel.style.display = "none";
+      if (staysPanel) staysPanel.style.display = "none";
       nascondiMarcatoriAlloggi();
       if (corfuBudget) corfuBudget.style.display = "none";
       if (corfuDecision) corfuDecision.style.display = "none";
@@ -1227,7 +1416,7 @@
           <strong>Noleggi auto · 21 agenzie · 4 punti reali</strong>
           <p>
             Per ogni agenzia trovi <strong>dove si ritira</strong>, prezzo, auto, carta/deposito e pulsante di prenotazione.
-            Per voi: inserite <strong>ritiro e riconsegna a Corfu Airport</strong>, le date del viaggio e una categoria da <strong>5 posti</strong>.
+            La simulazione usa <strong>7 giorni</strong>: 27 agosto–3 settembre, ritiro e riconsegna a Corfu Airport.
           </p>
         </div>
         ${carSpots.map((c) => `
@@ -1243,7 +1432,8 @@
               ${offersAt(c.id).map((offer) => `
                 <div class="deal">
                   <div class="deal-name">${offer.agency}</div>
-                  <div class="deal-price ${offer.price.startsWith("da ") ? "" : "mid"}">${offer.price}</div>
+                  <div class="deal-price ${typeof offer.daily === "number" ? "" : "mid"}">${offer.price}</div>
+                  <div class="deal-sub"><strong>Simulazione 7 giorni:</strong> ${simulationText(offer)}</div>
                   <div class="deal-sub"><strong>Auto:</strong> ${offer.car}</div>
                   <div class="deal-sub"><strong>Ritiro:</strong> ${offer.where}</div>
                   <div class="deal-sub"><strong>Carta/deposito:</strong> ${offer.card}</div>
@@ -1254,7 +1444,7 @@
             </div>
           </article>
         `).join("")}
-        <p class="footnote">Il prezzo indicato è il minimo pubblicato dall’agenzia. Prima di pagare controllate il totale, l’orario, il numero di bagagli e la carta richiesta.</p>
+        <p class="footnote">La simulazione è un calcolo: 7 × tariffa pubblicata, senza extra, cauzione o differenze di disponibilità. Dove la tariffa non è pubblicata non invento un totale: il pulsante Prenota apre il calcolatore dell’agenzia.</p>
       `;
       carsPanel.querySelectorAll("[data-car]").forEach((el) => {
         el.addEventListener("click", () => {
@@ -1275,6 +1465,75 @@
         });
       });
       map.fitBounds(carSpots.map((spot) => [spot.lat, spot.lng]), { padding: [45, 45], maxZoom: 15 });
+    }
+
+    function renderSarandaCars() {
+      list.style.display = "none";
+      carsPanel.style.display = "none";
+      if (ksamilPanel) ksamilPanel.style.display = "none";
+      if (alloggiPanel) alloggiPanel.style.display = "none";
+      if (staysPanel) staysPanel.style.display = "none";
+      if (poisPanel) poisPanel.style.display = "none";
+      nascondiMarcatoriAlloggi();
+      stayLayer.remove();
+      if (corfuBudget) corfuBudget.style.display = "none";
+      if (corfuDecision) corfuDecision.style.display = "none";
+      if (!sarandaCarsPanel) return;
+      sarandaCarsPanel.style.display = "block";
+      showSarandaCarMarkers();
+      sarandaCarsPanel.innerHTML = `
+        <div class="callout">
+          <strong>Noleggi Saranda · 28 agosto → 2 settembre · 5 giorni</strong>
+          <p>Otto opzioni controllate in sei punti reali: porto, centro, lungomare e strada per Ksamil. Ogni scheda dice dove ritirate, che auto cercare, se serve la carta e come prenotare.</p>
+        </div>
+        <div class="trip-warning"><strong>Scelta per voi.</strong> Con una carta di credito, <strong>ItaSaranda</strong> parte da €155 per 5 giorni con Toyota Auris 5 posti e regole pubblicate. Senza carta, <strong>RentCarsSaranda</strong> è la via più semplice: consegna al porto o hotel, carta di debito e nessun deposito dichiarato, simulazione €210. <strong>Fama</strong> e <strong>Saranda Holiday</strong> hanno un prezzo base basso, ma le condizioni di carta e cauzione non sono pubblicate: chiedetele per messaggio prima di bloccare l'auto.</div>
+        ${sarandaCarSpots.map((spot) => `
+          <article class="zone" data-saranda-car="${spot.id}">
+            <div class="zone-top">
+              <h2>${spot.name}</h2>
+              <span class="badge" style="background:#d9f0eb;color:#075d56">${sarandaOffersAt(spot.id).length} proposte</span>
+            </div>
+            <p class="meta"><strong>Dove:</strong> ${spot.exact}</p>
+            <p class="meta"><a href="${mapsUrl(spot.mapQuery)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Apri il punto su Maps →</a></p>
+            <p class="tagline">${spot.note}</p>
+            <div class="deals">
+              ${sarandaOffersAt(spot.id).map((offer) => `
+                <div class="deal">
+                  <div class="deal-name">${offer.agency}</div>
+                  <div class="deal-price ${typeof offer.daily === "number" ? "" : "mid"}">${offer.price}</div>
+                  <div class="deal-sub"><strong>Simulazione 5 giorni:</strong> ${sarandaSimulationText(offer)}</div>
+                  <div class="deal-sub"><strong>Auto:</strong> ${offer.car}</div>
+                  <div class="deal-sub"><strong>Ritiro:</strong> ${offer.where}</div>
+                  <div class="deal-sub"><strong>Carta/cauzione:</strong> ${offer.card}</div>
+                  <div class="deal-sub"><strong>Inserisci sul sito:</strong> ${offer.booking}</div>
+                  <div class="deal-sub"><strong>Nota sicurezza:</strong> ${offer.safety}</div>
+                  <div class="deal-cta"><a href="${offer.url}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Prenota →</a> · <button type="button" class="map-link" data-saranda-rental-spot="${offer.spot}">Vedi sulla mappa</button></div>
+                </div>
+              `).join("")}
+            </div>
+          </article>
+        `).join("")}
+        <div class="callout"><strong>Prima di confermare</strong><p>Fatevi scrivere in un messaggio: totale per 5 giorni, importo della cauzione, franchigia dell'assicurazione, carburante alla riconsegna, consegna al porto/hotel e autorizzazione per andare a Ksamil o Butrinto. Al ritiro fate un video dell'auto, ruote e livello carburante. Non pagate un extra che non è scritto.</p></div>
+        <p class="footnote">Le simulazioni sono calcoli semplici: 5 × il prezzo giornaliero pubblicato. Non includono eventuali extra, disponibilità, consegna o differenze di alta stagione. Quando un'agenzia non pubblica il prezzo, non invento un totale.</p>
+      `;
+      sarandaCarsPanel.querySelectorAll("[data-saranda-car]").forEach((card) => {
+        card.addEventListener("click", () => {
+          const spot = sarandaCarSpots.find((item) => item.id === card.dataset.sarandaCar);
+          if (!spot) return;
+          sarandaCarMarkers[spot.id]?.openPopup();
+          map.flyTo([spot.lat, spot.lng], 15, { duration: 0.7 });
+        });
+      });
+      sarandaCarsPanel.querySelectorAll("[data-saranda-rental-spot]").forEach((button) => {
+        button.addEventListener("click", (event) => {
+          event.stopPropagation();
+          const spot = sarandaCarSpots.find((item) => item.id === button.dataset.sarandaRentalSpot);
+          if (!spot) return;
+          sarandaCarMarkers[spot.id]?.openPopup();
+          map.flyTo([spot.lat, spot.lng], 16, { duration: 0.7 });
+        });
+      });
+      map.fitBounds(sarandaCarSpots.map((spot) => [spot.lat, spot.lng]), { padding: [45, 45], maxZoom: 14 });
     }
 
     const poisPanel = document.getElementById("pois-panel");
@@ -1414,12 +1673,53 @@
           <strong>Perché non ci sono dieci righe:</strong> sul calendario estivo Corfù → Saranda compaiono nove partenze, ma nel controllo del <strong>28 agosto</strong> il sistema ha dato posto auto solo sulle tre corse MARINA qui sopra. Gli aliscafi sono più veloci ma, nella simulazione, non avevano garage. Il listino Finikas pubblica <span class="indicative">€111</span> (€22 × 3 + €45 auto), mentre il preventivo sul giorno preciso ha dato €166: per pagare fa fede sempre l'importo finale prima della carta.
         </div>
 
+        <h3 class="section-title">Ritorno · martedì 1 settembre · con la vostra auto</h3>
+        <div class="callout">
+          <strong>Scelta migliore: Ksamil → confine Qafë Botë / Mavromati → Igoumenitsa → Corfù città.</strong>
+          <p>Nel controllo fatto sul giorno preciso, le due corse dirette <strong>Saranda → Corfù</strong> che sembrano accettare auto (Finikas Highspeed 06:00 e 10:00) bloccano al passaggio successivo con “nessun posto auto”. Non vanno quindi prenotate con la macchina. La soluzione affidabile è guidare fino a Igoumenitsa e imbarcare lì l'auto.</p>
+        </div>
+
+        <div class="trip-steps">
+          <div class="trip-step"><strong>1. Ksamil · circa 06:00 (ora albanese)</strong>Guidate verso il confine Qafë Botë / Mavromati e poi verso il porto di Igoumenitsa. Sono circa 60 km; lasciate almeno un'ora di margine per il confine. In Grecia l'orologio è un'ora avanti.</div>
+          <div class="trip-step"><strong>2. Igoumenitsa · 10:00 → Corfù città · 11:30</strong>Selezionate la nave <strong>KERKYRA</strong> di Kerkyra Lines: nella simulazione reale del 1 settembre è disponibile per 3 persone e 1 auto normale.</div>
+          <div class="trip-step"><strong>3. Porto di Corfù città → casa nel nord</strong>Tutti questi traghetti sbarcano a Corfù città, non nel nord. Da qui proseguite con la vostra auto: per Acharavi/Roda, Sidari o Kassiopi considerate in media 45–75 minuti, secondo la casa scelta.</div>
+        </div>
+
+        <div class="trip-table-wrap">
+          <table class="trip-table">
+            <thead>
+              <tr>
+                <th>Scelta</th>
+                <th>Traghetto</th>
+                <th>Orario</th>
+                <th>Prezzo pubblicato</th>
+                <th>Auto</th>
+                <th>Prenota</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Migliore</strong></td>
+                <td>KERKYRA · Kerkyra Lines<br>Igoumenitsa → Corfù città</td>
+                <td><strong>10:00 → 11:30</strong><br>martedì 1 settembre</td>
+                <td><strong>€39,30</strong><br>€5,60 × 3 persone + €22,50 auto &lt; 4,25 m</td>
+                <td><span class="confirmed">Sì</span> · categoria “auto fino a 4,25 m”</td>
+                <td><a href="https://kerkyralines.com/en/online-ticket/" target="_blank" rel="noopener">Apri →</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="car-box">
+          <strong>Esattamente cosa scegliere nel sito Kerkyra Lines:</strong> “Igoumenitsa” → “Corfu”, data <strong>1 settembre 2026</strong>, <strong>3</strong> passeggeri, attivate “Vehicle”, poi la corsa <strong>KERKYRA 10:00–11:30</strong> e la categoria auto fino a <strong>4,25 m</strong>. Il prezzo di €39,30 è il listino web 2026 pubblicato; il sito chiede nomi e targa prima di mostrare il totale conclusivo: controllatelo prima di pagare.
+        </div>
+
         <h3 class="section-title">Controllo fatto sui siti di prenotazione</h3>
         <div class="car-box">
           <ul>
             <li><strong>Kerkyra Lines:</strong> prezzo 2026 confermato €35 per 3 adulti + auto normale e corse del venerdì, inclusa 06:30 → 07:45.</li>
             <li><strong>Kerkyra Seaways:</strong> preventivo sul giorno preciso €65,10 per la corsa delle 07:00.</li>
             <li><strong>Ionian Seaways:</strong> preventivo sul giorno preciso €166 per MARINA. Gli aliscafi mostrati nello stesso elenco non hanno garage: non sceglieteli con l'auto.</li>
+            <li><strong>Ritorno 1 settembre:</strong> il controllo diretto Saranda → Corfù non ha confermato garage per l'auto; Kerkyra Lines ha invece mostrato la corsa Igoumenitsa → Corfù delle 10:00 → 11:30 con 3 persone e 1 auto selezionate.</li>
             <li><strong>Ferryhopper, Booktickets e Ferries.gr:</strong> usati per confronto di orari e listini. Nessuno ha dato un'opzione con auto più economica di Kerkyra Lines. <strong>Direct Ferries non è usato per decidere:</strong> nella stessa pagina dice sia che l'auto non può salire sia che mostra prezzi auto.</li>
           </ul>
         </div>
@@ -1644,6 +1944,8 @@
       const shown = sorted.filter((s) => mode === "saranda" || mode === "all" || (mode === "under-260" && s.price <= 260) || (mode === "best" && s.featured) || (mode === "four-stars" && s.stars === 4));
       staysPanel.innerHTML = `
         <div class="callout"><strong>Saranda · 40 alloggi verificati · 27 agosto → 1 settembre · 3 adulti</strong><p>Prezzo totale per <strong>5 notti</strong>, con tasse e costi inclusi quando dichiarati dalla pagina. Ogni puntino usa la posizione dichiarata dal singolo annuncio: così vedi davvero centro, mare, nord e sud di Saranda. Questa scelta <strong>sostituisce la notte del 27 agosto prevista a Corfù</strong>: non prenotare entrambe. I prezzi cambiano: riapri il collegamento prima di pagare.</p></div>
+        <div class="trip-warning"><strong>Ritorno diretto · martedì 1 settembre: Saranda → Corfù.</strong> Nel motore ufficiale compaiono le corse Finikas Highspeed <strong>06:00 → 07:50</strong> e <strong>10:00 → 11:50</strong>. Il collegamento diretto è quindi inserito nel viaggio; però, nella verifica per 3 persone e la vostra auto, il sito blocca entrambe con “nessun posto auto”. Con la macchina non prenotate queste due corse finché il sito non conferma il garage.</div>
+        <div class="car-box"><strong>Ritorno effettivo con auto:</strong> Saranda → confine Qafë Botë / Mavromati → Igoumenitsa → Corfù città. La soluzione verificata è Kerkyra Lines, <strong>KERKYRA 10:00 → 11:30</strong>, il 1 settembre, con 3 persone e auto fino a 4,25 m. Dettagli e pulsante di prenotazione sono nella scheda “Tragitto per Ksamil”.</div>
         <div class="stay-filter-row" aria-label="Filtri alloggi">
           <button type="button" data-stay-filter="saranda" class="${mode === "saranda" || mode === "all" ? "active" : ""}">Tutti e 40</button>
           <button type="button" data-stay-filter="under-260" class="${mode === "under-260" ? "active" : ""}">Fino a €260</button>
@@ -1674,7 +1976,13 @@
     stays.forEach((s, index) => { s.id = "stay-" + (index + 1); s.number = index + 1; });
 
     function renderList(filter) {
+      if (filter !== "saranda-cars") {
+        hideSarandaCarMarkers();
+        if (sarandaCarsPanel) sarandaCarsPanel.style.display = "none";
+      }
+      if (filter === "dopo-battello") { window.renderDopoBattello(); return; }
       if (filter === "prima-notte") { window.renderPrimaNotte(); return; }
+      if (typeof window.hideDopoBattello === "function") window.hideDopoBattello();
       if (typeof window.hidePrimaNotte === "function") window.hidePrimaNotte();
       if (filter === "alloggi-31-agosto") {
         renderAlloggi();
@@ -1690,6 +1998,10 @@
         return;
       }
       stayLayer.remove();
+      if (filter === "saranda-cars") {
+        renderSarandaCars();
+        return;
+      }
       if (filter === "cars") {
         if (poisPanel) poisPanel.style.display = "none";
         renderCars();
@@ -1806,6 +2118,11 @@
       const raw = (location.hash || "").replace(/^#/, "");
       if (!raw) return;
       const [kind, id] = raw.includes("=") ? raw.split("=") : [raw, ""];
+      if (kind === "dopo-battello" || raw === "dopo-battello") {
+        document.querySelectorAll("#filters button").forEach((b) => b.classList.toggle("active", b.dataset.filter === "dopo-battello"));
+        renderList("dopo-battello");
+        return;
+      }
       if (kind === "prima-notte" || raw === "prima-notte") {
         document.querySelectorAll("#filters button").forEach((b) => b.classList.toggle("active", b.dataset.filter === "prima-notte"));
         renderList("prima-notte");
@@ -1824,6 +2141,11 @@
       if (kind === "cars" || raw === "cars") {
         document.querySelectorAll("#filters button").forEach((b) => b.classList.toggle("active", b.dataset.filter === "cars"));
         renderList("cars");
+        return;
+      }
+      if (kind === "saranda-cars" || raw === "saranda-cars") {
+        document.querySelectorAll("#filters button").forEach((b) => b.classList.toggle("active", b.dataset.filter === "saranda-cars"));
+        renderList("saranda-cars");
         return;
       }
       if (kind === "ksamil" || raw === "ksamil") {
@@ -1895,18 +2217,45 @@
       panel.querySelectorAll(".prima-notte-card").forEach(x=>x.classList.toggle("active",x.dataset.primaId===id));
       pins[id].openPopup(); if(pan) map.flyTo([h.lat,h.lng],16,{duration:.55});
     }
-    panel.innerHTML='<div class="prima-notte-head"><strong>Corfù · prima notte · 27 → 28 agosto · 3 adulti</strong><br>Questi 10 puntini usano le coordinate della struttura trovata su Google Maps: non sono messi “vicino alla zona”. Apri <strong>Punto esatto</strong> per controllare ogni posizione.</div><div class="prima-notte-grid">'+FIRST_NIGHT.map((h,i)=>'<article class="prima-notte-card" data-prima-id="'+h.id+'"><div class="prima-notte-card-top"><span class="prima-notte-number">'+(i+1)+'</span><span class="prima-notte-name">'+h.name+'</span><span class="prima-notte-tag">'+h.tag+'</span></div><div class="prima-notte-price">€'+h.price+' totali · una notte</div><div class="prima-notte-meta">3 adulti · voto '+h.score+' · '+h.place+'</div><div class="prima-notte-meta">coordinate '+h.lat.toFixed(6)+', '+h.lng.toFixed(6)+'</div><div class="prima-notte-note">'+h.note+'</div><div class="prima-notte-actions"><a href="'+mapUrl(h)+'" target="_blank" rel="noopener" onclick="event.stopPropagation()">Punto esatto →</a><a href="'+bookUrl(h)+'" target="_blank" rel="noopener" onclick="event.stopPropagation()">Booking con le date →</a></div></article>').join("")+'</div><p class="footnote">Prezzi letti il 25/07/2026: Aeroporto di Corfù · 27–28 agosto 2026 · 3 adulti · una camera. Prezzo totale, non a persona; può cambiare prima della prenotazione.</p>';
+    panel.innerHTML='<div class="prima-notte-head"><strong>Corfù · prima notte · 27 → 28 agosto · 3 adulti</strong><br>Questi 10 puntini usano le coordinate della struttura trovata su Google Maps: non sono messi “vicino alla zona”. Apri <strong>Punto esatto</strong> per controllare ogni posizione. La stella gialla fissa indica il <strong>CENTRO DI CORFÙ · Spianada / Liston</strong>.</div><div class="prima-notte-grid">'+FIRST_NIGHT.map((h,i)=>'<article class="prima-notte-card" data-prima-id="'+h.id+'"><div class="prima-notte-card-top"><span class="prima-notte-number">'+(i+1)+'</span><span class="prima-notte-name">'+h.name+'</span><span class="prima-notte-tag">'+h.tag+'</span></div><div class="prima-notte-price">€'+h.price+' totali · una notte</div><div class="prima-notte-meta">3 adulti · voto '+h.score+' · '+h.place+'</div><div class="prima-notte-meta">coordinate '+h.lat.toFixed(6)+', '+h.lng.toFixed(6)+'</div><div class="prima-notte-note">'+h.note+'</div><div class="prima-notte-actions"><a href="'+mapUrl(h)+'" target="_blank" rel="noopener" onclick="event.stopPropagation()">Punto esatto →</a><a href="'+bookUrl(h)+'" target="_blank" rel="noopener" onclick="event.stopPropagation()">Booking con le date →</a></div></article>').join("")+'</div><p class="footnote">Prezzi letti il 25/07/2026: Aeroporto di Corfù · 27–28 agosto 2026 · 3 adulti · una camera. Prezzo totale, non a persona; può cambiare prima della prenotazione.</p>';
     panel.querySelectorAll("[data-prima-id]").forEach(card=>card.addEventListener("click",()=>select(card.dataset.primaId,true)));
     FIRST_NIGHT.forEach((h,i)=>{
       const icon=L.divIcon({className:"",html:'<div class="prima-notte-pin">'+(i+1)+'</div>',iconSize:[31,31],iconAnchor:[15,15],popupAnchor:[0,-15]});
       const m=L.marker([h.lat,h.lng],{icon}).bindPopup('<div class="popup-title">#'+(i+1)+' · '+h.name+'</div><div class="popup-deal"><strong>€'+h.price+' totali · una notte · 3 adulti</strong><br>Voto '+h.score+' · '+h.place+'<br><a href="'+mapUrl(h)+'" target="_blank" rel="noopener">Punto esatto →</a> · <a href="'+bookUrl(h)+'" target="_blank" rel="noopener">Booking →</a></div>');
       m.bindTooltip('#'+(i+1)+' · €'+h.price,{direction:"top",offset:[0,-18]}); m.on("click",()=>select(h.id,false)); m.addTo(layer); pins[h.id]=m;
     });
+
+    const CENTRO_CORFU = {lat:39.624760,lng:19.924874};
+    const centroIcon=L.divIcon({className:"",html:'<div class="prima-notte-centro">★</div>',iconSize:[38,38],iconAnchor:[19,19],popupAnchor:[0,-19]});
+    L.marker([CENTRO_CORFU.lat,CENTRO_CORFU.lng],{icon:centroIcon}).addTo(map)
+      .bindPopup('<div class="popup-title">Centro di Corfù</div><div class="popup-deal">Spianada / Liston · punto fisso per orientarsi tra aeroporto, città e Perama.<br><a href="https://www.google.com/maps/search/?api=1&query=39.624760,19.924874" target="_blank" rel="noopener">Apri il centro sulla mappa →</a></div>')
+      .bindTooltip("CENTRO DI CORFÙ · Spianada / Liston",{permanent:true,direction:"top",className:"prima-notte-centro-label",offset:[0,-20]});
+
     window.hidePrimaNotte=()=>{panel.style.display="none";map.removeLayer(layer);};
     window.renderPrimaNotte=()=>{
       list.style.display="none"; carsPanel.style.display="none"; if(poisPanel)poisPanel.style.display="none"; if(ksamilPanel)ksamilPanel.style.display="none"; if(alloggiPanel)alloggiPanel.style.display="none"; if(typeof nascondiMarcatoriAlloggi==="function")nascondiMarcatoriAlloggi(); if(typeof stayLayer!=="undefined")map.removeLayer(stayLayer); if(corfuBudget)corfuBudget.style.display="none"; if(corfuDecision)corfuDecision.style.display="none";
       panel.style.display="block"; layer.addTo(map); map.fitBounds(L.latLngBounds(FIRST_NIGHT.map(h=>[h.lat,h.lng])),{padding:[38,38],maxZoom:13});
     };
+  })();
+  </script>
+
+
+  <script>
+  (function(){
+    const AFTER_FERRY=[{"id":"corfuroom2","name":"Corfu Room","area":"Ágioi Déka","lat":39.5609019,"lng":19.8830201,"km":"7,6 km","price":139,"score":"8,1","reviews":726,"cancel":true,"tag":"Prezzo più basso","slug":"corfuroom.it.html"},{"id":"blondies2","name":"Blondie's House","area":"Evropoúloi","lat":39.6279776,"lng":19.8562328,"km":"4,3 km","price":174,"score":"9,5","reviews":35,"cancel":true,"tag":"Voto 9,5","slug":"blondies-house.it.html"},{"id":"xristina2","name":"Xristina","area":"Dafnila","lat":39.667694,"lng":19.846561,"km":"7,0 km","price":184,"score":"9,3","reviews":511,"cancel":true,"tag":"Hotel · 511 giudizi","slug":"christina-dafnila.it.html"},{"id":"spitaki2","name":"Spitaki","area":"Alepou","lat":39.6209518,"lng":19.9056054,"km":"2,1 km","price":193,"score":"9,9","reviews":19,"cancel":false,"tag":"Voto 9,9","slug":"spitaki-kerkura.it.html"},{"id":"argo2","name":"Argo Hotel","area":"Perama","lat":39.585705,"lng":19.9105368,"km":"4,6 km","price":194,"score":"8,1","reviews":171,"cancel":true,"tag":"Hotel · Perama","slug":"argo-corfu.it.html"},{"id":"orpheus2","name":"Hotel Orpheus","area":"Gouvia","lat":39.6542621,"lng":19.8425035,"km":"6,4 km","price":194,"score":"8,5","reviews":465,"cancel":true,"tag":"Hotel · 465 giudizi","slug":"orpheus-corfu.it.html"},{"id":"margarita2","name":"Apartments MARGARITA Kaizer Bridge","area":"Achílleion","lat":39.5652561,"lng":19.908721,"km":"7,0 km","price":196,"score":"9,1","reviews":117,"cancel":true,"tag":"Voto 9,1","slug":"apartments-margarita-kaizer-bridge.it.html"},{"id":"gz2","name":"g&z cottage","area":"Kynopiástai","lat":39.5676575,"lng":19.8839665,"km":"6,8 km","price":196,"score":"9,0","reviews":34,"cancel":true,"tag":"Voto 9,0","slug":"g-amp-z-cottage.it.html"},{"id":"panagiota2","name":"Panagiota Xrisida's Apartment","area":"Perama","lat":39.5897771,"lng":19.8997219,"km":"4,1 km","price":208,"score":"8,9","reviews":42,"cancel":false,"tag":"Perama · voto 8,9","slug":"panagiota-xrisidas-apartment.it.html"},{"id":"akis2","name":"Akis Garden","area":"Anemómylos","lat":39.6071021,"lng":19.920478,"km":"2,4 km","price":210,"score":"8,1","reviews":210,"cancel":true,"tag":"Vicino al porto","slug":"akis-house-kerkura.it.html"},{"id":"takis2","name":"Takis & Eirini Family Apartments","area":"Perama","lat":39.5743927,"lng":19.9103653,"km":"5,8 km","price":216,"score":"8,7","reviews":74,"cancel":true,"tag":"Perama · famiglia","slug":"takis-kai-eirini-family-apartments-perama.it.html"},{"id":"aretousa2","name":"Villa Aretousa","area":"Estavromenos","lat":39.5753337,"lng":19.8713618,"km":"6,2 km","price":216,"score":"9,5","reviews":2,"cancel":true,"tag":"Voto 9,5","slug":"villa-aretousa-estauromenos.it.html"},{"id":"andromaches2","name":"Corfu Andromaches Holiday Apartments","area":"Achílleion","lat":39.557202,"lng":19.9099979,"km":"7,7 km","price":206,"score":"8,4","reviews":130,"cancel":false,"tag":"Piscina","slug":"andromaches-apartments.it.html"},{"id":"elgreco2","name":"El Greco hotel by Estia","area":"Benitses","lat":39.5588901,"lng":19.9111643,"km":"7,5 km","price":226,"score":"8,4","reviews":480,"cancel":false,"tag":"Hotel · colazione","slug":"el-greco-by-estia.it.html"},{"id":"filoxenia2","name":"Filoxenia Apartments Corfu Rose","area":"Alepou","lat":39.6147138,"lng":19.8951915,"km":"1,7 km","price":231,"score":"9,4","reviews":5,"cancel":true,"tag":"Vicino · voto 9,4","slug":"filoxenia-apartments-rose.it.html"},{"id":"omirico2","name":"Omirico Studios","area":"Gouvia","lat":39.6529997,"lng":19.8431805,"km":"6,5 km","price":238,"score":"9,0","reviews":117,"cancel":true,"tag":"Voto 9,0","slug":"omirico-studios-kerkira.it.html"},{"id":"tranquil2","name":"Tranquil Apartments Corfu","area":"Kontokali","lat":39.6432551,"lng":19.8478507,"km":"5,5 km","price":250,"score":"9,5","reviews":315,"cancel":false,"tag":"Voto 9,5 · 315 giudizi","slug":"renos-apartments.it.html"},{"id":"house4you2","name":"House 4-you","area":"Città di Corfù","lat":39.6184986,"lng":19.916096,"km":"1,2 km","price":256,"score":"8,9","reviews":85,"cancel":true,"tag":"Molto vicino","slug":"house-4-you-kerkira.it.html"},{"id":"attico2","name":"Attico Verde","area":"Kastanéa","lat":39.5882102,"lng":19.887225,"km":"4,6 km","price":236,"score":"8,9","reviews":19,"cancel":true,"tag":"Appartamento grande","slug":"attico-verde.it.html"},{"id":"garbis2","name":"Garbis House Corfu","area":"Kastellánoi","lat":39.566885,"lng":19.8659395,"km":"7,5 km","price":233,"score":"Nuovo","reviews":0,"cancel":true,"tag":"Spazio per 3","slug":"garbis-house.it.html"}];
+    const PORT={lat:39.6300654,lng:19.9107511};
+    const panel=document.createElement("section"),layer=L.layerGroup(),pins={};
+    panel.id="dopo-battello-panel";panel.className="prima-notte-panel dopo-battello-panel";document.querySelector(".panel").appendChild(panel);
+    const mapUrl=h=>"https://www.google.com/maps/search/?api=1&query="+h.lat+","+h.lng;
+    const bookUrl=h=>"https://www.booking.com/hotel/gr/"+h.slug+"?checkin=2026-09-01&checkout=2026-09-03&group_adults=3&req_adults=3&no_rooms=1&group_children=0&req_children=0";
+    function select(id,pan){const h=AFTER_FERRY.find(x=>x.id===id);if(!h||!pins[id])return;panel.querySelectorAll(".prima-notte-card").forEach(x=>x.classList.toggle("active",x.dataset.ferryId===id));pins[id].openPopup();if(pan)map.flyTo([h.lat,h.lng],16,{duration:.55});}
+    panel.innerHTML='<div class="prima-notte-head"><strong>Corfù · dopo il battello · 1 → 3 settembre · 3 adulti · 2 notti</strong><br>20 strutture con prezzo visibile, scelte per equilibrio tra voto, prezzo e distanza. Booking le mostra entro <strong>8 km dal Porto Nuovo</strong>. Il puntino blu fisso è lo sbarco del battello.</div><div class="prima-notte-grid">'+AFTER_FERRY.map((h,i)=>'<article class="prima-notte-card" data-ferry-id="'+h.id+'"><div class="prima-notte-card-top"><span class="prima-notte-number">'+(i+1)+'</span><span class="prima-notte-name">'+h.name+'</span><span class="prima-notte-tag">'+h.tag+'</span></div><div class="prima-notte-price">€'+h.price+' totali · 2 notti</div><div class="prima-notte-meta">3 adulti · voto '+h.score+(h.reviews?' · '+h.reviews+' giudizi':'')+(h.cancel?' · cancellazione gratuita':'')+'</div><div class="prima-notte-meta">'+h.area+' · '+h.km+' dal Porto Nuovo</div><div class="prima-notte-actions"><a href="'+mapUrl(h)+'" target="_blank" rel="noopener" onclick="event.stopPropagation()">Punto esatto →</a><a href="'+bookUrl(h)+'" target="_blank" rel="noopener" onclick="event.stopPropagation()">Booking con le date →</a></div></article>').join("")+'</div><p class="footnote">Ricerca letta il 25/07/2026 su Booking: Porto di Corfù · 1–3 settembre 2026 · 3 adulti · una camera. I prezzi sono totali per due notti e possono cambiare.</p>';
+    panel.querySelectorAll("[data-ferry-id]").forEach(c=>c.addEventListener("click",()=>select(c.dataset.ferryId,true)));
+    const portIcon=L.divIcon({className:"",html:'<div class="dopo-battello-port">⚓</div>',iconSize:[39,39],iconAnchor:[19,19],popupAnchor:[0,-19]});
+    L.marker([PORT.lat,PORT.lng],{icon:portIcon}).bindPopup('<div class="popup-title">Sbarco battello · Porto Nuovo di Corfù</div><div class="popup-deal">Punto di riferimento usato per il limite di 8 km.<br><a href="https://www.google.com/maps/search/?api=1&query=39.6300654,19.9107511" target="_blank" rel="noopener">Apri il porto sulla mappa →</a></div>').bindTooltip("SBARCO BATTELLO · PORTO NUOVO",{permanent:true,direction:"top",className:"dopo-battello-port-label",offset:[0,-21]}).addTo(layer);
+    AFTER_FERRY.forEach((h,i)=>{const icon=L.divIcon({className:"",html:'<div class="prima-notte-pin">'+(i+1)+'</div>',iconSize:[31,31],iconAnchor:[15,15],popupAnchor:[0,-15]});const m=L.marker([h.lat,h.lng],{icon}).bindPopup('<div class="popup-title">#'+(i+1)+' · '+h.name+'</div><div class="popup-deal"><strong>€'+h.price+' totali · 2 notti · 3 adulti</strong><br>Voto '+h.score+' · '+h.km+' dal Porto Nuovo<br><a href="'+mapUrl(h)+'" target="_blank" rel="noopener">Punto esatto →</a> · <a href="'+bookUrl(h)+'" target="_blank" rel="noopener">Booking →</a></div>');m.bindTooltip('#'+(i+1)+' · €'+h.price,{direction:"top",offset:[0,-18]});m.on("click",()=>select(h.id,false));m.addTo(layer);pins[h.id]=m;});
+    window.hideDopoBattello=()=>{panel.style.display="none";map.removeLayer(layer);};
+    window.renderDopoBattello=()=>{if(typeof window.hidePrimaNotte==="function")window.hidePrimaNotte();list.style.display="none";carsPanel.style.display="none";if(poisPanel)poisPanel.style.display="none";if(ksamilPanel)ksamilPanel.style.display="none";if(alloggiPanel)alloggiPanel.style.display="none";if(typeof nascondiMarcatoriAlloggi==="function")nascondiMarcatoriAlloggi();if(typeof stayLayer!=="undefined")map.removeLayer(stayLayer);if(corfuBudget)corfuBudget.style.display="none";if(corfuDecision)corfuDecision.style.display="none";panel.style.display="block";layer.addTo(map);map.fitBounds(L.latLngBounds([[PORT.lat,PORT.lng],...AFTER_FERRY.map(h=>[h.lat,h.lng])]),{padding:[42,42],maxZoom:12});};
   })();
   </script>
 
