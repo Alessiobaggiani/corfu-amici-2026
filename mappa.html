@@ -82,6 +82,7 @@
     .dot.scenic { background: var(--scenic); }
     .dot.airport { background: #111; }
     .dot.car { background: #6b3fa0; }
+    .dot.stay { background: #d55328; }
 
     .car-marker-icon {
       background: #6b3fa0;
@@ -95,6 +96,33 @@
       justify-content: center;
       font-size: 14px;
       box-shadow: 0 2px 8px rgba(0,0,0,.25);
+    }
+    .stay-marker-icon {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      background: #d55328;
+      color: #fff;
+      font-size: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.28);
+    }
+    .stay-marker-icon span {
+      position: absolute;
+      right: -7px;
+      bottom: -7px;
+      min-width: 18px;
+      padding: 1px 4px;
+      border: 2px solid #fff;
+      border-radius: 999px;
+      background: #1c2430;
+      color: #fff;
+      font: 700 10px/1.3 system-ui,sans-serif;
+      text-align: center;
     }
 
     .callout {
@@ -211,6 +239,95 @@
       font-weight: 700;
       color: var(--sea);
     }
+    .stay-area {
+      margin: 18px 0 24px;
+    }
+    .stay-area-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: baseline;
+      margin: 0 0 9px;
+    }
+    .stay-area-head h3 {
+      margin: 0;
+      font-family: Fraunces, Georgia, serif;
+      font-size: 1.05rem;
+    }
+    .stay-area-head button {
+      border: 0;
+      background: transparent;
+      padding: 0;
+      color: var(--sea);
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .stay-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+    .alloggio-card {
+      display: grid;
+      grid-template-columns: 88px 1fr;
+      min-height: 88px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #faf7f0;
+      color: inherit;
+      text-decoration: none;
+      transition: border-color .15s ease, transform .15s ease;
+    }
+    .alloggio-card:hover {
+      border-color: var(--sea);
+      transform: translateY(-1px);
+    }
+    .alloggio-card img {
+      width: 88px;
+      height: 100%;
+      min-height: 88px;
+      object-fit: cover;
+      background: #dbe8eb;
+    }
+    .stay-card-body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 2px;
+      padding: 8px 10px;
+      min-width: 0;
+    }
+    .stay-card-name {
+      overflow: hidden;
+      font-size: .87rem;
+      font-weight: 800;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .stay-card-price {
+      color: var(--cheap);
+      font-size: .93rem;
+      font-weight: 800;
+    }
+    .stay-card-meta {
+      color: var(--muted);
+      font-size: .75rem;
+      line-height: 1.3;
+    }
+    .stay-card-platform {
+      margin-top: 2px;
+      color: var(--sea);
+      font-size: .74rem;
+      font-weight: 800;
+    }
+    .stay-popup-list { display: grid; gap: 8px; max-height: 390px; overflow: auto; padding-right: 4px; }
+    .stay-popup-card { display: grid; grid-template-columns: 66px 1fr; gap: 8px; padding: 6px; border: 1px solid #e6e0d5; border-radius: 10px; }
+    .stay-popup-card img { width: 66px; height: 66px; object-fit: cover; border-radius: 7px; background: #dbe8eb; }
+    .stay-popup-card a { display: inline-block; margin-top: 3px; }
     .search-all {
       display: inline-block;
       margin-top: 10px;
@@ -379,15 +496,15 @@
     <a class="back" href="index.html">← Torna al dossier</a>
     <div class="hint">
       <strong>Mappa di supporto alle scelte.</strong>
-      Apri “Saranda 28 ago → 1 set” per i 40 appartamenti: la mappa mostra la zona, ogni riga apre il punto preciso e la prenotazione.
+      Apri “Saranda 28 ago → 1 set” per i 40 appartamenti: la mappa mostra la zona, ogni riga apre il punto preciso e la prenotazione. La sezione Corfù del 31 agosto resta disponibile accanto.
     </div>
   </div>
   <div class="app">
     <aside class="panel">
       <h1>Corfù · mappa scelta</h1>
       <p class="subtitle">
-        3 adulti · arrivo a Corfù <strong>27 agosto 2026</strong> · una notte a Corfù ·
-        trasferimento a <strong>Ksamil (Xamil) il 28 agosto</strong>. Qui ci sono sia il passaggio sia le vecchie scelte Corfù.
+        3 adulti · rientro da <strong>Ksamil (Xamil) il 31 agosto 2026</strong> ·
+        3 notti a Corfù. Le case qui sotto sono nella costa est/nord-est indicata nello screenshot.
       </p>
 
       <div class="pill-row">
@@ -397,20 +514,21 @@
         <span class="pill"><span class="dot pricey"></span> Cara</span>
         <span class="pill"><span class="dot airport"></span> Aeroporto</span>
         <span class="pill"><span class="dot car"></span> Noleggio auto</span>
+        <span class="pill"><span class="dot stay"></span> Alloggi 31 agosto</span>
       </div>
 
       <div class="callout" id="corfu-budget">
-        <strong>Budget gruppo: casa + auto €500–650</strong>
+        <strong>Rientro 31 agosto: 50 alloggi controllati</strong>
         <p>
-          Mirate a case ≤ ~€520 + auto economy 5 posti ~€144–200.
-          <strong>1ª zona:</strong> Messonghi. Pin viola = noleggi.
-          Per tornare alle spiegazioni: pulsante nero in alto <strong>← Torna al dossier</strong>.
-          Ogni spesa comune → Splitwise.
+          Le offerte sono per <strong>3 adulti · 3 notti · 31 agosto → 3 settembre</strong>.
+          Il minimo reale nella fascia scelta è <strong>€298</strong> (Gouvia o Ipsos), non contando campeggi.
+          I pin arancioni indicano la località dichiarata dall’annuncio; dentro trovi foto e pulsante diretto.
         </p>
       </div>
 
       <div class="filters" id="filters">
         <button type="button" data-filter="saranda" class="active">Saranda · 28 ago → 1 set</button>
+        <button type="button" data-filter="alloggi-31-agosto">Alloggi Corfù · 31 ago</button>
         <button type="button" data-filter="ksamil">Tragitto per Ksamil</button>
         <button type="button" data-filter="all">Case</button>
         <button type="button" data-filter="cars">Noleggi auto</button>
@@ -421,6 +539,7 @@
       </div>
       <div id="pois-panel" style="display:none"></div>
       <div id="ksamil-panel" style="display:none"></div>
+      <div id="alloggi-panel" style="display:none"></div>
       <div id="stays-panel" style="display:none"></div>
 
       <div id="cars-panel" class="hidden-panel" style="display:none"></div>
@@ -430,7 +549,8 @@
         <h3 class="section-title">Ordine di approfondimento</h3>
         <div class="next-box">
           <ol>
-            <li><strong>Messonghi</strong> — 1ª per budget casa+auto €500–650.</li>
+          <li><strong>Alloggi 31 agosto</strong> — 50 proposte con foto nella fascia scelta.</li>
+          <li><strong>Messonghi</strong> — 1ª per budget casa+auto €500–650.</li>
             <li><strong>Moraitika</strong> — solo con casa ≤ €520.</li>
             <li><strong>Lefkimmi / inland</strong> — risparmio estremo, più guida.</li>
             <li>Ogni spesa comune → <strong>Splitwise</strong>. Dossier completo: <a href="index.html">index.html</a>.</li>
@@ -439,14 +559,15 @@
       </div>
 
       <p class="footnote">
-        Ksamil: verifica fatta il 25/07/2026. Orari e disponibilità possono cambiare: prima di pagare, controllate il pulsante della compagnia.
-        Per l’auto privata controllate prima assicurazione valida in Albania, libretto e targa corretta sul biglietto.
+        Alloggi: ricerca fatta il 25/07/2026 su Booking.com. Prezzi e disponibilità possono cambiare: aprite il pulsante dell’annuncio prima di pagare.
+        Il pin indica la località riportata da Booking, non inventa un indirizzo privato non pubblicato.
       </p>
     </aside>
     <div id="map" role="application" aria-label="Mappa interattiva di Corfù"></div>
   </div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="alloggi-31-agosto.js"></script>
   <script>
     const CHECKIN = "2026-08-27";
     const CHECKOUT = "2026-09-03";
@@ -859,9 +980,11 @@
         </div>
       `);
 
-    // Percorso richiesto: la barca arriva a Saranda, poi gli ultimi 17 km sono su strada.
+    // Due percorsi reali per Ksamil: il più economico via Igoumenitsa e il più comodo via Saranda.
     const ksamilStops = {
       corfuPort: { name: "Porto nuovo di Corfù", lat: 39.6354, lng: 19.9057, note: "Arrivo consigliato: un'ora prima per controlli e documento." },
+      igoumenitsaPort: { name: "Porto di Igoumenitsa", lat: 39.5036, lng: 20.2655, note: "Sbarco della scelta più economica. Da qui si prosegue in auto verso il confine greco-albanese." },
+      mavromatiBorder: { name: "Confine Mavromati / Qafë Botë", lat: 39.664, lng: 20.18, note: "Controllo di frontiera Grecia → Albania: in agosto tenete un margine per l'attesa." },
       sarandaPort: { name: "Porto di Saranda", lat: 39.8746, lng: 20.0048, note: "Qui finisce la barca; taxi, furgon e auto partono da questa zona." },
       ksamil: { name: "Ksamil (Xamil)", lat: 39.7688, lng: 20.0014, note: "Arrivo finale: 17 km dal porto di Saranda." }
     };
@@ -882,7 +1005,14 @@
       [ksamilStops.sarandaPort.lat, ksamilStops.sarandaPort.lng],
       [ksamilStops.ksamil.lat, ksamilStops.ksamil.lng]
     ], { color: "#1f6f8b", weight: 3, dashArray: "7 6", opacity: .85 }).addTo(map)
-      .bindTooltip("Corfù → Saranda → Ksamil", { sticky: true });
+      .bindTooltip("Più comodo: Corfù → Saranda → Ksamil", { sticky: true });
+    L.polyline([
+      [ksamilStops.corfuPort.lat, ksamilStops.corfuPort.lng],
+      [ksamilStops.igoumenitsaPort.lat, ksamilStops.igoumenitsaPort.lng],
+      [ksamilStops.mavromatiBorder.lat, ksamilStops.mavromatiBorder.lng],
+      [ksamilStops.ksamil.lat, ksamilStops.ksamil.lng]
+    ], { color: "#2f7d4a", weight: 4, dashArray: "10 5", opacity: .9 }).addTo(map)
+      .bindTooltip("Più economico: Corfù → Igoumenitsa → Ksamil", { sticky: true });
 
     L.polygon([
       [39.56, 19.90], [39.52, 19.90], [39.45, 19.92], [39.45, 19.96], [39.56, 19.94]
@@ -892,13 +1022,142 @@
     const list = document.getElementById("zones");
     const carsPanel = document.getElementById("cars-panel");
     const ksamilPanel = document.getElementById("ksamil-panel");
+    const alloggiPanel = document.getElementById("alloggi-panel");
     const corfuBudget = document.getElementById("corfu-budget");
     const corfuDecision = document.getElementById("corfu-decision");
+    const alloggi31Agosto = Array.isArray(window.CORFU_ALLOGGI_31_AGOSTO) ? window.CORFU_ALLOGGI_31_AGOSTO : [];
+    const alloggiAreaMarkers = {};
+
+    function safeHtml(value) {
+      return String(value ?? "").replace(/[&<>"']/g, (char) => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
+      }[char]));
+    }
+
+    function alloggiPerZona() {
+      return alloggi31Agosto.reduce((acc, alloggio) => {
+        if (!acc[alloggio.area]) acc[alloggio.area] = [];
+        acc[alloggio.area].push(alloggio);
+        return acc;
+      }, {});
+    }
+
+    function alloggioCardHtml(alloggio, compact = false) {
+      const recensioni = alloggio.reviews ? `${alloggio.reviews} recensioni` : "recensioni non mostrate";
+      const cancellazione = alloggio.cancellation ? "cancellazione gratuita" : "senza cancellazione gratuita";
+      if (compact) {
+        return `
+          <div class="stay-popup-card">
+            <img src="${safeHtml(alloggio.image)}" alt="Foto di ${safeHtml(alloggio.name)}" loading="lazy">
+            <div>
+              <strong>#${alloggio.rank} · ${safeHtml(alloggio.name)}</strong><br>
+              <span>€${alloggio.price} · voto ${safeHtml(alloggio.score)} · ${recensioni}</span><br>
+              <a href="${safeHtml(alloggio.url)}" target="_blank" rel="noopener">Apri su ${safeHtml(alloggio.platform)} →</a>
+            </div>
+          </div>`;
+      }
+      return `
+        <a class="alloggio-card" href="${safeHtml(alloggio.url)}" target="_blank" rel="noopener">
+          <img src="${safeHtml(alloggio.image)}" alt="Foto di ${safeHtml(alloggio.name)}" loading="lazy">
+          <div class="stay-card-body">
+            <div class="stay-card-name">#${alloggio.rank} · ${safeHtml(alloggio.name)}</div>
+            <div class="stay-card-price">€${alloggio.price} totali · 3 notti</div>
+            <div class="stay-card-meta">Voto ${safeHtml(alloggio.score)} · ${recensioni} · ${cancellazione}</div>
+            <div class="stay-card-platform">Foto e annuncio: ${safeHtml(alloggio.platform)} →</div>
+          </div>
+        </a>`;
+    }
+
+    function alloggiPopupHtml(area, alloggi) {
+      return `
+        <div class="popup-title">🏠 ${safeHtml(area)} · ${alloggi.length} alloggi</div>
+        <div class="popup-deal">Pin sulla località indicata dall’annuncio. Prezzi per 3 adulti, 31 ago → 3 set.</div>
+        <div class="stay-popup-list">${alloggi.slice(0, 8).map((alloggio) => alloggioCardHtml(alloggio, true)).join("")}</div>
+      `;
+    }
+
+    function creaMarcatoriAlloggi() {
+      if (Object.keys(alloggiAreaMarkers).length || !alloggi31Agosto.length) return;
+      Object.entries(alloggiPerZona()).forEach(([area, alloggi]) => {
+        const primo = alloggi[0];
+        const icon = L.divIcon({
+          className: "",
+          html: `<div class="stay-marker-icon">🏠<span>${alloggi.length}</span></div>`,
+          iconSize: [34, 34],
+          iconAnchor: [17, 17]
+        });
+        const marker = L.marker([primo.lat, primo.lng], { icon });
+        marker.bindPopup(alloggiPopupHtml(area, alloggi), { maxWidth: 330 });
+        marker.on("click", () => renderAlloggi(area, false));
+        alloggiAreaMarkers[area] = marker;
+      });
+    }
+
+    function mostraMarcatoriAlloggi() {
+      creaMarcatoriAlloggi();
+      Object.values(alloggiAreaMarkers).forEach((marker) => {
+        if (!map.hasLayer(marker)) marker.addTo(map);
+      });
+    }
+
+    function nascondiMarcatoriAlloggi() {
+      Object.values(alloggiAreaMarkers).forEach((marker) => {
+        if (map.hasLayer(marker)) map.removeLayer(marker);
+      });
+    }
+
+    function renderAlloggi(areaAttiva = null, spostaMappa = true) {
+      list.style.display = "none";
+      carsPanel.style.display = "none";
+      if (poisPanel) poisPanel.style.display = "none";
+      if (ksamilPanel) ksamilPanel.style.display = "none";
+      if (staysPanel) staysPanel.style.display = "none";
+      stayLayer.remove();
+      if (!alloggiPanel) return;
+      alloggiPanel.style.display = "block";
+      if (corfuBudget) corfuBudget.style.display = "block";
+      if (corfuDecision) corfuDecision.style.display = "none";
+      mostraMarcatoriAlloggi();
+      const gruppi = alloggiPerZona();
+      alloggiPanel.innerHTML = `
+        <div class="callout">
+          <strong>50 alloggi per il rientro da Xamil · 31 agosto → 3 settembre</strong>
+          <p>Foto, prezzo totale per 3 adulti, voto e pulsante diretto alla pagina dove l’ho trovato: <strong>Booking.com</strong>. Il minimo reale in questa fascia è €298 (Gouvia o Ipsos): non ho contato campeggi o posti fuori dal perimetro rosso.</p>
+        </div>
+        <p class="meta">Ogni pin arancione è nella località riportata dall’annuncio. Non forzo un indirizzo preciso quando la piattaforma non lo rende pubblico.</p>
+        ${Object.entries(gruppi).map(([area, alloggi]) => `
+          <section class="stay-area" id="alloggi-${safeHtml(area).toLowerCase()}">
+            <div class="stay-area-head">
+              <h3>🏠 ${safeHtml(area)} · ${alloggi.length} proposte</h3>
+              <button type="button" data-alloggi-area="${safeHtml(area)}">Centra sulla mappa</button>
+            </div>
+            <div class="stay-grid">${alloggi.map((alloggio) => alloggioCardHtml(alloggio)).join("")}</div>
+          </section>
+        `).join("")}
+      `;
+      alloggiPanel.querySelectorAll("[data-alloggi-area]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const area = button.getAttribute("data-alloggi-area");
+          const marker = alloggiAreaMarkers[area];
+          if (!marker) return;
+          marker.openPopup();
+          map.flyTo(marker.getLatLng(), 13, { duration: 0.7 });
+        });
+      });
+      if (areaAttiva && alloggiAreaMarkers[areaAttiva]) {
+        alloggiAreaMarkers[areaAttiva].openPopup();
+        if (spostaMappa) map.flyTo(alloggiAreaMarkers[areaAttiva].getLatLng(), 13, { duration: 0.7 });
+      } else if (spostaMappa) {
+        map.flyTo([39.72, 19.89], 10, { duration: 0.7 });
+      }
+    }
 
     function renderCars() {
       list.style.display = "none";
       carsPanel.style.display = "block";
       if (ksamilPanel) ksamilPanel.style.display = "none";
+      if (alloggiPanel) alloggiPanel.style.display = "none";
+      nascondiMarcatoriAlloggi();
       if (corfuBudget) corfuBudget.style.display = "block";
       if (corfuDecision) corfuDecision.style.display = "block";
       carsPanel.innerHTML = `
@@ -959,6 +1218,8 @@
       list.style.display = "none";
       carsPanel.style.display = "none";
       if (ksamilPanel) ksamilPanel.style.display = "none";
+      if (alloggiPanel) alloggiPanel.style.display = "none";
+      nascondiMarcatoriAlloggi();
       if (corfuBudget) corfuBudget.style.display = "block";
       if (corfuDecision) corfuDecision.style.display = "block";
       if (poisPanel) poisPanel.style.display = "block";
@@ -991,49 +1252,62 @@
       list.style.display = "none";
       carsPanel.style.display = "none";
       if (poisPanel) poisPanel.style.display = "none";
+      if (alloggiPanel) alloggiPanel.style.display = "none";
+      nascondiMarcatoriAlloggi();
       if (!ksamilPanel) return;
       ksamilPanel.style.display = "block";
       if (corfuBudget) corfuBudget.style.display = "none";
       if (corfuDecision) corfuDecision.style.display = "none";
       ksamilPanel.innerHTML = `
         <div class="callout">
-          <strong>Scelta consigliata · auto privata a bordo · venerdì 28 agosto</strong>
-          <p><strong>Finikas Lines, scegliendo “Ferry Boat”</strong>: porta voi tre e la vostra auto da Corfù a Saranda. Tariffa alta stagione pubblicata: <strong>€111 solo andata</strong> (€22 × 3 persone + €45 auto). Da Saranda guidate gli ultimi 17 km fino a Ksamil.</p>
+          <strong>Scelta più economica · venerdì 28 agosto · 3 persone + auto privata</strong>
+          <p><strong>Kerkyra Lines: Corfù città → Igoumenitsa, corsa delle 06:30.</strong> Per una macchina normale sotto 4,25 m il prezzo pubblicato è <strong>€35 solo andata</strong> (€5 × 3 persone + €20 auto). Poi guidate circa 69 km fino a Ksamil. Stimando €8–11 di carburante, il trasferimento costa <strong>circa €43–46</strong>, più l'eventuale assicurazione albanese.</p>
         </div>
 
         <div class="trip-steps">
-          <div class="trip-step"><strong>1. Porto Nuovo di Corfù</strong>Arrivate almeno un’ora prima della corsa scelta: controlli su persone e auto.</div>
-          <div class="trip-step"><strong>2. Corfù → Saranda</strong>Scegliete una nave con scritto <strong>Ferry Boat</strong>, non l’aliscafo: l’auto sale solo sulla nave grande.</div>
-          <div class="trip-step"><strong>3. Saranda → Ksamil</strong>Guidate 17 km, circa 25–30 minuti più eventuale traffico estivo.</div>
+          <div class="trip-step"><strong>1. Porto Nuovo di Corfù · 06:30</strong>Arrivate almeno un'ora prima. La nave Kerkyra Lines arriva a Igoumenitsa alle 07:45.</div>
+          <div class="trip-step"><strong>2. Igoumenitsa → confine Mavromati / Qafë Botë</strong>Guidate verso nord. Il tratto completo Igoumenitsa → Ksamil è circa 69 km e richiede all'incirca un'ora e mezza, senza la possibile attesa alla frontiera.</div>
+          <div class="trip-step"><strong>3. Confine → Ksamil</strong>Entrate in Albania e proseguite fino a Ksamil. Calcolate un margine: ad agosto la frontiera può rallentare molto il viaggio.</div>
         </div>
 
-        <div class="trip-warning"><strong>Nessun battello diretto per Ksamil.</strong> Tutti arrivano a <strong>Saranda</strong>. La buona notizia è che, con la vostra auto, non vi servono taxi né furgon: sbarcate e guidate fino a Ksamil.</div>
+        <div class="trip-warning"><strong>Nessun battello di linea diretto per Ksamil.</strong> L'unico battello diretto utile con auto va a <strong>Saranda</strong>, poi sono 17 km di guida fino a Ksamil. È più comodo, ma non è la scelta meno cara.</div>
 
-        <h3 class="section-title">Classifica per voi · auto privata</h3>
+        <h3 class="section-title">Classifica per voi · prezzo e comodità</h3>
         <div class="deals">
-          <a class="deal" href="https://finikas-lines.liknoss.com/" target="_blank" rel="noopener">
-            <div class="deal-name">1. Finikas Lines · migliore scelta</div>
-            <div class="deal-price">€111 solo andata · 3 persone + auto</div>
-            <div class="deal-sub">Prezzo 2026 pubblicato per alta stagione: 3 adulti €66 + auto privata €45. Scegliete la voce <strong>Ferry Boat</strong> e inserite targa e dimensione dell’auto. È la prima scelta perché prezzo e posto auto sono pubblicati chiaramente.</div>
-            <div class="deal-cta">Apri Finikas e cerca “Corfu → Saranda”, 28 agosto, 3 adulti, 1 auto →</div>
+          <a class="deal" href="https://kerkyralines.com/en/online-ticket/" target="_blank" rel="noopener">
+            <div class="deal-name">1. Kerkyra Lines · scelta più economica</div>
+            <div class="deal-price">€35 battello · circa €43–46 con la benzina</div>
+            <div class="deal-sub">Corfù città → Igoumenitsa alle <strong>06:30</strong>, arrivo 07:45. Prezzo 2026 per 3 adulti + auto sotto 4,25 m: €5 × 3 + €20. Poi circa 69 km di guida fino a Ksamil. È il minimo verificato tra i traghetti che possono portare la macchina.</div>
+            <div class="deal-cta">Apri Kerkyra Lines e cerca “Corfu → Igoumenitsa”, 28 agosto, 3 adulti, 1 auto →</div>
           </a>
           <a class="deal" href="https://tickets.ionianseaways.com/" target="_blank" rel="noopener">
-            <div class="deal-name">2. Ionian Seaways · ottima riserva</div>
-            <div class="deal-price mid">Prezzo da controllare nella schermata di acquisto</div>
-            <div class="deal-sub">La compagnia ha una nave per passeggeri e auto, con traversata di 55–70 minuti, e vieta espressamente solo le <strong>auto a noleggio</strong>. Per la vostra auto privata, selezionate 1 auto e prendete una corsa con garage.</div>
-            <div class="deal-cta">Apri Ionian e verifica posto auto →</div>
+            <div class="deal-name">2. Finikas / Marina via Saranda · più comoda</div>
+            <div class="deal-price mid">€166 battello · circa €168–170 con la benzina</div>
+            <div class="deal-sub">Preventivo fatto sul 28 agosto: la nave <strong>MARINA</strong> porta l'auto alle 09:00, 13:00 o 19:00; 3 adulti €96 + auto sotto 4,25 m €70. Traversata reale circa 1 ora e 15 minuti, poi solo 17 km Saranda → Ksamil. Costa circa €123 in più, ma evita la lunga guida dal confine.</div>
+            <div class="deal-cta">Apri la prenotazione e scegli “MARINA”, non un aliscafo →</div>
           </a>
-          <a class="deal" href="https://finikas-lines.com/" target="_blank" rel="noopener">
-            <div class="deal-name">3. Piano di riserva se non trovate posto auto</div>
-            <div class="deal-price mid">Più lungo e meno comodo</div>
-            <div class="deal-sub">Andate a Igoumenitsa con la vostra auto e poi entrate in Albania via strada. Ha senso solo se le due compagnie non hanno garage libero: per arrivare a Ksamil è molto più lungo del passaggio diretto su Saranda.</div>
-            <div class="deal-cta">Prima tentate Finikas, poi Ionian →</div>
+          <a class="deal" href="https://www.kerkyraseaways.gr/en/booking" target="_blank" rel="noopener">
+            <div class="deal-name">3. Kerkyra Seaways · stessa strada, prezzo più alto</div>
+            <div class="deal-price mid">€65,10 battello · circa €73–76 con la benzina</div>
+            <div class="deal-sub">Preventivo fatto per la corsa delle 07:00: 3 adulti e auto normale. È una buona riserva se Kerkyra Lines non ha spazio, ma per la stessa strada pagate circa €30 in più.</div>
+            <div class="deal-cta">Apri Kerkyra Seaways e controlla lo spazio per l'auto →</div>
+          </a>
+          <a class="deal" href="https://lefkimmilines.gr/en/reservation-en/" target="_blank" rel="noopener">
+            <div class="deal-name">4. Lefkimmi Lines · da scartare se dormite a Corfù città</div>
+            <div class="deal-price mid">€44 di listino, più 40 km per raggiungere il porto</div>
+            <div class="deal-sub">La nave dura 50 minuti, ma il porto di Lefkimmi è circa 40 km a sud di Corfù città: aggiungete circa 39 minuti e €8–11 di carburante. Anche con gli sconti pubblicizzati non batte in modo affidabile la scelta n. 1.</div>
+            <div class="deal-cta">Apri Lefkimmi Lines solo se dormite già nel sud di Corfù →</div>
           </a>
         </div>
 
-        <h3 class="section-title">Orari da cercare il 28 agosto</h3>
+        <h3 class="section-title">Controllo fatto sui siti di prenotazione</h3>
         <div class="car-box">
-          Finikas pubblica ogni giorno in luglio-agosto le partenze Corfù → Saranda alle <strong>08:15, 09:00, 11:45, 13:00, 16:30 e 19:00</strong>. Non tutte sono necessariamente navi con garage: nella scelta cercate il nome <strong>Ferry Boat</strong> oppure chiedete “auto privata a bordo”. Non scegliete un aliscafo.
+          <ul>
+            <li><strong>Kerkyra Lines:</strong> prezzo 2026 confermato €35 per 3 adulti + auto normale e corse del venerdì, inclusa 06:30 → 07:45.</li>
+            <li><strong>Kerkyra Seaways:</strong> preventivo sul giorno preciso €65,10 per la corsa delle 07:00.</li>
+            <li><strong>Ionian Seaways:</strong> preventivo sul giorno preciso €166 per MARINA. Gli aliscafi mostrati nello stesso elenco non hanno garage: non sceglieteli con l'auto.</li>
+            <li><strong>Ferryhopper, Booktickets e Ferries.gr:</strong> usati per confronto di orari e listini. Nessuno ha dato un'opzione con auto più economica di Kerkyra Lines. <strong>Direct Ferries non è usato per decidere:</strong> nella stessa pagina dice sia che l'auto non può salire sia che mostra prezzi auto.</li>
+          </ul>
         </div>
 
         <h3 class="section-title">Cosa portare e controllare</h3>
@@ -1042,14 +1316,15 @@
             <li>Documento valido per l’espatrio per ciascuno.</li>
             <li>Patente italiana e libretto della macchina.</li>
             <li>Copertura assicurativa valida in Albania: molte assicurazioni italiane non la includono. Se la vostra non copre l’Albania, alla frontiera marittima serve un’assicurazione temporanea albanese (riferimento indicativo: ~€50 per 15 giorni).</li>
-            <li>Biglietto con la targa corretta e arrivo al porto almeno un’ora prima.</li>
+            <li>Biglietto con targa e misura dell'auto corrette. Tutti i prezzi qui sopra sono per un'auto normale sotto 4,25 m.</li>
+            <li>Se scegliete la strada economica, prevedete una riserva di tempo alla frontiera: in estate le attese possono essere lunghe.</li>
           </ul>
         </div>
 
-        <p class="trip-sources">Verificato il 25/07/2026: <a href="https://finikas-lines.com/" target="_blank" rel="noopener">Finikas</a> (navi, prenotazione e sconto auto), <a href="https://www.ferries.gr/en/ferry-companies/finikas-lines/route/corfu-saranda/" target="_blank" rel="noopener">tariffa 2026 Finikas</a>, <a href="https://ionianseaways.com/timetable/" target="_blank" rel="noopener">Ionian Seaways</a> (nave con auto e regola sulle auto a noleggio), <a href="https://www.viaggiaresicuri.it/schede_paese/pdf/ALB.pdf" target="_blank" rel="noopener">Viaggiare Sicuri – Albania</a>. Prezzo e garage vanno confermati nella pagina della compagnia prima di pagare.</p>
+        <p class="trip-sources">Ricerca e simulazioni aggiornate il 25/07/2026: <a href="https://kerkyralines.com/en/online-ticket/" target="_blank" rel="noopener">Kerkyra Lines</a>, <a href="https://www.ferries.gr/en/ferry-companies/kerkyra-lines/route/corfu-igoumenitsa-corfu/" target="_blank" rel="noopener">listino 2026 Kerkyra Lines</a>, <a href="https://www.kerkyraseaways.gr/en/booking" target="_blank" rel="noopener">Kerkyra Seaways</a>, <a href="https://tickets.ionianseaways.com/" target="_blank" rel="noopener">Ionian Seaways / Finikas</a>, <a href="https://lefkimmilines.gr/en/reservation-en/" target="_blank" rel="noopener">Lefkimmi Lines</a>, <a href="https://www.ferryhopper.com/en/ferry-routes/direct/corfu-igoumenitsa" target="_blank" rel="noopener">Ferryhopper</a>, <a href="https://www.directferries.com/corfu_saranda_ferry.htm" target="_blank" rel="noopener">Direct Ferries</a> e <a href="https://www.viaggiaresicuri.it/schede_paese/pdf/ALB.pdf" target="_blank" rel="noopener">Viaggiare Sicuri – Albania</a>. Prima di pagare, ricontrollate posto auto e prezzo sul sito della compagnia: ad agosto possono cambiare.</p>
       `;
       ksamilMarkers.ksamil?.openPopup();
-      map.flyTo([39.74, 19.96], 10, { duration: 0.7 });
+      map.flyTo([39.66, 20.03], 9, { duration: 0.7 });
     }
 
 
@@ -1145,6 +1420,8 @@
       list.style.display = "none"; carsPanel.style.display = "none";
       if (poisPanel) poisPanel.style.display = "none";
       if (ksamilPanel) ksamilPanel.style.display = "none";
+      if (alloggiPanel) alloggiPanel.style.display = "none";
+      nascondiMarcatoriAlloggi();
       if (corfuBudget) corfuBudget.style.display = "none";
       if (corfuDecision) corfuDecision.style.display = "none";
       if (!staysPanel) return;
@@ -1182,6 +1459,10 @@
     stays.forEach((s, index) => { s.id = "stay-" + (index + 1); s.number = index + 1; });
 
     function renderList(filter) {
+      if (filter === "alloggi-31-agosto") {
+        renderAlloggi();
+        return;
+      }
       if (filter === "saranda" || filter === "stays") {
         renderStays("saranda");
         return;
@@ -1203,6 +1484,8 @@
       }
       if (poisPanel) poisPanel.style.display = "none";
       if (ksamilPanel) ksamilPanel.style.display = "none";
+      if (alloggiPanel) alloggiPanel.style.display = "none";
+      nascondiMarcatoriAlloggi();
       carsPanel.style.display = "none";
       list.style.display = "block";
       if (corfuBudget) corfuBudget.style.display = "block";
@@ -1301,11 +1584,21 @@
       poiMarkers[p.id] = m;
     });
 
-    // Apri focus da link del dossier: #zone=messonghi oppure #poi=paleokastritsa oppure #cars
+    // Apri focus da link del dossier: #alloggi, #zone=messonghi oppure #poi=paleokastritsa oppure #cars
     function focusFromHash() {
       const raw = (location.hash || "").replace(/^#/, "");
       if (!raw) return;
       const [kind, id] = raw.includes("=") ? raw.split("=") : [raw, ""];
+      if (kind === "alloggi" || raw === "alloggi") {
+        document.querySelectorAll("#filters button").forEach((b) => b.classList.toggle("active", b.dataset.filter === "alloggi-31-agosto"));
+        renderList("alloggi-31-agosto");
+        return;
+      }
+      if (kind === "alloggio" && id && alloggi31Agosto.some((alloggio) => alloggio.area === id)) {
+        document.querySelectorAll("#filters button").forEach((b) => b.classList.toggle("active", b.dataset.filter === "alloggi-31-agosto"));
+        renderAlloggi(id, true);
+        return;
+      }
       if (kind === "cars" || raw === "cars") {
         document.querySelectorAll("#filters button").forEach((b) => b.classList.toggle("active", b.dataset.filter === "cars"));
         renderList("cars");
