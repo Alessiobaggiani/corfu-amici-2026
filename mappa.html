@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   
-  <meta name="description" content="Corfù → Ksamil il 28 agosto 2026 con auto privata: traghetti auto, costi per 3 e documenti." />
-  <meta property="og:title" content="Corfù → Ksamil · 28 agosto 2026" />
-  <meta property="og:description" content="Traghetti con auto privata, costi reali per 3 persone e strada Saranda → Ksamil." />
+  <meta name="description" content="Corfù e Ksamil 2026: mappa, viaggio e 50 alloggi verificati dal 31 agosto per 3 adulti." />
+  <meta property="og:title" content="Corfù · 50 alloggi dal 31 agosto 2026" />
+  <meta property="og:description" content="Mappa della costa est/nord-est, foto, prezzi per 3 adulti e link diretti agli alloggi." />
   <meta property="og:type" content="website" />
   <meta name="theme-color" content="#1f6f8b" />
   <link rel="canonical" id="canonical-link" href="" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Corfù → Ksamil · 28 agosto 2026 — auto privata e prezzi per 3</title>
+  <title>Corfù · 50 alloggi dal 31 agosto 2026 — foto, prezzi e mappa</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
@@ -82,6 +82,7 @@
     .dot.scenic { background: var(--scenic); }
     .dot.airport { background: #111; }
     .dot.car { background: #6b3fa0; }
+    .dot.stay { background: #d55328; }
 
     .car-marker-icon {
       background: #6b3fa0;
@@ -95,6 +96,33 @@
       justify-content: center;
       font-size: 14px;
       box-shadow: 0 2px 8px rgba(0,0,0,.25);
+    }
+    .stay-marker-icon {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      background: #d55328;
+      color: #fff;
+      font-size: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.28);
+    }
+    .stay-marker-icon span {
+      position: absolute;
+      right: -7px;
+      bottom: -7px;
+      min-width: 18px;
+      padding: 1px 4px;
+      border: 2px solid #fff;
+      border-radius: 999px;
+      background: #1c2430;
+      color: #fff;
+      font: 700 10px/1.3 system-ui,sans-serif;
+      text-align: center;
     }
 
     .callout {
@@ -211,6 +239,95 @@
       font-weight: 700;
       color: var(--sea);
     }
+    .stay-area {
+      margin: 18px 0 24px;
+    }
+    .stay-area-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: baseline;
+      margin: 0 0 9px;
+    }
+    .stay-area-head h3 {
+      margin: 0;
+      font-family: Fraunces, Georgia, serif;
+      font-size: 1.05rem;
+    }
+    .stay-area-head button {
+      border: 0;
+      background: transparent;
+      padding: 0;
+      color: var(--sea);
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .stay-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+    .alloggio-card {
+      display: grid;
+      grid-template-columns: 88px 1fr;
+      min-height: 88px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #faf7f0;
+      color: inherit;
+      text-decoration: none;
+      transition: border-color .15s ease, transform .15s ease;
+    }
+    .alloggio-card:hover {
+      border-color: var(--sea);
+      transform: translateY(-1px);
+    }
+    .alloggio-card img {
+      width: 88px;
+      height: 100%;
+      min-height: 88px;
+      object-fit: cover;
+      background: #dbe8eb;
+    }
+    .stay-card-body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 2px;
+      padding: 8px 10px;
+      min-width: 0;
+    }
+    .stay-card-name {
+      overflow: hidden;
+      font-size: .87rem;
+      font-weight: 800;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .stay-card-price {
+      color: var(--cheap);
+      font-size: .93rem;
+      font-weight: 800;
+    }
+    .stay-card-meta {
+      color: var(--muted);
+      font-size: .75rem;
+      line-height: 1.3;
+    }
+    .stay-card-platform {
+      margin-top: 2px;
+      color: var(--sea);
+      font-size: .74rem;
+      font-weight: 800;
+    }
+    .stay-popup-list { display: grid; gap: 8px; max-height: 390px; overflow: auto; padding-right: 4px; }
+    .stay-popup-card { display: grid; grid-template-columns: 66px 1fr; gap: 8px; padding: 6px; border: 1px solid #e6e0d5; border-radius: 10px; }
+    .stay-popup-card img { width: 66px; height: 66px; object-fit: cover; border-radius: 7px; background: #dbe8eb; }
+    .stay-popup-card a { display: inline-block; margin-top: 3px; }
     .search-all {
       display: inline-block;
       margin-top: 10px;
@@ -369,15 +486,15 @@
     <a class="back" href="index.html">← Torna al dossier</a>
     <div class="hint">
       <strong>Mappa di supporto alle scelte.</strong>
-      Il pulsante “Ksamil 28 ago” mostra il percorso reale Corfù → Saranda → Ksamil, con tutti i costi per 3.
+      Scegli “Alloggi 31 ago” per vedere sulla mappa 50 case con foto, prezzi e link diretti. Il pulsante Ksamil conserva viaggio e costi.
     </div>
   </div>
   <div class="app">
     <aside class="panel">
       <h1>Corfù · mappa scelta</h1>
       <p class="subtitle">
-        3 adulti · arrivo a Corfù <strong>27 agosto 2026</strong> · una notte a Corfù ·
-        trasferimento a <strong>Ksamil (Xamil) il 28 agosto</strong>. Qui ci sono sia il passaggio sia le vecchie scelte Corfù.
+        3 adulti · rientro da <strong>Ksamil (Xamil) il 31 agosto 2026</strong> ·
+        3 notti a Corfù. Le case qui sotto sono nella costa est/nord-est indicata nello screenshot.
       </p>
 
       <div class="pill-row">
@@ -387,21 +504,22 @@
         <span class="pill"><span class="dot pricey"></span> Cara</span>
         <span class="pill"><span class="dot airport"></span> Aeroporto</span>
         <span class="pill"><span class="dot car"></span> Noleggio auto</span>
+        <span class="pill"><span class="dot stay"></span> Alloggi 31 agosto</span>
       </div>
 
       <div class="callout" id="corfu-budget">
-        <strong>Budget gruppo: casa + auto €500–650</strong>
+        <strong>Rientro 31 agosto: 50 alloggi controllati</strong>
         <p>
-          Mirate a case ≤ ~€520 + auto economy 5 posti ~€144–200.
-          <strong>1ª zona:</strong> Messonghi. Pin viola = noleggi.
-          Per tornare alle spiegazioni: pulsante nero in alto <strong>← Torna al dossier</strong>.
-          Ogni spesa comune → Splitwise.
+          Le offerte sono per <strong>3 adulti · 3 notti · 31 agosto → 3 settembre</strong>.
+          Il minimo reale nella fascia scelta è <strong>€298</strong> (Gouvia o Ipsos), non contando campeggi.
+          I pin arancioni indicano la località dichiarata dall’annuncio; dentro trovi foto e pulsante diretto.
         </p>
       </div>
 
       <div class="filters" id="filters">
-        <button type="button" data-filter="ksamil" class="active">Ksamil · 28 ago</button>
-        <button type="button" data-filter="stays">Alloggi · 28–31 ago</button>
+        <button type="button" data-filter="alloggi-31-agosto" class="active">Alloggi Corfù · 31 ago</button>
+        <button type="button" data-filter="stays">Alloggi Xamil · 28–31 ago</button>
+        <button type="button" data-filter="ksamil">Ksamil · 28 ago</button>
         <button type="button" data-filter="all">Case</button>
         <button type="button" data-filter="cars">Noleggi auto</button>
         <button type="button" data-filter="cheap">Case economiche</button>
@@ -411,6 +529,7 @@
       </div>
       <div id="pois-panel" style="display:none"></div>
       <div id="ksamil-panel" style="display:none"></div>
+      <div id="alloggi-panel" style="display:none"></div>
       <div id="stays-panel" style="display:none"></div>
 
       <div id="cars-panel" class="hidden-panel" style="display:none"></div>
@@ -420,7 +539,8 @@
         <h3 class="section-title">Ordine di approfondimento</h3>
         <div class="next-box">
           <ol>
-            <li><strong>Messonghi</strong> — 1ª per budget casa+auto €500–650.</li>
+          <li><strong>Alloggi 31 agosto</strong> — 50 proposte con foto nella fascia scelta.</li>
+          <li><strong>Messonghi</strong> — 1ª per budget casa+auto €500–650.</li>
             <li><strong>Moraitika</strong> — solo con casa ≤ €520.</li>
             <li><strong>Lefkimmi / inland</strong> — risparmio estremo, più guida.</li>
             <li>Ogni spesa comune → <strong>Splitwise</strong>. Dossier completo: <a href="index.html">index.html</a>.</li>
@@ -429,14 +549,15 @@
       </div>
 
       <p class="footnote">
-        Ksamil: verifica fatta il 25/07/2026. Orari e disponibilità possono cambiare: prima di pagare, controllate il pulsante della compagnia.
-        Per l’auto privata controllate prima assicurazione valida in Albania, libretto e targa corretta sul biglietto.
+        Alloggi: ricerca fatta il 25/07/2026 su Booking.com. Prezzi e disponibilità possono cambiare: aprite il pulsante dell’annuncio prima di pagare.
+        Il pin indica la località riportata da Booking, non inventa un indirizzo privato non pubblicato.
       </p>
     </aside>
     <div id="map" role="application" aria-label="Mappa interattiva di Corfù"></div>
   </div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="alloggi-31-agosto.js"></script>
   <script>
     const CHECKIN = "2026-08-27";
     const CHECKOUT = "2026-09-03";
@@ -685,61 +806,103 @@
 
     const airport = { lat: 39.6019, lng: 19.9117, name: "Aeroporto Corfù (CFU)" };
     const tierColor = { cheap: "#2f7d4a", mid: "#b7791f", pricey: "#b42318", scenic: "#1d4e89" };
-    // Punti di ritiro reali. Più agenzie nello stesso punto condividono il segnaposto: non vengono inventati indirizzi diversi.
+    const KAYAK_CARS = "https://www.kayak.it/cars/CFU-a1200/CFU-a1200/2026-08-27/2026-09-03/?sort=price_a";
+    const DISCOVER_CARS = "https://www.discovercars.com/greece/corfu/cfu?date_from=2026-08-27&time_from=12%3A00&date_to=2026-09-03&time_to=12%3A00&age=35";
+
+    // Punti ritiro + offerte reali Kayak 27/08–03/09/2026 (letti oggi)
     const carSpots = [
       {
-        id: "car-terminal",
-        name: "Aeroporto · Arrivi",
+        id: "car-airport-desk",
+        name: "Aeroporto · banconi in arrivi",
         lat: 39.6019, lng: 19.9117,
-        how: "Banconi dentro gli Arrivi oppure consegna davanti al terminal.",
-        note: "Il punto più comodo appena ritirate i bagagli."
+        how: "Dentro il terminal (Arrivi). Niente navetta.",
+        companies: "Avis, Hertz, Budget, Enterprise / National, Sixt e altri grandi",
+        note: "Solitamente più comodi; a volte un filo più cari dei locali con navetta."
       },
       {
-        id: "car-kosta",
-        name: "Kosta Georgaki 31",
-        lat: 39.6116345, lng: 19.9071609,
-        how: "Uffici a circa 300 metri dagli Arrivi; alcune agenzie offrono il passaggio.",
-        note: "Vicino a piedi, ma chiedete sempre come vi consegnano l’auto."
+        id: "car-airport-shuttle",
+        name: "Aeroporto · navetta / deposito vicino",
+        lat: 39.5985, lng: 19.9065,
+        how: "Uscite, prendete la navetta gratuita del noleggiatore (pochi minuti).",
+        companies: "Green Motion, Autounion, Centauro, Surprice e vari locali",
+        note: "Qui spesso i prezzi più bassi. Controllate tempo di attesa (a volte 15–40 min)."
       },
       {
-        id: "car-eptanisou",
-        name: "Leoforos Eptanisou 8",
-        lat: 39.61299, lng: 19.9077,
-        how: "Ufficio AutoRent; navetta gratuita dall’aeroporto.",
-        note: "Ritiro fuori dal terminal, con un breve passaggio in navetta."
+        id: "car-airport-meet",
+        name: "Aeroporto · incontro in arrivi",
+        lat: 39.6050, lng: 19.9155,
+        how: "Qualcuno vi aspetta in arrivi con cartello e vi porta all’auto.",
+        companies: "Molti broker / agenzie locali (Meet & Greet)",
+        note: "Comodo se il volo è in ritardo — chiedete se l’orario è coperto."
       },
       {
-        id: "car-riga",
-        name: "Riga Feraiou 21",
-        lat: 39.6139078, lng: 19.910942,
-        how: "Uffici Driveaway e Fair Deal vicino all’aeroporto.",
-        note: "Punto vicino al terminal, da raggiungere secondo le istruzioni dell’agenzia."
+        id: "car-port",
+        name: "Porto di Corfù",
+        lat: 39.6275, lng: 19.9035,
+        how: "Utile se arrivate in traghetto, non in aereo.",
+        companies: "Avis e alcune agenzie in zona porto",
+        note: "Per voi (aereo) meglio ritiro CFU."
+      },
+      {
+        id: "car-gouvia",
+        name: "Gouvia / Kontokali (secondario)",
+        lat: 39.651, lng: 19.848,
+        how: "Alcune agenzie locali consegnano vicino alla marina.",
+        companies: "Locali / consegna hotel",
+        note: "Ha senso solo se dormite già lì e non volete guidare dall’aereo."
       }
     ];
 
-    // Prezzi di partenza pubblicati dalle singole agenzie; sul sito trovate il prezzo vero per le vostre date.
     const carOffers = [
-      { agency: "Vidos Cars", spot: "car-terminal", car: "Peugeot 108, Hyundai i10, Kia Rio", price: "da €14,30/giorno", url: "https://vidoscars.com/" },
-      { agency: "Value Plus", spot: "car-terminal", car: "Fiat 500 Hybrid, Panda, Skoda Fabia automatica", price: "da €37,87/giorno", url: "https://corfucarrentals.com/" },
-      { agency: "First Corfu", spot: "car-terminal", car: "Fiat Panda o Toyota Aygo · 5 posti", price: "da €11/giorno", url: "https://firstcorfu.com/corfu-airport-car-rental/" },
-      { agency: "Auto Corfu", spot: "car-terminal", car: "VW Up, Kia Picanto, Hyundai i10, Fiat Panda", price: "vedi prezzo sulle date", url: "https://autocorfu.com/en/" },
-      { agency: "Ansa Car Rental", spot: "car-terminal", car: "Suzuki Celerio, VW Polo, Fiat Tipo", price: "da €30/giorno", url: "https://ansacorfu.gr/" },
-      { agency: "Corfu Auto Rent", spot: "car-terminal", car: "Hyundai i10, Hyundai i20", price: "da €14,90/giorno", url: "https://www.corfuautorent.com/" },
-      { agency: "RentCorfu", spot: "car-terminal", car: "Piccola, economy e famiglia", price: "vedi prezzo sulle date", url: "https://rentcorfu.com/airport" },
-      { agency: "Eurorent Economy", spot: "car-terminal", car: "Economy e famiglia", price: "vedi prezzo sulle date", url: "https://economycorfucarrental.com/" },
-      { agency: "Go Car", spot: "car-terminal", car: "Flotta e modello mostrati dopo la scelta delle date", price: "vedi prezzo sulle date", url: "https://corfuairportcarhire.gr/" },
-      { agency: "Avis", spot: "car-terminal", car: "Categoria 5 posti / 2 valigie", price: "vedi prezzo sulle date", url: "https://www.avis.gr/en/" },
-      { agency: "Budget", spot: "car-terminal", car: "Categoria 5 posti / 2 valigie", price: "vedi prezzo sulle date", url: "https://www.budget.gr/en/" },
-      { agency: "Enterprise", spot: "car-terminal", car: "Mini, economy, compatta e famiglia", price: "vedi prezzo sulle date", url: "https://www.enterprise.gr/en/car-hire-locations/gr/corfu-airport-lga8.html" },
-      { agency: "Hertz", spot: "car-terminal", car: "Mini, compatta e SUV", price: "vedi prezzo sulle date", url: "https://www.hertz.gr/en/" },
-      { agency: "Thrifty", spot: "car-terminal", car: "Mini, compatta e famiglia", price: "vedi prezzo sulle date", url: "https://www.thrifty.com/" },
-      { agency: "Sixt", spot: "car-terminal", car: "Compatta, famiglia e SUV", price: "vedi prezzo sulle date", url: "https://www.sixt.com/car-rental/greece/corfu/corfu-airport/" },
-      { agency: "UNO Car Hire", spot: "car-kosta", car: "Peugeot 108, Fiat Panda, Seat Arona", price: "vedi prezzo sulle date", url: "https://unocorfu.com/it/" },
-      { agency: "Volta4u", spot: "car-kosta", car: "Piccola, compatta e automatica", price: "vedi prezzo sulle date", url: "https://www.volta4u.com/" },
-      { agency: "Europcar", spot: "car-kosta", car: "Economy, compatta e famiglia", price: "vedi prezzo sulle date", url: "https://www.europcar.com/" },
-      { agency: "AutoRent Corfu", spot: "car-eptanisou", car: "Fiat Panda, Hyundai i10, Toyota Yaris", price: "da €28,32/giorno", url: "https://autorentcorfu.com/" },
-      { agency: "Driveaway Corfu", spot: "car-riga", car: "Opel Corsa, Hyundai i10 automatica, Suzuki Ignis", price: "da €14/giorno", url: "https://rentalcarcorfuairport.com/" },
-      { agency: "Fair Deal", spot: "car-riga", car: "Nissan Micra automatica, 7 e 9 posti", price: "da €9/giorno", url: "https://corfucarsrental.com/" }
+      {
+        name: "Skoda Citigo (o simile) · Economy",
+        total: 144, day: 21, seats: 4, bags: "2",
+        pickup: "Navetta aeroporto", score: "7,8",
+        via: "bsp-auto / Kayak", warn: "Prezzo aggressivo: controllate cauzione e assicurazione.",
+        okFor3: true
+      },
+      {
+        name: "Fiat 500 (o simile) · Piccola",
+        total: 154, day: 22, seats: 2, bags: "1",
+        pickup: "Navetta aeroporto", score: "9,4",
+        via: "Booking.com Cars", warn: "Solo 2 posti — NO per voi tre.",
+        okFor3: false
+      },
+      {
+        name: "Economy / Piccola 5 posti",
+        total: 192, day: 27, seats: 5, bags: "2",
+        pickup: "Navetta aeroporto", score: "9,0",
+        via: "bsp-auto / EconomyBookings", warn: "Buon equilibrio prezzo/posti per 3 adulti.",
+        okFor3: true
+      },
+      {
+        name: "Economy automatica (o simile)",
+        total: 194, day: 28, seats: 4, bags: "2",
+        pickup: "Navetta aeroporto", score: "7,2",
+        via: "bsp-auto", warn: "Se preferite cambio automatico.",
+        okFor3: true
+      },
+      {
+        name: "Kia XCeed (o simile) · Media",
+        total: 759, day: 108, seats: 5, bags: "3–4",
+        pickup: "CFU (DiscoverCars)", score: "—",
+        via: "DiscoverCars", warn: "Più spazio bagagli · prezzo alto stagione.",
+        okFor3: true
+      },
+      {
+        name: "Suzuki Vitara (o simile) · SUV",
+        total: 768, day: 110, seats: 5, bags: "3–4",
+        pickup: "CFU (DiscoverCars)", score: "—",
+        via: "DiscoverCars", warn: "Comoda sulle strade di montagna.",
+        okFor3: true
+      },
+      {
+        name: "Renault Clio (o simile) · Compatta",
+        total: 886, day: 127, seats: 5, bags: "2–3",
+        pickup: "CFU (DiscoverCars)", score: "—",
+        via: "DiscoverCars", warn: "Compatta “comoda”, non il prezzo più basso.",
+        okFor3: true
+      }
     ];
 
     const map = L.map("map", { scrollWheelZoom: true }).setView([39.62, 19.85], 10);
@@ -783,38 +946,29 @@
       iconAnchor: [14, 14]
     });
 
-    function offersAt(spotId) {
-      return carOffers.filter((offer) => offer.spot === spotId);
-    }
-
-    function rentalRows(offers) {
-      return offers.map((offer) => `
-        <div style="margin-top:8px;padding-top:8px;border-top:1px solid #ddd">
-          <strong>${offer.agency}</strong><br>
-          <span style="color:#2f7d4a;font-weight:700">${offer.price}</span><br>
-          <span style="color:#5a6574">${offer.car}</span><br>
-          <a href="${offer.url}" target="_blank" rel="noopener">Apri e noleggia →</a>
-        </div>
-      `).join("");
-    }
-
-    function rentalPopup(spot) {
-      const offers = offersAt(spot.id);
-      return `
-        <div class="popup-title">${spot.name}</div>
-        <div class="popup-deal">
-          ${spot.how}<br><span style="color:#5a6574">${spot.note}</span>
-          ${rentalRows(offers)}
-        </div>
-      `;
-    }
-
     carSpots.forEach((c) => {
       const m = L.marker([c.lat, c.lng], { icon: carIcon }).addTo(map);
-      m.bindPopup(rentalPopup(c));
-      m.bindTooltip(`${offersAt(c.id).length} agenzie`, { direction: "top" });
+      m.bindPopup(`
+        <div class="popup-title">${c.name}</div>
+        <div class="popup-deal">
+          <strong>Come funziona:</strong> ${c.how}<br>
+          <strong>Chi trovate:</strong> ${c.companies}<br>
+          ${c.note}<br><br>
+          <a href="${KAYAK_CARS}" target="_blank" rel="noopener">Confronta prezzi auto (Kayak) →</a>
+        </div>
+      `);
       carMarkers[c.id] = m;
     });
+
+    L.marker([airport.lat, airport.lng]).addTo(map)
+      .bindPopup(`
+        <div class="popup-title">${airport.name}</div>
+        <div class="popup-deal">
+          Hub principale noleggi.<br>
+          Economy da <strong>~€144–200</strong> / settimana · Media/SUV spesso <strong>€750+</strong><br>
+          <a href="${KAYAK_CARS}" target="_blank" rel="noopener">Apri confronto Kayak →</a>
+        </div>
+      `);
 
     // Percorso richiesto: la barca arriva a Saranda, poi gli ultimi 17 km sono su strada.
     const ksamilStops = {
@@ -849,44 +1003,183 @@
     const list = document.getElementById("zones");
     const carsPanel = document.getElementById("cars-panel");
     const ksamilPanel = document.getElementById("ksamil-panel");
+    const alloggiPanel = document.getElementById("alloggi-panel");
     const corfuBudget = document.getElementById("corfu-budget");
     const corfuDecision = document.getElementById("corfu-decision");
+    const alloggi31Agosto = Array.isArray(window.CORFU_ALLOGGI_31_AGOSTO) ? window.CORFU_ALLOGGI_31_AGOSTO : [];
+    const alloggiAreaMarkers = {};
+
+    function safeHtml(value) {
+      return String(value ?? "").replace(/[&<>"']/g, (char) => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
+      }[char]));
+    }
+
+    function alloggiPerZona() {
+      return alloggi31Agosto.reduce((acc, alloggio) => {
+        if (!acc[alloggio.area]) acc[alloggio.area] = [];
+        acc[alloggio.area].push(alloggio);
+        return acc;
+      }, {});
+    }
+
+    function alloggioCardHtml(alloggio, compact = false) {
+      const recensioni = alloggio.reviews ? `${alloggio.reviews} recensioni` : "recensioni non mostrate";
+      const cancellazione = alloggio.cancellation ? "cancellazione gratuita" : "senza cancellazione gratuita";
+      if (compact) {
+        return `
+          <div class="stay-popup-card">
+            <img src="${safeHtml(alloggio.image)}" alt="Foto di ${safeHtml(alloggio.name)}" loading="lazy">
+            <div>
+              <strong>#${alloggio.rank} · ${safeHtml(alloggio.name)}</strong><br>
+              <span>€${alloggio.price} · voto ${safeHtml(alloggio.score)} · ${recensioni}</span><br>
+              <a href="${safeHtml(alloggio.url)}" target="_blank" rel="noopener">Apri su ${safeHtml(alloggio.platform)} →</a>
+            </div>
+          </div>`;
+      }
+      return `
+        <a class="alloggio-card" href="${safeHtml(alloggio.url)}" target="_blank" rel="noopener">
+          <img src="${safeHtml(alloggio.image)}" alt="Foto di ${safeHtml(alloggio.name)}" loading="lazy">
+          <div class="stay-card-body">
+            <div class="stay-card-name">#${alloggio.rank} · ${safeHtml(alloggio.name)}</div>
+            <div class="stay-card-price">€${alloggio.price} totali · 3 notti</div>
+            <div class="stay-card-meta">Voto ${safeHtml(alloggio.score)} · ${recensioni} · ${cancellazione}</div>
+            <div class="stay-card-platform">Foto e annuncio: ${safeHtml(alloggio.platform)} →</div>
+          </div>
+        </a>`;
+    }
+
+    function alloggiPopupHtml(area, alloggi) {
+      return `
+        <div class="popup-title">🏠 ${safeHtml(area)} · ${alloggi.length} alloggi</div>
+        <div class="popup-deal">Pin sulla località indicata dall’annuncio. Prezzi per 3 adulti, 31 ago → 3 set.</div>
+        <div class="stay-popup-list">${alloggi.slice(0, 8).map((alloggio) => alloggioCardHtml(alloggio, true)).join("")}</div>
+      `;
+    }
+
+    function creaMarcatoriAlloggi() {
+      if (Object.keys(alloggiAreaMarkers).length || !alloggi31Agosto.length) return;
+      Object.entries(alloggiPerZona()).forEach(([area, alloggi]) => {
+        const primo = alloggi[0];
+        const icon = L.divIcon({
+          className: "",
+          html: `<div class="stay-marker-icon">🏠<span>${alloggi.length}</span></div>`,
+          iconSize: [34, 34],
+          iconAnchor: [17, 17]
+        });
+        const marker = L.marker([primo.lat, primo.lng], { icon });
+        marker.bindPopup(alloggiPopupHtml(area, alloggi), { maxWidth: 330 });
+        marker.on("click", () => renderAlloggi(area, false));
+        alloggiAreaMarkers[area] = marker;
+      });
+    }
+
+    function mostraMarcatoriAlloggi() {
+      creaMarcatoriAlloggi();
+      Object.values(alloggiAreaMarkers).forEach((marker) => {
+        if (!map.hasLayer(marker)) marker.addTo(map);
+      });
+    }
+
+    function nascondiMarcatoriAlloggi() {
+      Object.values(alloggiAreaMarkers).forEach((marker) => {
+        if (map.hasLayer(marker)) map.removeLayer(marker);
+      });
+    }
+
+    function renderAlloggi(areaAttiva = null, spostaMappa = true) {
+      list.style.display = "none";
+      carsPanel.style.display = "none";
+      if (poisPanel) poisPanel.style.display = "none";
+      if (ksamilPanel) ksamilPanel.style.display = "none";
+      if (staysPanel) staysPanel.style.display = "none";
+      stayLayer.remove();
+      if (!alloggiPanel) return;
+      alloggiPanel.style.display = "block";
+      if (corfuBudget) corfuBudget.style.display = "block";
+      if (corfuDecision) corfuDecision.style.display = "none";
+      mostraMarcatoriAlloggi();
+      const gruppi = alloggiPerZona();
+      alloggiPanel.innerHTML = `
+        <div class="callout">
+          <strong>50 alloggi per il rientro da Xamil · 31 agosto → 3 settembre</strong>
+          <p>Foto, prezzo totale per 3 adulti, voto e pulsante diretto alla pagina dove l’ho trovato: <strong>Booking.com</strong>. Il minimo reale in questa fascia è €298 (Gouvia o Ipsos): non ho contato campeggi o posti fuori dal perimetro rosso.</p>
+        </div>
+        <p class="meta">Ogni pin arancione è nella località riportata dall’annuncio. Non forzo un indirizzo preciso quando la piattaforma non lo rende pubblico.</p>
+        ${Object.entries(gruppi).map(([area, alloggi]) => `
+          <section class="stay-area" id="alloggi-${safeHtml(area).toLowerCase()}">
+            <div class="stay-area-head">
+              <h3>🏠 ${safeHtml(area)} · ${alloggi.length} proposte</h3>
+              <button type="button" data-alloggi-area="${safeHtml(area)}">Centra sulla mappa</button>
+            </div>
+            <div class="stay-grid">${alloggi.map((alloggio) => alloggioCardHtml(alloggio)).join("")}</div>
+          </section>
+        `).join("")}
+      `;
+      alloggiPanel.querySelectorAll("[data-alloggi-area]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const area = button.getAttribute("data-alloggi-area");
+          const marker = alloggiAreaMarkers[area];
+          if (!marker) return;
+          marker.openPopup();
+          map.flyTo(marker.getLatLng(), 13, { duration: 0.7 });
+        });
+      });
+      if (areaAttiva && alloggiAreaMarkers[areaAttiva]) {
+        alloggiAreaMarkers[areaAttiva].openPopup();
+        if (spostaMappa) map.flyTo(alloggiAreaMarkers[areaAttiva].getLatLng(), 13, { duration: 0.7 });
+      } else if (spostaMappa) {
+        map.flyTo([39.72, 19.89], 10, { duration: 0.7 });
+      }
+    }
 
     function renderCars() {
       list.style.display = "none";
       carsPanel.style.display = "block";
       if (ksamilPanel) ksamilPanel.style.display = "none";
+      if (alloggiPanel) alloggiPanel.style.display = "none";
+      nascondiMarcatoriAlloggi();
       if (corfuBudget) corfuBudget.style.display = "block";
       if (corfuDecision) corfuDecision.style.display = "block";
       carsPanel.innerHTML = `
         <div class="callout">
-          <strong>Noleggi auto · ritiro vicino all’aeroporto</strong>
+          <strong>Noleggi auto · 27 ago → 3 set · ritiro CFU</strong>
           <p>
-            Ci sono <strong>${carOffers.length} agenzie</strong> in <strong>${carSpots.length} punti reali</strong>.
-            Ogni riga ha il prezzo di partenza e il pulsante per noleggiare. I prezzi finali cambiano con le date.
+            Prezzi letti oggi su Kayak (409 offerte). Per voi tre: scegliete auto da
+            <strong>almeno 4–5 posti</strong> e controllate bagagli.
+            I pin <strong>viola</strong> sulla mappa sono i punti di ritiro.
           </p>
         </div>
         ${carSpots.map((c) => `
           <article class="zone" data-car="${c.id}">
             <div class="zone-top">
               <h2>${c.name}</h2>
-              <span class="badge" style="background:#efe6ff;color:#6b3fa0">${offersAt(c.id).length} agenzie</span>
+              <span class="badge" style="background:#efe6ff;color:#6b3fa0">Noleggio</span>
             </div>
             <p class="meta">${c.how}</p>
+            <p class="meta"><strong>Agenzie tipiche:</strong> ${c.companies}</p>
             <p class="tagline">${c.note}</p>
-            <div class="deals">
-              ${offersAt(c.id).map((offer) => `
-                <a class="deal" href="${offer.url}" target="_blank" rel="noopener" onclick="event.stopPropagation()">
-                  <div class="deal-name">${offer.agency}</div>
-                  <div class="deal-price ${offer.price.startsWith("da ") ? "" : "mid"}">${offer.price}</div>
-                  <div class="deal-sub">${offer.car}</div>
-                  <div class="deal-cta">Apri e noleggia →</div>
-                </a>
-              `).join("")}
-            </div>
           </article>
         `).join("")}
-        <p class="footnote">Prezzi di partenza controllati sui siti delle agenzie. Prima di pagare, selezionate le vostre date e controllate il totale, il numero di posti e i bagagli.</p>
+        <h3 class="section-title">Offerte reali trovate (totale 7 giorni)</h3>
+        <div class="deals">
+          ${carOffers.map((o) => `
+            <a class="deal" href="${KAYAK_CARS}" target="_blank" rel="noopener">
+              <div class="deal-name">${o.name}${o.okFor3 ? "" : " ⚠️"}</div>
+              <div class="deal-price ${o.total > 500 ? "high" : ""}">
+                € ${o.total.toLocaleString("it-IT")} totali · ≈ € ${o.day}/giorno
+              </div>
+              <div class="deal-sub">
+                ${o.seats} posti · bagagli ~${o.bags} · ${o.pickup}
+                ${o.score !== "—" ? " · voto " + o.score : ""} · via ${o.via}
+              </div>
+              <div class="deal-sub">${o.warn}</div>
+              <div class="deal-cta">Apri confronto e prenota →</div>
+            </a>
+          `).join("")}
+        </div>
+        <a class="search-all" href="${KAYAK_CARS}" target="_blank" rel="noopener">Kayak · tutte le auto CFU →</a><br>
+        <a class="search-all" href="${DISCOVER_CARS}" target="_blank" rel="noopener">DiscoverCars · stessa ricerca →</a>
       `;
       carsPanel.querySelectorAll("[data-car]").forEach((el) => {
         el.addEventListener("click", () => {
@@ -897,7 +1190,7 @@
           map.flyTo([spot.lat, spot.lng], 13, { duration: 0.7 });
         });
       });
-      map.fitBounds(carSpots.map((spot) => [spot.lat, spot.lng]), { padding: [45, 45], maxZoom: 15 });
+      map.flyTo([airport.lat, airport.lng], 12, { duration: 0.7 });
     }
 
     const poisPanel = document.getElementById("pois-panel");
@@ -906,6 +1199,8 @@
       list.style.display = "none";
       carsPanel.style.display = "none";
       if (ksamilPanel) ksamilPanel.style.display = "none";
+      if (alloggiPanel) alloggiPanel.style.display = "none";
+      nascondiMarcatoriAlloggi();
       if (corfuBudget) corfuBudget.style.display = "block";
       if (corfuDecision) corfuDecision.style.display = "block";
       if (poisPanel) poisPanel.style.display = "block";
@@ -938,6 +1233,8 @@
       list.style.display = "none";
       carsPanel.style.display = "none";
       if (poisPanel) poisPanel.style.display = "none";
+      if (alloggiPanel) alloggiPanel.style.display = "none";
+      nascondiMarcatoriAlloggi();
       if (!ksamilPanel) return;
       ksamilPanel.style.display = "block";
       if (corfuBudget) corfuBudget.style.display = "none";
@@ -1039,6 +1336,8 @@
       list.style.display = "none"; carsPanel.style.display = "none";
       if (poisPanel) poisPanel.style.display = "none";
       if (ksamilPanel) ksamilPanel.style.display = "none";
+      if (alloggiPanel) alloggiPanel.style.display = "none";
+      nascondiMarcatoriAlloggi();
       if (corfuBudget) corfuBudget.style.display = "none";
       if (corfuDecision) corfuDecision.style.display = "none";
       if (!staysPanel) return;
@@ -1084,6 +1383,10 @@
     stays.forEach((s, index) => { s.id = "stay-" + (index + 1); s.number = index + 1; });
 
     function renderList(filter) {
+      if (filter === "alloggi-31-agosto") {
+        renderAlloggi();
+        return;
+      }
       if (filter === "ksamil") {
         stayLayer.remove();
         renderKsamil();
@@ -1105,6 +1408,8 @@
       }
       if (poisPanel) poisPanel.style.display = "none";
       if (ksamilPanel) ksamilPanel.style.display = "none";
+      if (alloggiPanel) alloggiPanel.style.display = "none";
+      nascondiMarcatoriAlloggi();
       carsPanel.style.display = "none";
       list.style.display = "block";
       if (corfuBudget) corfuBudget.style.display = "block";
@@ -1203,11 +1508,21 @@
       poiMarkers[p.id] = m;
     });
 
-    // Apri focus da link del dossier: #zone=messonghi oppure #poi=paleokastritsa oppure #cars
+    // Apri focus da link del dossier: #alloggi, #zone=messonghi oppure #poi=paleokastritsa oppure #cars
     function focusFromHash() {
       const raw = (location.hash || "").replace(/^#/, "");
       if (!raw) return;
       const [kind, id] = raw.includes("=") ? raw.split("=") : [raw, ""];
+      if (kind === "alloggi" || raw === "alloggi") {
+        document.querySelectorAll("#filters button").forEach((b) => b.classList.toggle("active", b.dataset.filter === "alloggi-31-agosto"));
+        renderList("alloggi-31-agosto");
+        return;
+      }
+      if (kind === "alloggio" && id && alloggi31Agosto.some((alloggio) => alloggio.area === id)) {
+        document.querySelectorAll("#filters button").forEach((b) => b.classList.toggle("active", b.dataset.filter === "alloggi-31-agosto"));
+        renderAlloggi(id, true);
+        return;
+      }
       if (kind === "cars" || raw === "cars") {
         document.querySelectorAll("#filters button").forEach((b) => b.classList.toggle("active", b.dataset.filter === "cars"));
         renderList("cars");
@@ -1248,7 +1563,7 @@
     }
     window.addEventListener("hashchange", focusFromHash);
 
-    renderList("ksamil");
+    renderList("alloggi-31-agosto");
     setTimeout(focusFromHash, 350);
   </script>
 
