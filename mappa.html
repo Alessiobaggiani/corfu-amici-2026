@@ -111,6 +111,35 @@
       font: 700 10px/1.3 system-ui, sans-serif;
       text-align: center;
     }
+    .saranda-car-marker-icon {
+      position: relative;
+      background: #0f766e;
+      color: #fff;
+      border: 3px solid #fff;
+      border-radius: 50%;
+      width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.25);
+    }
+    .saranda-car-marker-icon span {
+      position: absolute;
+      right: -8px;
+      bottom: -7px;
+      min-width: 17px;
+      height: 17px;
+      padding: 0 3px;
+      border: 2px solid #fff;
+      border-radius: 10px;
+      background: #172033;
+      color: #fff;
+      font: 800 10px/13px system-ui, sans-serif;
+      text-align: center;
+      box-shadow: 0 1px 4px rgba(0,0,0,.25);
+    }
     .stay-marker-icon {
       position: relative;
       display: flex;
@@ -611,6 +640,7 @@
         <button type="button" data-filter="ksamil">Tragitto per Ksamil</button>
         <button type="button" data-filter="all">Case</button>
         <button type="button" data-filter="cars">Noleggi auto</button>
+        <button type="button" data-filter="saranda-cars">Noleggi Saranda · 28 ago</button>
         <button type="button" data-filter="cheap">Case economiche</button>
         <button type="button" data-filter="best">Case consigliate</button>
         <button type="button" data-filter="near">Vicine all’aereo</button>
@@ -622,6 +652,7 @@
       <div id="stays-panel" style="display:none"></div>
 
       <div id="cars-panel" class="hidden-panel" style="display:none"></div>
+      <div id="saranda-cars-panel" class="hidden-panel" style="display:none"></div>
       <div id="zones"></div>
 
       <div id="corfu-decision">
@@ -931,7 +962,7 @@
       }
     ];
 
-    // Prezzi di partenza pubblicati dalle agenzie. Il totale reale appare dopo avere inserito le date.
+    // Prezzi di partenza pubblicati dalle agenzie. Le simulazioni qui sotto mostrano con chiarezza il semplice calcolo usato.
     const carOffers = [
       { agency:"Vidos Cars", spot:"car-terminal", car:"Peugeot 108, Hyundai i10, Kia Rio", price:"Tariffa pubblicata: da €14,30/giorno", daily:14.30, card:"Niente carta e niente deposito dichiarati", url:"https://vidoscars.com/", where:"Consegna gratuita agli Arrivi", booking:"Ritiro e riconsegna: Corfu Airport · date del viaggio · scegli 5 posti" },
       { agency:"Value Plus", spot:"car-terminal", car:"Fiat 500 Hybrid, Panda, Skoda Fabia automatica", price:"Tariffa pubblicata: da €37,87/giorno", daily:37.87, card:"Senza carta con protezione Gold", url:"https://corfucarrentals.com/", where:"Consegna e ritiro gratuiti agli Arrivi", booking:"Corfu Airport · date del viaggio · piano Gold se non avete carta" },
@@ -954,6 +985,69 @@
       { agency:"AutoRent Corfu", spot:"car-eptanisou", car:"Fiat Panda, Hyundai i10, Toyota Yaris", price:"Tariffa pubblicata: da €12,35/giorno", daily:12.35, card:"Senza carta solo Smart o Premium", url:"https://autorentcorfu.com/", where:"Leoforos Eptanisou 8 · navetta gratuita", booking:"Corfu Airport + navetta · date del viaggio · Smart/Premium senza carta" },
       { agency:"Driveaway Corfu", spot:"car-riga", car:"Opel Corsa, Hyundai i10 automatica, Suzuki Ignis", price:"Tariffa pubblicata: da €14/giorno", daily:14, card:"Niente carta e niente deposito dichiarati", url:"https://rentalcarcorfuairport.com/", where:"Riga Feraiou 21", booking:"Riga Feraiou 21 · date del viaggio · modello scelto" },
       { agency:"Fair Deal", spot:"car-riga", car:"Nissan Micra automatica, 7 e 9 posti", price:"Tariffa pubblicata: da €9/giorno", daily:9, card:"Carta non necessaria per prenotare online", url:"https://corfucarsrental.com/", where:"Riga Feraiou 21", booking:"Riga Feraiou 21 · date del viaggio · categoria e bagagli" }
+    ];
+
+    // Saranda: ritiro 28 agosto 2026, riconsegna 2 settembre 2026. I pin raccolgono solo punti fisici o punti di consegna che l'agenzia dichiara.
+    const SARANDA_RENTAL_DAYS = 5;
+    const sarandaCarSpots = [
+      {
+        id:"saranda-port",
+        name:"Porto di Saranda · terminal passeggeri",
+        lat:39.8746, lng:20.0048,
+        exact:"Terminal passeggeri, Rruga Abedin Dino 148. Per National: dopo il controllo passaporti, ascensore al 2° piano, poi a sinistra per circa 10 metri.",
+        mapQuery:"Saranda Port Terminal, Rruga Abedin Dino 148, Sarande",
+        note:"Qui arrivate con il traghetto da Corfù. È il ritiro più comodo se non volete prendere un taxi prima dell'auto."
+      },
+      {
+        id:"saranda-mitat",
+        name:"Lungomare sud · Rruga Mitat Hoxha",
+        lat:39.8708723, lng:19.9976907,
+        exact:"Rruga Mitat Hoxha, Saranda 9701. ItaSaranda pubblica questo indirizzo.",
+        mapQuery:"ItaSaranda, Rruga Mitat Hoxha, Sarande",
+        note:"Punto sul lungomare a sud del porto. L'indirizzo è pubblicato dall'agenzia."
+      },
+      {
+        id:"saranda-idriz",
+        name:"Centro · 1 Rruga Idriz Alidhima",
+        lat:39.8741574, lng:19.9927002,
+        exact:"1 Rruga Idriz Alidhima, Saranda 9702. Saranda Rental Car dichiara anche consegna gratuita in hotel o al porto.",
+        mapQuery:"Saranda Rental Car, 1 Rruga Idriz Alidhima, Sarande",
+        note:"L'indirizzo viene dalla pagina dell'agenzia; il pulsante Maps apre il punto nominativo prima che prenotiate."
+      },
+      {
+        id:"saranda-onhezmi",
+        name:"Centro · Rruga Onhezmi 65-43",
+        lat:39.8751577, lng:20.0088164,
+        exact:"65-43, Rruga Onhezmi, Saranda 9701. Indirizzo pubblicato da Nexhipi Car Rental.",
+        mapQuery:"Nexhipi Car Rental, 65-43 Rruga Onhezmi, Sarande",
+        note:"Ufficio nel centro interno. Controllate l'orario di ritiro nella conferma scritta."
+      },
+      {
+        id:"saranda-skenderbeu",
+        name:"Centro · Rruga Skenderbeu",
+        lat:39.8764, lng:20.0106,
+        exact:"Rruga Skenderbeu, Saranda. Saranda Holiday pubblica la via ma non il numero civico.",
+        mapQuery:"Saranda Holiday Rent a Car, Rruga Skenderbeu, Sarande",
+        note:"Il pin indica la via dichiarata. Aprite Maps per il punto dell'attività prima di uscire dall'hotel."
+      },
+      {
+        id:"saranda-sh81",
+        name:"Verso Ksamil · SH81 / Rruga Butrinti",
+        lat:39.8694, lng:20.0288,
+        exact:"SH81, Saranda. Fama Car Rental pubblica la strada, senza numero civico.",
+        mapQuery:"Fama Car Rental, SH81, Sarande",
+        note:"È la zona più comoda se volete partire verso Ksamil e Butrinto. Il pulsante Maps serve a verificare il punto esatto dell'attività."
+      }
+    ];
+    const sarandaCarOffers = [
+      { agency:"National · porto", spot:"saranda-port", car:"Mini, economy e compatta dopo la scelta delle date", price:"Prezzo calcolato sul sito", daily:null, card:"Sì: Visa o Mastercard di credito intestata al guidatore. Deposito: €290 mini/economy, €390 compatta/intermedia.", url:"https://www.nationalcar.ie/en/car-hire-locations/al/saranda-port-jens.html", where:"Bancone al 2° piano del terminal", booking:"Saranda Port · 28 agosto 2026 → 2 settembre 2026 · guidatore principale", safety:"Contratto, deposito e ritiro sono i più chiari della ricerca." },
+      { agency:"RentCarsSaranda · consegna", spot:"saranda-port", car:"Economy 5 posti o categoria superiore, mostrata dopo le date", price:"Fascia estiva pubblicata: economy da €42/giorno", daily:42, card:"No per la maggior parte delle categorie: carta di debito accettata e nessun deposito dichiarato.", url:"https://rentcarsaranda.com/", where:"Consegna al porto o al vostro hotel", booking:"Saranda Port o hotel · 28 agosto 2026 → 2 settembre 2026 · economy · 3 adulti", safety:"L'opzione più semplice se non volete bloccare soldi sulla carta." },
+      { agency:"Rental Saranda · consegna", spot:"saranda-port", car:"Flotta e disponibilità dopo le date", price:"Tariffa non pubblicata", daily:null, card:"Pagamento in contanti o carta a seconda dell'auto. Copertura completa facoltativa.", url:"https://rentalsaranda.com/", where:"Consegna al porto e nelle zone vicine", booking:"Saranda Port o hotel · 28 agosto 2026 → 2 settembre 2026 · auto 5 posti", safety:"Buona riserva per un preventivo scritto, ma senza prezzo base da confrontare." },
+      { agency:"ItaSaranda", spot:"saranda-mitat", car:"Toyota Auris · 5 posti · manuale · diesel", price:"Tariffa pubblicata: da €31/giorno", daily:31, card:"Sì per la cauzione: carta di credito Visa/Mastercard intestata al guidatore. Debito o contanti per il noleggio richiedono copertura aggiuntiva.", url:"https://itasaranda.com/product/lambo-yellow-limited/", where:"Rruga Mitat Hoxha, Saranda 9701", booking:"Saranda · 28 agosto 2026 → 2 settembre 2026 · Toyota Auris · 3 adulti", safety:"Miglior equilibrio prezzo e regole chiare se avete una carta di credito." },
+      { agency:"Saranda Rental Car", spot:"saranda-idriz", car:"Toyota Yaris · 5 posti · manuale · aria condizionata", price:"Tariffa pubblicata: da €30/giorno", daily:30, card:"La pagina mostra informazioni discordanti: parla sia di nessun anticipo sia di deposito PayPal del 10%. Chiedete conferma scritta prima di pagare.", url:"https://sarandarentalcar.com/?page_id=15", where:"1 Rruga Idriz Alidhima oppure consegna in hotel/porto", booking:"Saranda · 28 agosto 2026 → 2 settembre 2026 · Toyota Yaris · 3 adulti", safety:"Prezzo basso, ma da confermare per iscritto prima della prenotazione." },
+      { agency:"Nexhipi Car Rental", spot:"saranda-onhezmi", car:"Toyota Yaris, Golf 5/6/7, Volkswagen Touran", price:"Tariffa non pubblicata", daily:null, card:"Carta e deposito non pubblicati. Da chiedere prima della prenotazione.", url:"https://www.nexhipi-car-rental.al/", where:"65-43, Rruga Onhezmi", booking:"Saranda · 28 agosto 2026 → 2 settembre 2026 · 5 posti · cambio richiesto", safety:"Agenzia con ufficio e flotta dichiarati, ma non va scelta al buio senza totale e cauzione scritti." },
+      { agency:"Saranda Holiday Rent a Car", spot:"saranda-skenderbeu", car:"Fiat Panda, Fiat Punto, Toyota Yaris", price:"Listino pubblicato: Panda/Punto €35 al giorno", daily:35, card:"Carta e deposito non pubblicati sul listino. Da chiedere per messaggio prima di pagare.", url:"https://www.saranda-holiday-rent-a-car-makina-me-qera-ne-sarande.com/", where:"Rruga Skenderbeu", booking:"Saranda · 28 agosto 2026 → 2 settembre 2026 · Fiat Panda o Toyota Yaris · 3 adulti", safety:"Il sito avvisa che in alta stagione le tariffe possono cambiare: la simulazione è solo una base." },
+      { agency:"Fama Car Rental", spot:"saranda-sh81", car:"Toyota Yaris · 5 posti · manuale · diesel", price:"Tariffa pubblicata: 4.000 ALL/giorno", daily:4000, currency:"ALL", card:"Carta e deposito non pubblicati. Chiedete totale, copertura e cauzione prima di inviare dati o soldi.", url:"https://fama-car-rental.al/cars.html", where:"SH81, Saranda, zona Rruga Butrinti", booking:"Saranda · 28 agosto 2026 → 2 settembre 2026 · Toyota Yaris · 3 adulti", safety:"Prezzo base interessante, ma senza condizioni pubbliche non è la prima scelta per sicurezza." }
     ];
 
     const map = L.map("map", { scrollWheelZoom: true }).setView([39.62, 19.85], 10);
@@ -1049,6 +1143,76 @@
       carMarkers[c.id] = m;
     });
 
+    const sarandaCarLayer = L.layerGroup();
+    const sarandaCarMarkers = {};
+
+    function sarandaOffersAt(spotId) {
+      return sarandaCarOffers.filter((offer) => offer.spot === spotId);
+    }
+
+    function sarandaCarIconFor(count) {
+      return L.divIcon({
+        className: "",
+        html: `<div class="saranda-car-marker-icon">🚗<span>${count}</span></div>`,
+        iconSize: [34, 34],
+        iconAnchor: [17, 17]
+      });
+    }
+
+    function sarandaMoney(value, currency = "EUR") {
+      if (currency === "ALL") return `${value.toLocaleString("it-IT")} ALL`;
+      return value.toLocaleString("it-IT", { style: "currency", currency: "EUR" });
+    }
+
+    function sarandaSimulationText(offer) {
+      if (typeof offer.daily !== "number") {
+        return "Nessuna simulazione: qui l'agenzia non pubblica una tariffa giornaliera affidabile.";
+      }
+      const currency = offer.currency || "EUR";
+      const total = sarandaMoney(offer.daily * SARANDA_RENTAL_DAYS, currency);
+      return `${total} per ${SARANDA_RENTAL_DAYS} giorni (${SARANDA_RENTAL_DAYS} × ${sarandaMoney(offer.daily, currency)}).`;
+    }
+
+    function sarandaRentalRows(offers) {
+      return offers.map((offer) => `
+        <div style="margin-top:9px;padding-top:9px;border-top:1px solid #ddd">
+          <strong>${offer.agency}</strong><br>
+          <span style="color:#2f7d4a;font-weight:700">${offer.price}</span><br>
+          <span style="color:#0f766e;font-weight:700">Simulazione 5 giorni: ${sarandaSimulationText(offer)}</span><br>
+          <span style="color:#5a6574">Auto: ${offer.car}</span><br>
+          <span style="color:#5a6574">Carta/cauzione: ${offer.card}</span><br>
+          <a href="${offer.url}" target="_blank" rel="noopener">Apri la prenotazione →</a>
+        </div>
+      `).join("");
+    }
+
+    function sarandaRentalPopup(spot) {
+      const offers = sarandaOffersAt(spot.id);
+      return `
+        <div class="popup-title">${spot.name}</div>
+        <div class="popup-deal">
+          <strong>Dove:</strong> ${spot.exact}<br>
+          <a href="${mapsUrl(spot.mapQuery)}" target="_blank" rel="noopener">Apri il punto su Maps →</a>
+          ${sarandaRentalRows(offers)}
+        </div>
+      `;
+    }
+
+    sarandaCarSpots.forEach((spot) => {
+      const marker = L.marker([spot.lat, spot.lng], { icon: sarandaCarIconFor(sarandaOffersAt(spot.id).length) }).addTo(sarandaCarLayer);
+      marker.bindPopup(sarandaRentalPopup(spot), { maxWidth: 360 });
+      marker.bindTooltip(`${sarandaOffersAt(spot.id).length} proposte`, { direction: "top" });
+      sarandaCarMarkers[spot.id] = marker;
+    });
+
+    function showSarandaCarMarkers() {
+      if (!map.hasLayer(sarandaCarLayer)) sarandaCarLayer.addTo(map);
+    }
+
+    function hideSarandaCarMarkers() {
+      if (map.hasLayer(sarandaCarLayer)) map.removeLayer(sarandaCarLayer);
+    }
+
     // Due percorsi reali per Ksamil: il più economico via Igoumenitsa e il più comodo via Saranda.
     const ksamilStops = {
       corfuPort: { name: "Porto nuovo di Corfù", lat: 39.6354, lng: 19.9057, note: "Arrivo consigliato: un'ora prima per controlli e documento." },
@@ -1090,6 +1254,7 @@
 
     const list = document.getElementById("zones");
     const carsPanel = document.getElementById("cars-panel");
+    const sarandaCarsPanel = document.getElementById("saranda-cars-panel");
     const ksamilPanel = document.getElementById("ksamil-panel");
     const alloggiPanel = document.getElementById("alloggi-panel");
     const corfuBudget = document.getElementById("corfu-budget");
@@ -1224,8 +1389,11 @@
     function renderCars() {
       list.style.display = "none";
       carsPanel.style.display = "block";
+      if (sarandaCarsPanel) sarandaCarsPanel.style.display = "none";
+      hideSarandaCarMarkers();
       if (ksamilPanel) ksamilPanel.style.display = "none";
       if (alloggiPanel) alloggiPanel.style.display = "none";
+      if (staysPanel) staysPanel.style.display = "none";
       nascondiMarcatoriAlloggi();
       if (corfuBudget) corfuBudget.style.display = "none";
       if (corfuDecision) corfuDecision.style.display = "none";
@@ -1283,6 +1451,75 @@
         });
       });
       map.fitBounds(carSpots.map((spot) => [spot.lat, spot.lng]), { padding: [45, 45], maxZoom: 15 });
+    }
+
+    function renderSarandaCars() {
+      list.style.display = "none";
+      carsPanel.style.display = "none";
+      if (ksamilPanel) ksamilPanel.style.display = "none";
+      if (alloggiPanel) alloggiPanel.style.display = "none";
+      if (staysPanel) staysPanel.style.display = "none";
+      if (poisPanel) poisPanel.style.display = "none";
+      nascondiMarcatoriAlloggi();
+      stayLayer.remove();
+      if (corfuBudget) corfuBudget.style.display = "none";
+      if (corfuDecision) corfuDecision.style.display = "none";
+      if (!sarandaCarsPanel) return;
+      sarandaCarsPanel.style.display = "block";
+      showSarandaCarMarkers();
+      sarandaCarsPanel.innerHTML = `
+        <div class="callout">
+          <strong>Noleggi Saranda · 28 agosto → 2 settembre · 5 giorni</strong>
+          <p>Otto opzioni controllate in sei punti reali: porto, centro, lungomare e strada per Ksamil. Ogni scheda dice dove ritirate, che auto cercare, se serve la carta e come prenotare.</p>
+        </div>
+        <div class="trip-warning"><strong>Scelta per voi.</strong> Con una carta di credito, <strong>ItaSaranda</strong> parte da €155 per 5 giorni con Toyota Auris 5 posti e regole pubblicate. Senza carta, <strong>RentCarsSaranda</strong> è la via più semplice: consegna al porto o hotel, carta di debito e nessun deposito dichiarato, simulazione €210. <strong>Fama</strong> e <strong>Saranda Holiday</strong> hanno un prezzo base basso, ma le condizioni di carta e cauzione non sono pubblicate: chiedetele per messaggio prima di bloccare l'auto.</div>
+        ${sarandaCarSpots.map((spot) => `
+          <article class="zone" data-saranda-car="${spot.id}">
+            <div class="zone-top">
+              <h2>${spot.name}</h2>
+              <span class="badge" style="background:#d9f0eb;color:#075d56">${sarandaOffersAt(spot.id).length} proposte</span>
+            </div>
+            <p class="meta"><strong>Dove:</strong> ${spot.exact}</p>
+            <p class="meta"><a href="${mapsUrl(spot.mapQuery)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Apri il punto su Maps →</a></p>
+            <p class="tagline">${spot.note}</p>
+            <div class="deals">
+              ${sarandaOffersAt(spot.id).map((offer) => `
+                <div class="deal">
+                  <div class="deal-name">${offer.agency}</div>
+                  <div class="deal-price ${typeof offer.daily === "number" ? "" : "mid"}">${offer.price}</div>
+                  <div class="deal-sub"><strong>Simulazione 5 giorni:</strong> ${sarandaSimulationText(offer)}</div>
+                  <div class="deal-sub"><strong>Auto:</strong> ${offer.car}</div>
+                  <div class="deal-sub"><strong>Ritiro:</strong> ${offer.where}</div>
+                  <div class="deal-sub"><strong>Carta/cauzione:</strong> ${offer.card}</div>
+                  <div class="deal-sub"><strong>Inserisci sul sito:</strong> ${offer.booking}</div>
+                  <div class="deal-sub"><strong>Nota sicurezza:</strong> ${offer.safety}</div>
+                  <div class="deal-cta"><a href="${offer.url}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Prenota →</a> · <button type="button" class="map-link" data-saranda-rental-spot="${offer.spot}">Vedi sulla mappa</button></div>
+                </div>
+              `).join("")}
+            </div>
+          </article>
+        `).join("")}
+        <div class="callout"><strong>Prima di confermare</strong><p>Fatevi scrivere in un messaggio: totale per 5 giorni, importo della cauzione, franchigia dell'assicurazione, carburante alla riconsegna, consegna al porto/hotel e autorizzazione per andare a Ksamil o Butrinto. Al ritiro fate un video dell'auto, ruote e livello carburante. Non pagate un extra che non è scritto.</p></div>
+        <p class="footnote">Le simulazioni sono calcoli semplici: 5 × il prezzo giornaliero pubblicato. Non includono eventuali extra, disponibilità, consegna o differenze di alta stagione. Quando un'agenzia non pubblica il prezzo, non invento un totale.</p>
+      `;
+      sarandaCarsPanel.querySelectorAll("[data-saranda-car]").forEach((card) => {
+        card.addEventListener("click", () => {
+          const spot = sarandaCarSpots.find((item) => item.id === card.dataset.sarandaCar);
+          if (!spot) return;
+          sarandaCarMarkers[spot.id]?.openPopup();
+          map.flyTo([spot.lat, spot.lng], 15, { duration: 0.7 });
+        });
+      });
+      sarandaCarsPanel.querySelectorAll("[data-saranda-rental-spot]").forEach((button) => {
+        button.addEventListener("click", (event) => {
+          event.stopPropagation();
+          const spot = sarandaCarSpots.find((item) => item.id === button.dataset.sarandaRentalSpot);
+          if (!spot) return;
+          sarandaCarMarkers[spot.id]?.openPopup();
+          map.flyTo([spot.lat, spot.lng], 16, { duration: 0.7 });
+        });
+      });
+      map.fitBounds(sarandaCarSpots.map((spot) => [spot.lat, spot.lng]), { padding: [45, 45], maxZoom: 14 });
     }
 
     const poisPanel = document.getElementById("pois-panel");
@@ -1663,6 +1900,10 @@
     stays.forEach((s, index) => { s.id = "stay-" + (index + 1); s.number = index + 1; });
 
     function renderList(filter) {
+      if (filter !== "saranda-cars") {
+        hideSarandaCarMarkers();
+        if (sarandaCarsPanel) sarandaCarsPanel.style.display = "none";
+      }
       if (filter === "prima-notte") { window.renderPrimaNotte(); return; }
       if (typeof window.hidePrimaNotte === "function") window.hidePrimaNotte();
       if (filter === "alloggi-31-agosto") {
@@ -1679,6 +1920,10 @@
         return;
       }
       stayLayer.remove();
+      if (filter === "saranda-cars") {
+        renderSarandaCars();
+        return;
+      }
       if (filter === "cars") {
         if (poisPanel) poisPanel.style.display = "none";
         renderCars();
@@ -1813,6 +2058,11 @@
       if (kind === "cars" || raw === "cars") {
         document.querySelectorAll("#filters button").forEach((b) => b.classList.toggle("active", b.dataset.filter === "cars"));
         renderList("cars");
+        return;
+      }
+      if (kind === "saranda-cars" || raw === "saranda-cars") {
+        document.querySelectorAll("#filters button").forEach((b) => b.classList.toggle("active", b.dataset.filter === "saranda-cars"));
+        renderList("saranda-cars");
         return;
       }
       if (kind === "ksamil" || raw === "ksamil") {
