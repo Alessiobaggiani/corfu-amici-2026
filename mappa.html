@@ -929,27 +929,27 @@
 
     // Prezzi di partenza pubblicati dalle agenzie. Il totale reale appare dopo avere inserito le date.
     const carOffers = [
-      { agency:"Vidos Cars", spot:"car-terminal", car:"Peugeot 108, Hyundai i10, Kia Rio", price:"da €14,30/giorno", card:"Niente carta e niente deposito dichiarati", url:"https://vidoscars.com/", where:"Consegna gratuita agli Arrivi", booking:"Ritiro e riconsegna: Corfu Airport · date del viaggio · scegli 5 posti" },
-      { agency:"Value Plus", spot:"car-terminal", car:"Fiat 500 Hybrid, Panda, Skoda Fabia automatica", price:"da €37,87/giorno", card:"Senza carta con protezione Gold", url:"https://corfucarrentals.com/", where:"Consegna e ritiro gratuiti agli Arrivi", booking:"Corfu Airport · date del viaggio · piano Gold se non avete carta" },
-      { agency:"First Corfu", spot:"car-terminal", car:"Fiat Panda o Toyota Aygo · 5 posti", price:"da €11/giorno", card:"Nessun deposito dichiarato", url:"https://firstcorfu.com/corfu-airport-car-rental/", where:"Ufficio a 300 m; navetta o incontro agli Arrivi", booking:"Airport (Office) · date del viaggio · 3 adulti · 5 posti" },
-      { agency:"Auto Corfu", spot:"car-terminal", car:"VW Up, Kia Picanto, Hyundai i10, Fiat Panda", price:"prezzo dopo le date", card:"Senza carta con protezione UltraFull", url:"https://autocorfu.com/en/", where:"Consegna al terminal o al vostro hotel", booking:"Corfu Airport · date del viaggio · scelta protezione UltraFull" },
-      { agency:"Ansa Car Rental", spot:"car-terminal", car:"Suzuki Celerio, VW Polo, Fiat Tipo", price:"da €30/giorno", card:"Da chiedere prima di pagare", url:"https://ansacorfu.gr/", where:"Consegna gratuita all’aeroporto", booking:"Corfu Airport · date del viaggio · auto 5 posti" },
-      { agency:"Corfu Auto Rent", spot:"car-terminal", car:"Hyundai i10, Hyundai i20", price:"da €14,90/giorno", card:"Niente carta e niente deposito dichiarati", url:"https://www.corfuautorent.com/", where:"Consegna e ritiro in aeroporto", booking:"Corfu Airport · date del viaggio · categoria economy" },
-      { agency:"RentCorfu", spot:"car-terminal", car:"Piccola, economy e famiglia", price:"prezzo dopo le date", card:"Carta di debito accettata, nessun blocco dichiarato", url:"https://rentcorfu.com/airport", where:"Punto a pochi minuti a piedi dagli Arrivi", booking:"Airport · date del viaggio · auto 5 posti" },
-      { agency:"Eurorent Economy", spot:"car-terminal", car:"Economy e famiglia", price:"prezzo dopo le date", card:"Niente carta e niente deposito dichiarati", url:"https://economycorfucarrental.com/", where:"Servizio aeroporto di Corfù", booking:"Corfu Airport · date del viaggio · categoria economy" },
-      { agency:"Go Car", spot:"car-terminal", car:"Flotta visibile dopo la scelta delle date", price:"prezzo dopo le date", card:"Da chiedere prima di pagare", url:"https://corfuairportcarhire.gr/", where:"Corfu Airport, 49100", booking:"Corfu Airport · date del viaggio · 5 posti" },
-      { agency:"Avis", spot:"car-terminal", car:"Categoria 5 posti / 2 valigie", price:"prezzo dopo le date", card:"Da controllare nel preventivo", url:"https://www.avis.gr/en/", where:"Bancone dentro gli Arrivi", booking:"Corfu Airport · date del viaggio · categoria economy 5 posti" },
-      { agency:"Budget", spot:"car-terminal", car:"Categoria 5 posti / 2 valigie", price:"prezzo dopo le date", card:"Da controllare nel preventivo", url:"https://www.budget.gr/en/", where:"Bancone dentro gli Arrivi", booking:"Corfu Airport · date del viaggio · categoria economy 5 posti" },
-      { agency:"Enterprise", spot:"car-terminal", car:"Mini, economy, compatta e famiglia", price:"prezzo dopo le date", card:"Carta del guidatore e somma bloccata", url:"https://www.enterprise.gr/en/car-hire-locations/gr/corfu-airport-lga8.html", where:"Bancone dentro gli Arrivi", booking:"Corfu Airport · date del viaggio · economy 5 posti" },
-      { agency:"Hertz", spot:"car-terminal", car:"Mini, compatta e SUV", price:"prezzo dopo le date", card:"Carta e somma di garanzia richieste", url:"https://www.hertz.gr/en/", where:"Bancone dentro gli Arrivi", booking:"Corfu Airport · date del viaggio · categoria 5 posti" },
-      { agency:"Thrifty", spot:"car-terminal", car:"Mini, compatta e famiglia", price:"prezzo dopo le date", card:"Carta e somma di garanzia da verificare", url:"https://www.thrifty.com/", where:"Bancone Hertz/Thrifty negli Arrivi", booking:"Corfu Airport · date del viaggio · categoria 5 posti" },
-      { agency:"Sixt", spot:"car-terminal", car:"Compatta, famiglia e SUV", price:"prezzo dopo le date", card:"Carta del guidatore e somma bloccata", url:"https://www.sixt.com/car-rental/greece/corfu/corfu-airport/", where:"Bancone dentro gli Arrivi", booking:"Corfu Airport · date del viaggio · categoria 5 posti" },
-      { agency:"UNO Car Hire", spot:"car-kosta", car:"Peugeot 108, Fiat Panda, Seat Arona", price:"prezzo dopo le date", card:"Carta di credito non obbligatoria", url:"https://unocorfu.com/it/", where:"Kosta Georgaki 31 · circa 300 m dagli Arrivi", booking:"Kosta Georgaki 31 · date del viaggio · categoria e valigie" },
-      { agency:"Volta4u", spot:"car-kosta", car:"Piccola, compatta e automatica", price:"prezzo dopo le date", card:"Carta da verificare prima di pagare", url:"https://www.volta4u.com/", where:"Kosta Georgaki 31", booking:"Kosta Georgaki 31 · date del viaggio · categoria auto" },
-      { agency:"Europcar", spot:"car-kosta", car:"Economy, compatta e famiglia", price:"prezzo dopo le date", card:"Carta da controllare nel preventivo", url:"https://www.europcar.com/", where:"Meet and Greet vicino a Kosta Georgaki", booking:"Corfu Airport · date del viaggio · categoria 5 posti" },
-      { agency:"AutoRent Corfu", spot:"car-eptanisou", car:"Fiat Panda, Hyundai i10, Toyota Yaris", price:"da €28,32/giorno", card:"Senza carta solo Smart o Premium", url:"https://autorentcorfu.com/", where:"Leoforos Eptanisou 8 · navetta gratuita", booking:"Corfu Airport + navetta · date del viaggio · Smart/Premium senza carta" },
-      { agency:"Driveaway Corfu", spot:"car-riga", car:"Opel Corsa, Hyundai i10 automatica, Suzuki Ignis", price:"da €14/giorno", card:"Niente carta e niente deposito dichiarati", url:"https://rentalcarcorfuairport.com/", where:"Riga Feraiou 21", booking:"Riga Feraiou 21 · date del viaggio · modello scelto" },
-      { agency:"Fair Deal", spot:"car-riga", car:"Nissan Micra automatica, 7 e 9 posti", price:"da €9/giorno", card:"Carta non necessaria per prenotare online", url:"https://corfucarsrental.com/", where:"Riga Feraiou 21", booking:"Riga Feraiou 21 · date del viaggio · categoria e bagagli" }
+      { agency:"Vidos Cars", spot:"car-terminal", car:"Peugeot 108, Hyundai i10, Kia Rio", price:"Tariffa pubblicata: da €14,30/giorno", daily:14.30, card:"Niente carta e niente deposito dichiarati", url:"https://vidoscars.com/", where:"Consegna gratuita agli Arrivi", booking:"Ritiro e riconsegna: Corfu Airport · date del viaggio · scegli 5 posti" },
+      { agency:"Value Plus", spot:"car-terminal", car:"Fiat 500 Hybrid, Panda, Skoda Fabia automatica", price:"Tariffa pubblicata: da €37,87/giorno", daily:37.87, card:"Senza carta con protezione Gold", url:"https://corfucarrentals.com/", where:"Consegna e ritiro gratuiti agli Arrivi", booking:"Corfu Airport · date del viaggio · piano Gold se non avete carta" },
+      { agency:"First Corfu", spot:"car-terminal", car:"Fiat Panda o Toyota Aygo · 5 posti", price:"Tariffa pubblicata: da €16/giorno", daily:16, card:"Nessun deposito dichiarato", url:"https://firstcorfu.com/corfu-airport-car-rental/", where:"Ufficio a 300 m; navetta o incontro agli Arrivi", booking:"Airport (Office) · date del viaggio · 3 adulti · 5 posti" },
+      { agency:"Auto Corfu", spot:"car-terminal", car:"VW Up, Kia Picanto, Hyundai i10, Fiat Panda", price:"Tariffa non pubblicata", daily:null, card:"Senza carta con protezione UltraFull", url:"https://autocorfu.com/en/", where:"Consegna al terminal o al vostro hotel", booking:"Corfu Airport · date del viaggio · scelta protezione UltraFull" },
+      { agency:"Ansa Car Rental", spot:"car-terminal", car:"Suzuki Celerio, VW Polo, Fiat Tipo", price:"Tariffa da confermare", daily:null, card:"Da chiedere prima di pagare", url:"https://ansacorfu.gr/", where:"Consegna gratuita all’aeroporto", booking:"Corfu Airport · date del viaggio · auto 5 posti" },
+      { agency:"Corfu Auto Rent", spot:"car-terminal", car:"Hyundai i10, Hyundai i20", price:"Tariffa pubblicata: da €14,90/giorno", daily:14.90, card:"Niente carta e niente deposito dichiarati", url:"https://www.corfuautorent.com/", where:"Consegna e ritiro in aeroporto", booking:"Corfu Airport · date del viaggio · categoria economy" },
+      { agency:"RentCorfu", spot:"car-terminal", car:"Piccola, economy e famiglia", price:"Tariffa non pubblicata", daily:null, card:"Carta di debito accettata, nessun blocco dichiarato", url:"https://rentcorfu.com/airport", where:"Punto a pochi minuti a piedi dagli Arrivi", booking:"Airport · date del viaggio · auto 5 posti" },
+      { agency:"Eurorent Economy", spot:"car-terminal", car:"Economy e famiglia", price:"Tariffa non pubblicata", daily:null, card:"Niente carta e niente deposito dichiarati", url:"https://economycorfucarrental.com/", where:"Servizio aeroporto di Corfù", booking:"Corfu Airport · date del viaggio · categoria economy" },
+      { agency:"Go Car", spot:"car-terminal", car:"Flotta visibile dopo la scelta delle date", price:"Tariffa non pubblicata", daily:null, card:"Da chiedere prima di pagare", url:"https://corfuairportcarhire.gr/", where:"Corfu Airport, 49100", booking:"Corfu Airport · date del viaggio · 5 posti" },
+      { agency:"Avis", spot:"car-terminal", car:"Categoria 5 posti / 2 valigie", price:"Tariffa non pubblicata", daily:null, card:"Da controllare nel preventivo", url:"https://www.avis.gr/en/", where:"Bancone dentro gli Arrivi", booking:"Corfu Airport · date del viaggio · categoria economy 5 posti" },
+      { agency:"Budget", spot:"car-terminal", car:"Categoria 5 posti / 2 valigie", price:"Tariffa non pubblicata", daily:null, card:"Da controllare nel preventivo", url:"https://www.budget.gr/en/", where:"Bancone dentro gli Arrivi", booking:"Corfu Airport · date del viaggio · categoria economy 5 posti" },
+      { agency:"Enterprise", spot:"car-terminal", car:"Mini, economy, compatta e famiglia", price:"Tariffa non pubblicata", daily:null, card:"Carta del guidatore e somma bloccata", url:"https://www.enterprise.gr/en/car-hire-locations/gr/corfu-airport-lga8.html", where:"Bancone dentro gli Arrivi", booking:"Corfu Airport · date del viaggio · economy 5 posti" },
+      { agency:"Hertz", spot:"car-terminal", car:"Mini, compatta e SUV", price:"Tariffa non pubblicata", daily:null, card:"Carta e somma di garanzia richieste", url:"https://www.hertz.gr/en/", where:"Bancone dentro gli Arrivi", booking:"Corfu Airport · date del viaggio · categoria 5 posti" },
+      { agency:"Thrifty", spot:"car-terminal", car:"Mini, compatta e famiglia", price:"Tariffa non pubblicata", daily:null, card:"Carta e somma di garanzia da verificare", url:"https://www.thrifty.com/", where:"Bancone Hertz/Thrifty negli Arrivi", booking:"Corfu Airport · date del viaggio · categoria 5 posti" },
+      { agency:"Sixt", spot:"car-terminal", car:"Compatta, famiglia e SUV", price:"Tariffa non pubblicata", daily:null, card:"Carta del guidatore e somma bloccata", url:"https://www.sixt.com/car-rental/greece/corfu/corfu-airport/", where:"Bancone dentro gli Arrivi", booking:"Corfu Airport · date del viaggio · categoria 5 posti" },
+      { agency:"UNO Car Hire", spot:"car-kosta", car:"Peugeot 108, Fiat Panda, Seat Arona", price:"Tariffa non pubblicata", daily:null, card:"Carta di credito non obbligatoria", url:"https://unocorfu.com/it/", where:"Kosta Georgaki 31 · circa 300 m dagli Arrivi", booking:"Kosta Georgaki 31 · date del viaggio · categoria e valigie" },
+      { agency:"Volta4u", spot:"car-kosta", car:"Piccola, compatta e automatica", price:"Tariffa non pubblicata", daily:null, card:"Carta da verificare prima di pagare", url:"https://www.volta4u.com/", where:"Kosta Georgaki 31", booking:"Kosta Georgaki 31 · date del viaggio · categoria auto" },
+      { agency:"Europcar", spot:"car-kosta", car:"Economy, compatta e famiglia", price:"Tariffa non pubblicata", daily:null, card:"Carta da controllare nel preventivo", url:"https://www.europcar.com/", where:"Meet and Greet vicino a Kosta Georgaki", booking:"Corfu Airport · date del viaggio · categoria 5 posti" },
+      { agency:"AutoRent Corfu", spot:"car-eptanisou", car:"Fiat Panda, Hyundai i10, Toyota Yaris", price:"Tariffa pubblicata: da €12,35/giorno", daily:12.35, card:"Senza carta solo Smart o Premium", url:"https://autorentcorfu.com/", where:"Leoforos Eptanisou 8 · navetta gratuita", booking:"Corfu Airport + navetta · date del viaggio · Smart/Premium senza carta" },
+      { agency:"Driveaway Corfu", spot:"car-riga", car:"Opel Corsa, Hyundai i10 automatica, Suzuki Ignis", price:"Tariffa pubblicata: da €14/giorno", daily:14, card:"Niente carta e niente deposito dichiarati", url:"https://rentalcarcorfuairport.com/", where:"Riga Feraiou 21", booking:"Riga Feraiou 21 · date del viaggio · modello scelto" },
+      { agency:"Fair Deal", spot:"car-riga", car:"Nissan Micra automatica, 7 e 9 posti", price:"Tariffa pubblicata: da €9/giorno", daily:9, card:"Carta non necessaria per prenotare online", url:"https://corfucarsrental.com/", where:"Riga Feraiou 21", booking:"Riga Feraiou 21 · date del viaggio · categoria e bagagli" }
     ];
 
     const map = L.map("map", { scrollWheelZoom: true }).setView([39.62, 19.85], 10);
@@ -1003,11 +1003,22 @@
       return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(query);
     }
 
+    const RENTAL_DAYS = 7;
+
+    function simulationText(offer) {
+      if (typeof offer.daily !== "number") {
+        return "Nessuna simulazione: questa agenzia non pubblica una tariffa da cui calcolare un totale.";
+      }
+      const total = (offer.daily * RENTAL_DAYS).toLocaleString("it-IT", { style: "currency", currency: "EUR" });
+      return `${total} per ${RENTAL_DAYS} giorni (7 × ${offer.daily.toLocaleString("it-IT", { style: "currency", currency: "EUR" })}).`;
+    }
+
     function rentalRows(offers) {
       return offers.map((offer) => `
         <div style="margin-top:9px;padding-top:9px;border-top:1px solid #ddd">
           <strong>${offer.agency}</strong><br>
           <span style="color:#2f7d4a;font-weight:700">${offer.price}</span><br>
+          <span style="color:#1f6f8b;font-weight:700">Simulazione: ${simulationText(offer)}</span><br>
           <span style="color:#5a6574">${offer.car}</span><br>
           <span style="color:#5a6574">Carta/deposito: ${offer.card}</span><br>
           <a href="${offer.url}" target="_blank" rel="noopener">Prenota con ${offer.agency} →</a>
@@ -1219,7 +1230,7 @@
           <strong>Noleggi auto · 21 agenzie · 4 punti reali</strong>
           <p>
             Per ogni agenzia trovi <strong>dove si ritira</strong>, prezzo, auto, carta/deposito e pulsante di prenotazione.
-            Per voi: inserite <strong>ritiro e riconsegna a Corfu Airport</strong>, le date del viaggio e una categoria da <strong>5 posti</strong>.
+            La simulazione usa <strong>7 giorni</strong>: 27 agosto–3 settembre, ritiro e riconsegna a Corfu Airport.
           </p>
         </div>
         ${carSpots.map((c) => `
@@ -1235,7 +1246,8 @@
               ${offersAt(c.id).map((offer) => `
                 <div class="deal">
                   <div class="deal-name">${offer.agency}</div>
-                  <div class="deal-price ${offer.price.startsWith("da ") ? "" : "mid"}">${offer.price}</div>
+                  <div class="deal-price ${typeof offer.daily === "number" ? "" : "mid"}">${offer.price}</div>
+                  <div class="deal-sub"><strong>Simulazione 7 giorni:</strong> ${simulationText(offer)}</div>
                   <div class="deal-sub"><strong>Auto:</strong> ${offer.car}</div>
                   <div class="deal-sub"><strong>Ritiro:</strong> ${offer.where}</div>
                   <div class="deal-sub"><strong>Carta/deposito:</strong> ${offer.card}</div>
@@ -1246,7 +1258,7 @@
             </div>
           </article>
         `).join("")}
-        <p class="footnote">Il prezzo indicato è il minimo pubblicato dall’agenzia. Prima di pagare controllate il totale, l’orario, il numero di bagagli e la carta richiesta.</p>
+        <p class="footnote">La simulazione è un calcolo: 7 × tariffa pubblicata, senza extra, cauzione o differenze di disponibilità. Dove la tariffa non è pubblicata non invento un totale: il pulsante Prenota apre il calcolatore dell’agenzia.</p>
       `;
       carsPanel.querySelectorAll("[data-car]").forEach((el) => {
         el.addEventListener("click", () => {
