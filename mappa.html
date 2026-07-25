@@ -1389,6 +1389,51 @@
       {name:"Xhulio Apartments",area:"Porto e centro",price:472,score:"9,1",reviews:207,center:"600 m",beach:"250 m",beds:"1 camera · 4 letti",flex:true,featured:true,stars:4,slug:"/hotel/al/xhulio-apartments",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/203882129.webp?k=7155b6472e5f6a0236acd31f9c687843cf077bcf28b85b414f60dc5642a485b8&o=",note:"4 stelle: quattro posti letto, vicino a centro e mare."}
     ].map((s) => ({...s, city:"Saranda", bookingSite:"Booking.com"}));
     stays.splice(0, stays.length, ...sarandaStays);
+    // Punto dichiarato dalla pagina Booking di ogni struttura, verificato il 25/07/2026.
+    // Se una struttura non ha questo punto, non viene mai disegnata con una posizione inventata.
+    const sarandaExactPositions = {
+      "/hotel/al/vila-bega":[39.88161183368877,20.00333465298695],
+      "/hotel/al/centrum-apartment-saranda":[39.875808530611,20.006013248491],
+      "/hotel/al/andis-guesthouse":[39.8911625,20.0282031],
+      "/hotel/al/miris-villa":[39.88105103592894,19.99996301645542],
+      "/hotel/al/villa-morena":[39.88070225202,19.998681273143],
+      "/hotel/al/zani-apartment":[39.875599492667,19.99803507797],
+      "/hotel/al/apartment-in-sarande":[39.867165949433385,20.016411250093142],
+      "/hotel/al/leli-apartments":[39.869427494428,20.0288471955244],
+      "/hotel/al/the-sunshine-saranda":[39.86802813474336,20.024719691234573],
+      "/hotel/al/mimoza-apartments":[39.8775104689542,20.00103871765214],
+      "/hotel/al/petrit-apartments":[39.872519843247,19.99326675114],
+      "/hotel/al/kreku-apartments-saranda":[39.877514369109,20.029925721591],
+      "/hotel/al/b-amp-s-saranda-apartment":[39.876706906356,20.001916626775],
+      "/hotel/al/loft-apartments":[39.875388824417,19.986231477224],
+      "/hotel/al/vasos-apartments":[39.875299415237414,19.994240798712777],
+      "/hotel/al/maxus-apts":[39.87249447821826,19.993331481445352],
+      "/hotel/al/studio-salvia":[39.8722009443112,19.995686117443835],
+      "/hotel/al/white-pearl-apartments":[39.86979595918768,20.023394305345093],
+      "/hotel/al/ajsi-apartments-saranda":[39.87261500997285,19.997990495839698],
+      "/hotel/al/apartament-stefani":[39.8814702634,20.001312483743],
+      "/hotel/al/alfa-apartaments-sarande":[39.87912407705452,19.998872575554007],
+      "/hotel/al/villa-kea-mocobega":[39.85928917175054,20.02134141352152],
+      "/hotel/al/villa-sai":[39.8800739179581,20.0001101972782],
+      "/hotel/al/deluxe-apartment-saranda1":[39.8692160184131,20.0234524856116],
+      "/hotel/al/paradise-bay-apartments":[39.8710038461057,20.0150739675237],
+      "/hotel/al/saranda-6-villa":[39.8755620319465,20.02481418698],
+      "/hotel/al/brunos-apartment-saranda":[39.8853008708653,19.9979534876251],
+      "/hotel/al/behari-apartments-1":[39.87819286609493,20.003481205591015],
+      "/hotel/al/trojan-apartment-saranda1":[39.8703169248776,20.0191330354752],
+      "/hotel/al/pine-forest-view-apartments":[39.8703402727815,20.0190029781885],
+      "/hotel/al/sweet-home-apt":[39.872154054588,19.999147637523],
+      "/hotel/al/saranda-sun-apartment":[39.8711951904881,20.0157716110299],
+      "/hotel/al/rikard-apartment":[39.87940400687317,20.00193135006788],
+      "/hotel/al/garden-escape-apt":[39.8714031580764,19.9992698201574],
+      "/hotel/al/villa-oriku":[39.841677248878334,20.023811945894757],
+      "/hotel/al/margaritas-apartments":[39.8741508773165,20.0112545846033],
+      "/hotel/al/villa-sildi-gjashte":[39.865432484576324,20.02059502992779],
+      "/hotel/al/sunrise-apartments-saranta":[39.875853919173004,20.009923385255167],
+      "/hotel/al/white-residence-luxury-sea-view-apartments-sarande":[39.857073978658626,20.020255657452708],
+      "/hotel/al/xhulio-apartments":[39.87584414855266,20.01249774966809]
+    };
+    stays.forEach((s) => { s.coords = sarandaExactPositions[s.slug] || null; });
     const fiveStarChoice = {
       name:"Hotel Saranda Butrinti, Affiliated by Meliá", price:1873, score:"5 stelle", center:"centro", beach:"100 m", bookingSite:"Booking.com",
       slug:"/hotel/al/butrinti", photo:"https://r-xx.bstatic.com/xdata/images/hotel/608x352/899114780.webp?k=7b50a15ea026abe6e779d838295eadb4eaeef76fe2b33a9b6150673c3609e9f3&o=",
@@ -1397,17 +1442,13 @@
     const staysPanel = document.getElementById("stays-panel");
     const stayLayer = L.layerGroup();
     const stayMarkers = {};
-    function stayCoords(s, index) {
-      const base = stayAreas[s.area] || stayAreas["Ksamil centro"];
-      const ring = (index % 8) + 1, angle = ((index * 137.5) % 360) * Math.PI / 180;
-      const radius = 0.00034 * ring;
-      return [base[0] + Math.cos(angle) * radius, base[1] + Math.sin(angle) * radius];
-    }
+    function stayCoords(s) { return Array.isArray(s.coords) ? s.coords : null; }
     function clearStayMap() { stayLayer.clearLayers(); Object.keys(stayMarkers).forEach((key) => delete stayMarkers[key]); }
     function addStayMarkers(shown) {
       clearStayMap();
-      shown.forEach((s, index) => {
-        const coords = stayCoords(s, index);
+      shown.forEach((s) => {
+        const coords = stayCoords(s);
+        if (!coords) return;
         const icon = L.divIcon({className:"", html:`<div class="stay-pin">${s.number}</div>`, iconSize:[28,28], iconAnchor:[14,14], popupAnchor:[0,-14]});
         const marker = L.marker(coords, {icon}).addTo(stayLayer);
         marker.bindPopup(`<div class="popup-title">#${s.number} · ${s.name}</div><div class="popup-deal"><strong>€${s.price} totali · 4 notti · 3 adulti</strong><br>Saranda · zona ${s.area}<br>Voto ${s.score}${s.reviews ? " · " + s.reviews + " giudizi" : ""}<br><a href="${stayBookUrl(s.slug)}" target="_blank" rel="noopener">Booking.com →</a> · <a href="${stayMapUrl(s)}" target="_blank" rel="noopener">mappa esatta →</a></div>`);
@@ -1429,7 +1470,7 @@
       const sorted = [...stays].sort((a,b) => a.price - b.price || Number(b.score.replace(",",".")) - Number(a.score.replace(",",".")));
       const shown = sorted.filter((s) => mode === "saranda" || mode === "all" || (mode === "under-260" && s.price <= 260) || (mode === "best" && s.featured) || (mode === "four-stars" && s.stars === 4));
       staysPanel.innerHTML = `
-        <div class="callout"><strong>Saranda · 40 appartamenti · 28 agosto → 1 settembre · 3 adulti</strong><p>Prezzo totale per <strong>4 notti</strong>, tasse incluse quando dichiarate dalla pagina. Ho privilegiato voto, numero di giudizi, spazio per tre e distanza da centro o mare. I prezzi cambiano: apri il collegamento prima di pagare.</p></div>
+        <div class="callout"><strong>Saranda · 40 appartamenti · 28 agosto → 1 settembre · 3 adulti</strong><p>Prezzo totale per <strong>4 notti</strong>, tasse incluse quando dichiarate dalla pagina. Ogni puntino usa la posizione dichiarata dalla pagina dell’alloggio: così vedi davvero centro, mare, nord e sud di Saranda. I prezzi cambiano: apri il collegamento prima di pagare.</p></div>
         <div class="stay-filter-row" aria-label="Filtri alloggi">
           <button type="button" data-stay-filter="saranda" class="${mode === "saranda" || mode === "all" ? "active" : ""}">Tutti e 40</button>
           <button type="button" data-stay-filter="under-260" class="${mode === "under-260" ? "active" : ""}">Fino a €260</button>
@@ -1440,12 +1481,12 @@
           ${shown.map((s) => `<tr class="stay-row" data-stay="${s.id}"><td>${s.number}</td><td><img src="${s.photo}" alt="Foto di ${s.name}" loading="lazy"></td><td><strong>${s.name}</strong>${s.stars ? '<br><span class="stay-badge best">' + s.stars + ' stelle</span>' : ''}${s.featured ? '<br><span class="stay-badge">scelta qualità/prezzo</span>' : ''}<br><span class="stay-meta">${s.beds} · ${s.note}</span></td><td><strong>€${s.price}</strong><br><span class="stay-meta">4 notti · 3 adulti</span></td><td><strong>${s.score}</strong>${s.reviews ? '<br><span class="stay-meta">' + s.reviews + ' giudizi</span>' : ''}</td><td>${s.area}<br><span class="stay-meta">centro ${s.center}<br>mare ${s.beach}</span><br><a href="${stayMapUrl(s)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Punto esatto →</a></td><td><a href="${stayBookUrl(s.slug)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${s.bookingSite} →</a>${s.flex ? '<br><span class="stay-meta">cancellazione gratuita mostrata</span>' : ''}</td></tr>`).join("")}
         </tbody></table></div>
         <div class="premium-stay"><img src="${fiveStarChoice.photo}" alt="Foto di ${fiveStarChoice.name}" loading="lazy"><div><div class="stay-name">Alternativa 5 stelle · ${fiveStarChoice.name}</div><div class="stay-price">€${fiveStarChoice.price} totali · 4 notti · 3 adulti</div><div class="stay-note">${fiveStarChoice.note}</div><div class="stay-actions"><a href="${stayBookUrl(fiveStarChoice.slug)}" target="_blank" rel="noopener">Apri su ${fiveStarChoice.bookingSite} →</a><a href="https://www.booking.com/fivestars/city/al/sarande.it.html" target="_blank" rel="noopener">Vedi altre opzioni 5 stelle →</a></div></div></div>
-        <p class="trip-sources">Foto, disponibilità, prezzi, giudizi e collegamenti letti il 25/07/2026 su <strong>Booking.com</strong>, con 3 adulti e 28 agosto → 1 settembre. I puntini indicano la zona dichiarata a Saranda: per l’ingresso preciso usa “Punto esatto”.</p>
+        <p class="trip-sources">Foto, disponibilità, prezzi, giudizi, collegamenti e posizione letti il 25/07/2026 su <strong>Booking.com</strong>, con 3 adulti e 28 agosto → 1 settembre. I puntini usano la posizione dichiarata dalla struttura; “Punto esatto” apre la stessa struttura nella mappa esterna.</p>
       `;
       staysPanel.querySelectorAll("[data-stay-filter]").forEach((button) => button.addEventListener("click", () => renderStays(button.dataset.stayFilter)));
       staysPanel.querySelectorAll("[data-stay]").forEach((card) => card.addEventListener("click", () => selectStay(card.dataset.stay, true)));
       addStayMarkers(shown);
-      const points = shown.map((s, i) => stayCoords(s, i));
+      const points = shown.map((s) => stayCoords(s)).filter(Boolean);
       if (points.length) map.fitBounds(L.latLngBounds(points), {padding:[35,35], maxZoom:12});
     }
     function selectStay(id, pan) {
@@ -1454,7 +1495,7 @@
       const marker = stayMarkers[id];
       if (!s || !marker) return;
       marker.openPopup();
-      if (pan) map.flyTo(stayCoords(s, stays.findIndex((item) => item.id === id)), 14, {duration:.65});
+      if (pan && stayCoords(s)) map.flyTo(stayCoords(s), 14, {duration:.65});
     }
     stays.forEach((s, index) => { s.id = "stay-" + (index + 1); s.number = index + 1; });
 
