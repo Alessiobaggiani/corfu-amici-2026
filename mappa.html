@@ -342,6 +342,26 @@
       .panel { border-right: 0; border-top: 1px solid var(--line); order: 2; }
       #map { order: 1; height: 46vh; }
     }
+
+    /* Alloggi Xamil e Saranda */
+    .stay-filter-row { display:flex; flex-wrap:wrap; gap:7px; margin:0 0 12px; }
+    .stay-filter-row button { border:1px solid var(--line); background:var(--card); border-radius:999px; padding:7px 10px; font:inherit; font-size:.78rem; font-weight:700; cursor:pointer; }
+    .stay-filter-row button.active { background:var(--sea); color:#fff; border-color:var(--sea); }
+    .stay-card { cursor:pointer; display:grid; grid-template-columns:86px minmax(0,1fr); gap:11px; padding:10px; border:1px solid var(--line); border-radius:14px; background:#fffdf8; margin:0 0 9px; }
+    .stay-card:hover,.stay-card.active { border-color:var(--sea); box-shadow:var(--shadow); }
+    .stay-card img { width:86px; height:116px; object-fit:cover; border-radius:10px; background:#d7e0e6; }
+    .stay-name { font-family:Fraunces, Georgia, serif; font-weight:700; line-height:1.15; font-size:1.02rem; }
+    .stay-price { color:var(--cheap); font-size:1.02rem; font-weight:800; margin-top:3px; }
+    .stay-meta { color:var(--muted); font-size:.79rem; line-height:1.35; margin-top:3px; }
+    .stay-note { font-size:.8rem; line-height:1.35; margin-top:5px; }
+    .stay-badges { display:flex; flex-wrap:wrap; gap:5px; margin-top:5px; }
+    .stay-badge { background:var(--sea-soft); color:var(--sea); border-radius:999px; padding:3px 7px; font-weight:700; font-size:.68rem; }
+    .stay-badge.best { background:var(--cheap-bg); color:var(--cheap); }
+    .stay-actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:7px; }
+    .stay-actions a { color:var(--sea); font-size:.78rem; font-weight:800; }
+    .stay-pin { background:#1f6f8b; color:#fff; border:2px solid #fff; border-radius:50%; width:28px; height:28px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:11px; box-shadow:0 2px 8px rgba(0,0,0,.28); }
+    @media(max-width:430px){ .stay-card{grid-template-columns:72px minmax(0,1fr);gap:8px}.stay-card img{width:72px;height:105px} }
+
   </style>
 </head>
 <body>
@@ -381,6 +401,7 @@
 
       <div class="filters" id="filters">
         <button type="button" data-filter="ksamil" class="active">Ksamil · 28 ago</button>
+        <button type="button" data-filter="stays">Alloggi · 28–31 ago</button>
         <button type="button" data-filter="all">Case</button>
         <button type="button" data-filter="cars">Noleggi auto</button>
         <button type="button" data-filter="cheap">Case economiche</button>
@@ -390,6 +411,7 @@
       </div>
       <div id="pois-panel" style="display:none"></div>
       <div id="ksamil-panel" style="display:none"></div>
+      <div id="stays-panel" style="display:none"></div>
 
       <div id="cars-panel" class="hidden-panel" style="display:none"></div>
       <div id="zones"></div>
@@ -1020,11 +1042,101 @@
       map.flyTo([39.74, 19.96], 10, { duration: 0.7 });
     }
 
+
+    // Alloggi per la tappa Xamil: prezzi live letti il 25/07/2026.
+    // I pin indicano l'area dichiarata; il pulsante "mappa esatta" cerca il singolo alloggio.
+    const STAY_CHECKIN = "2026-08-28";
+    const STAY_CHECKOUT = "2026-08-31";
+    const stayBookUrl = (slug) => `https://www.booking.com${slug}.it.html?checkin=${STAY_CHECKIN}&checkout=${STAY_CHECKOUT}&group_adults=3&req_adults=3&no_rooms=1&group_children=0&req_children=0`;
+    const stayMapUrl = (s) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(s.name + ", " + s.city + ", Albania")}`;
+    const staySearchUrl = (city) => `https://www.booking.com/searchresults.it.html?ss=${encodeURIComponent(city + ", Albania")}&checkin=${STAY_CHECKIN}&checkout=${STAY_CHECKOUT}&group_adults=3&no_rooms=1&group_children=0&order=price`;
+    const stays = [{"name":"Vila Jakupi","city":"Saranda","area":"Saranda centro","price":120,"score":"8,9","reviews":183,"center":"500 m","beach":"800 m","beds":"Appartamento 65 m² · 2 singoli + matrimoniale","flex":true,"featured":true,"slug":"/hotel/al/vila-jakupi-sarande1","photo":"https://cf.bstatic.com/xdata/images/hotel/square600/310839408.webp?k=1cd7ef6a179dba257829202c122e9d4a731271ca9091ca07fb2c6a1e376bd5b7&o=","note":"Miglior risparmio serio: €21 meno di Xamil, ma siete a Saranda."},{"name":"Guest house Vila Bega","city":"Saranda","area":"Saranda centro","price":120,"score":"9,3","reviews":34,"center":"700 m","beach":"1 km","beds":"Monolocale 34 m² · 3 letti","flex":false,"featured":true,"slug":"/hotel/al/vila-bega","photo":"https://cf.bstatic.com/xdata/images/hotel/square600/101006362.webp?k=2038cc275b9f09cdb6bb299d0f28b91b4e719f256f93314f97d2d91786111f69&o=","note":"Voto alto e prezzo basso; controlla bene la regola di cancellazione."},{"name":"Akeron's Rooms","city":"Saranda","area":"Saranda nord","price":135,"score":"9,6","reviews":23,"center":"1,7 km","beach":"900 m","beds":"Tripla · 2 singoli + matrimoniale","flex":true,"featured":true,"slug":"/hotel/al/akerons-rooms-library","photo":"https://cf.bstatic.com/xdata/images/hotel/square600/559145303.webp?k=3c6805e032e2088cf324f4d92ee7285fe9c4d5c34e79616531191284c149496d&o=","note":"La più forte a €135 se preferite letti separati."},{"name":"RIAN GUEST HOUSE","city":"Saranda","area":"Saranda centro","price":147,"score":"9,4","reviews":47,"center":"350 m","beach":"750 m","beds":"Matrimoniale + divano letto","flex":true,"featured":false,"slug":"/hotel/al/rian-guest-house","photo":"https://cf.bstatic.com/xdata/images/hotel/square600/480777336.webp?k=b3ce0d8a72516bd3e83f7ad6c4c307acdd40a1ed99b31414be9ca80f51ffdf00&o=","note":"Alternativa Saranda con ottimo voto e centro vicino."},{"name":"Ahmeti Rooms","city":"Ksamil","area":"Ksamil sud","price":141,"score":"8,8","reviews":56,"center":"1,3 km","beach":"550 m","beds":"Appartamento 30 m² · singolo + matrimoniale","flex":false,"featured":false,"slug":"/hotel/al/ahmeti-rooms","photo":"https://cf.bstatic.com/xdata/images/hotel/square600/362495871.webp?k=0155fe441c5dbc59efed0c621e0cf8d985ebd5341c962bdf9059098a23e71cf9&o=","note":"Il prezzo più basso trovato dentro Xamil."},{"name":"Vila Hysaj","city":"Ksamil","area":"Ksamil centro","price":150,"score":"8,5","reviews":14,"center":"600 m","beach":"350 m","beds":"Monolocale triplo · singolo + matrimoniale grande","flex":true,"featured":false,"slug":"/hotel/al/vila-hysaj","photo":"https://cf.bstatic.com/xdata/images/hotel/square600/550579143.webp?k=bb92ef2678ba4c51f4f2aa5c4eef3dfa9f41ee3a2de01998c64d33d9b637203a&o=","note":"Vicino al mare, cancellazione gratuita e nessun anticipo."},{"name":"Ksamil Stone Guesthouse","city":"Ksamil","area":"Ksamil centro","price":150,"score":"10","reviews":1,"center":"250 m","beach":"500 m","beds":"Appartamento · singolo + matrimoniale","flex":true,"featured":false,"slug":"/hotel/al/myorfeu-apartments-ksamil","photo":"https://cf.bstatic.com/xdata/images/hotel/square600/851195229.webp?k=611da61bdf6c581f8c88ad2bfa972588560a82de467166a35837aa211975e083&o=","note":"Bella posizione, ma una sola recensione: da trattare con cautela."},{"name":"Vila Avni Likometi","city":"Ksamil","area":"Ksamil centro","price":165,"score":"9,3","reviews":79,"center":"350 m","beach":"500 m","beds":"Tripla · matrimoniale + divano letto","flex":true,"featured":true,"slug":"/hotel/al/vila-avni-likometi","photo":"https://cf.bstatic.com/xdata/images/hotel/square600/456392439.webp?k=ab95a07256c3c198da03681136ed57b9eb0d0c4188a4ecda5c7bc9b7896e41f4&o=","note":"Miglior equilibrio vero a Xamil: prezzo, voti e flessibilità."},{"name":"Guesthouse Villa Dema","city":"Ksamil","area":"Ksamil centro","price":165,"score":"9,0","reviews":27,"center":"600 m","beach":"650 m","beds":"Matrimoniale + singolo","flex":true,"featured":false,"slug":"/hotel/al/dema-guesthouse-ksamil","photo":"https://cf.bstatic.com/xdata/images/hotel/square600/704361221.webp?k=4d7806189bf72628f5301cfeea04dbeac112db0b3ae286036ac011eb27252eb0&o=","note":"Flessibile e con parcheggio."},{"name":"Apartment Toni Caca Ksamil","city":"Ksamil","area":"Ksamil lago","price":165,"score":"8,9","reviews":15,"center":"400 m","beach":"600 m","beds":"Monolocale 25 m² · singolo + matrimoniale","flex":true,"featured":false,"slug":"/hotel/al/apartment-toni-caca-ksamil","photo":"https://cf.bstatic.com/xdata/images/hotel/square600/704809507.webp?k=b87ec9ef520811a82404ae3db47745ae47740b6b57eb544edf763f5c44104e88&o=","note":"Cucina e cancellazione gratuita."},{"name":"Apartments Ardian","city":"Ksamil","area":"Ksamil centro","price":165,"score":"8,9","reviews":16,"center":"500 m","beach":"750 m","beds":"Tripla · singolo + matrimoniale","flex":true,"featured":false,"slug":"/hotel/al/elis-rooms","photo":"https://cf.bstatic.com/xdata/images/hotel/square600/586207837.webp?k=10c6d85623d43190ad5e4e3eb29727c1788aa22141cc700b11ca160b5eb12af0&o=","note":"Parcheggio e opzione flessibile."},{"name":"Hizmo apartament","city":"Ksamil","area":"Ksamil lago","price":165,"score":"10","reviews":1,"center":"600 m","beach":"550 m","beds":"Tripla · singolo + matrimoniale","flex":true,"featured":false,"slug":"/hotel/al/hizmo-apartament","photo":"https://cf.bstatic.com/xdata/images/hotel/square600/715690485.webp?k=91a70cff5c943df6f98bd0eec95782f83c91538ff014a0174d20af9d3b1c4d2f&o=","note":"Prezzo buono, ma una sola recensione."},{"name":"Ajla Apartment","city":"Ksamil","area":"Ksamil centro","price":171,"score":"8,7","reviews":44,"center":"250 m","beach":"500 m","beds":"Camera familiare · singolo + matrimoniale","flex":true,"featured":false,"slug":"/hotel/al/ajla-apartment-ksamil","photo":"https://cf.bstatic.com/xdata/images/hotel/square600/704908394.webp?k=1ff6e8d8aa2c276b6ec8cb8b6cfe1e3e7e62e741a82ad40f12be168f89321b28&o=","note":"Vicino al centro, parcheggio."},{"name":"Villa Shpetim Zogaj","city":"Ksamil","area":"Ksamil centro","price":177,"score":"8,8","reviews":169,"center":"300 m","beach":"450 m","beds":"Intera villetta 28 m² · singolo + matrimoniale","flex":true,"featured":true,"slug":"/hotel/al/villa-shpetim-zogaj","photo":"https://cf.bstatic.com/xdata/images/hotel/square600/463479433.webp?k=a2ab3fc4b60d6611389cfc62cbdfc16b6379b42d0aa3de6cfeeec58ce3babc3c&o=","note":"Più privacy di una camera: 169 giudizi e cucina."},{"name":"Vila Mare Mateo","city":"Ksamil","area":"Ksamil sud","price":178,"score":"9,4","reviews":113,"center":"1,3 km","beach":"400 m","beds":"Tripla · 3 letti singoli","flex":false,"featured":true,"slug":"/hotel/al/vila-mare-mateo","photo":"https://cf.bstatic.com/xdata/images/hotel/square600/896586905.webp?k=26a5751f8a5afa1360f92d3f95bea46b899812999b9c281310f83f64338c833d&o=","note":"La scelta più chiara se volete tre letti separati."},{"name":"Villa Merka","city":"Ksamil","area":"Butrinto / lago","price":180,"score":"9,3","reviews":75,"center":"3,4 km","beach":"500 m","beds":"Tripla · divano letto + matrimoniale","flex":true,"featured":false,"slug":"/hotel/al/merka-guesthouse","photo":"https://cf.bstatic.com/xdata/images/hotel/square600/876878959.webp?k=a9a34e06d40a3fcf2c609ff5367d123ed24809dc47776712e42a65a5111245cd&o=","note":"Fuori dal centro: ottima solo se avete l'auto."},{"name":"Villa Minaj","city":"Ksamil","area":"Ksamil nord","price":180,"score":"8,2","reviews":67,"center":"800 m","beach":"fronte mare","beds":"Suite · castello + matrimoniale","flex":true,"featured":false,"slug":"/hotel/al/villa-minaj","photo":"https://cf.bstatic.com/xdata/images/hotel/square600/503978083.webp?k=67d2c6fef1995634c09540bdaaa2e1c05254310f515760c5596bb53b60c844d0&o=","note":"Fronte mare, ma letto a castello."},{"name":"Villa Zace","city":"Ksamil","area":"Ksamil centro","price":180,"score":"—","reviews":0,"center":"350 m","beach":"250 m","beds":"Quadrupla · 2 singoli + matrimoniale","flex":true,"featured":false,"slug":"/hotel/al/villa-zace","photo":"https://cf.bstatic.com/xdata/images/hotel/square600/864659007.webp?k=017822fe69722288f4c4fb9f115087d101b1aa57e1ce2093d76cf4f7eb5a8381&o=","note":"Molto vicina al mare, ma nuova senza giudizi."},{"name":"Vila Zeka","city":"Ksamil","area":"Ksamil lago","price":180,"score":"9,7","reviews":26,"center":"700 m","beach":"600 m","beds":"Tripla · singolo + matrimoniale","flex":true,"featured":true,"slug":"/hotel/al/vila-zeka","photo":"https://cf.bstatic.com/xdata/images/hotel/square600/702711642.webp?k=69d85bcdb2c89e854711f5d8afac62692d6439d6dea64f54e687211950c8b93f&o=","note":"Voto altissimo e nessun anticipo."},{"name":"Apartment Artan Skenderaj","city":"Ksamil","area":"Ksamil lago","price":180,"score":"8,6","reviews":12,"center":"400 m","beach":"650 m","beds":"Quadrupla · matrimoniale + castello","flex":true,"featured":false,"slug":"/hotel/al/apartment-dritan-senderaj","photo":"https://cf.bstatic.com/xdata/images/hotel/square600/698416706.webp?k=67ddb8a76daabfdfabd301e31928202351634e542d6ab65638e9fa541eb019fb&o=","note":"Flessibile e con parcheggio."},{"name":"Villa Selmani","city":"Ksamil","area":"Ksamil sud","price":180,"score":"9,1","reviews":104,"center":"1,3 km","beach":"500 m","beds":"Appartamento 30 m² · singolo + matrimoniale grande","flex":true,"featured":true,"slug":"/hotel/al/shtepia-selmani","photo":"https://cf.bstatic.com/xdata/images/hotel/square600/881031985.webp?k=9ae09af863f7bcbb080915691d871bde5891036a6e2cb60079a993c08ffbea6f&o=","note":"Appartamento con cucina, molte recensioni e flessibilità."},{"name":"Villa Leonardi","city":"Ksamil","area":"Ksamil centro","price":180,"score":"8,5","reviews":12,"center":"500 m","beach":"550 m","beds":"Monolocale 20 m² · singolo + matrimoniale","flex":true,"featured":false,"slug":"/hotel/al/villa-leonardi","photo":"https://cf.bstatic.com/xdata/images/hotel/square600/713088265.webp?k=cec9cb8b6183a8fe3edeb9ceee7c6ebd09e8b9899659290134b141068bbe2484&o=","note":"Opzione piccola, con parcheggio."},{"name":"Lake Side Serenity","city":"Ksamil","area":"Ksamil lago","price":180,"score":"9,6","reviews":11,"center":"600 m","beach":"650 m","beds":"Tripla · singolo + matrimoniale","flex":true,"featured":false,"slug":"/hotel/al/lake-side-serenity","photo":"https://cf.bstatic.com/xdata/images/hotel/square600/686115169.webp?k=bcb526350c3e69ef71a53156068997ecb5afc9b4a579adf0121bb1192bb4c467&o=","note":"Voto molto alto, ma ancora pochi giudizi."},{"name":"Brahimi Guest House","city":"Ksamil","area":"Ksamil lago","price":188,"score":"9,4","reviews":55,"center":"600 m","beach":"800 m","beds":"Monolocale 38 m² · singolo + matrimoniale","flex":true,"featured":false,"slug":"/hotel/al/brahimi-guest-house-ksamil","photo":"https://cf.bstatic.com/xdata/images/hotel/square600/447506431.webp?k=89b015b2392c03a75a38c807dfae87ef7986f8033164f1f33e168d39973ac412&o=","note":"Più spazio e cucina; mare più lontano."},{"name":"Elmir apartament's","city":"Ksamil","area":"Ksamil centro","price":189,"score":"8,8","reviews":5,"center":"350 m","beach":"450 m","beds":"Singolo + matrimoniale","flex":true,"featured":false,"slug":"/hotel/al/elmir-apartaments","photo":"https://cf.bstatic.com/xdata/images/hotel/square600/717734432.webp?k=72c21797d5038f4e6f26cc53696f783184fb94e2866152c81ceab9048576a81c&o=","note":"Il sito lo propone per tre, ma la camera è 2 adulti + 1 bambino: controlla."},{"name":"Vila Zeqo Muka 1","city":"Ksamil","area":"Ksamil centro","price":195,"score":"9,4","reviews":160,"center":"500 m","beach":"500 m","beds":"Tripla · singolo + matrimoniale","flex":true,"featured":true,"slug":"/hotel/al/vila-zeqo-muka","photo":"https://cf.bstatic.com/xdata/images/hotel/square600/473433472.webp?k=f47786ad9f32656920476af035d7014c07cdc1989d6ae2bab12d4047cb65fabc&o=","note":"Scelta sicura se le più economiche spariscono."},{"name":"Vila Leka","city":"Ksamil","area":"Ksamil centro","price":195,"score":"9,1","reviews":77,"center":"350 m","beach":"550 m","beds":"Appartamento 25 m² · divano letto + matrimoniale","flex":true,"featured":false,"slug":"/hotel/al/leka-39-s-apartments","photo":"https://cf.bstatic.com/xdata/images/hotel/square600/472476017.webp?k=cc5cceecfe7ce7624f5abcb83ee3b3e3bae9dbd8872ec894c1044d53dae73cc4&o=","note":"Cucina e terrazza."},{"name":"Vila Suljo","city":"Ksamil","area":"Ksamil lago","price":195,"score":"9,0","reviews":66,"center":"700 m","beach":"400 m","beds":"Monolocale 25 m² · singolo + matrimoniale","flex":true,"featured":false,"slug":"/hotel/al/vila-suljo","photo":"https://cf.bstatic.com/xdata/images/hotel/square600/476932962.webp?k=a34163da129a7e288bbe7b032f6ffebf40e2988bae9ceb556ab76e23b3830d55&o=","note":"Buona distanza dalla spiaggia, con cucina."},{"name":"Ksamil Apartments","city":"Ksamil","area":"Ksamil centro","price":197,"score":"9,2","reviews":371,"center":"300 m","beach":"500 m","beds":"Appartamento 18 m² · divano letto + matrimoniale","flex":true,"featured":true,"slug":"/hotel/al/ksamil-apartments-saranta","photo":"https://cf.bstatic.com/xdata/images/hotel/square600/319281783.webp?k=50733983c626d6b84472988348961bd3873cfaed46de4f73e3f1b1d49233849e&o=","note":"Il campione di giudizi più solido; ha piscina."},{"name":"Brothers Of The World Hostel","city":"Ksamil","area":"Ksamil centro","price":199,"score":"8,7","reviews":170,"center":"500 m","beach":"350 m","beds":"3 posti in dormitorio","flex":true,"featured":false,"slug":"/hotel/al/brothers-of-the-world","photo":"https://cf.bstatic.com/xdata/images/hotel/square600/660324892.webp?k=b17217013f825772aa9ff3c7967b06fbc02b89ab255e89ba3f41cee58689fde3&o=","note":"Colazione inclusa; solo se va bene il dormitorio condiviso."},{"name":"Vila 3 palmat","city":"Ksamil","area":"Ksamil sud","price":200,"score":"8,0","reviews":1,"center":"1,4 km","beach":"600 m","beds":"2 camere · 2 singoli + matrimoniale","flex":true,"featured":false,"slug":"/hotel/al/vila-3-palmat-ksamil","photo":"https://cf.bstatic.com/xdata/images/hotel/square600/862245264.webp?k=8bda86f141b0c3f983ec720e65914dbc7a7c6e8334bd332eac0395879797e34b&o=","note":"Due camere, ma un solo giudizio."},{"name":"Lux Apartments","city":"Ksamil","area":"Ksamil nord","price":201,"score":"8,4","reviews":68,"center":"600 m","beach":"fronte mare","beds":"Familiare · singolo + matrimoniale","flex":true,"featured":false,"slug":"/hotel/al/ilio-apartments","photo":"https://cf.bstatic.com/xdata/images/hotel/square600/675215328.webp?k=b9e6cf53af7d544760afc88c009be226bffb06d4172d5ccfaa259b20104ccad6&o=","note":"Fronte mare e cancellazione gratuita."},{"name":"Marble Villa Ksamil","city":"Ksamil","area":"Ksamil lago","price":202,"score":"9,2","reviews":115,"center":"600 m","beach":"600 m","beds":"Monolocale 30 m² · singolo + matrimoniale","flex":true,"featured":false,"slug":"/hotel/al/marble-ksamil-ksamil","photo":"https://cf.bstatic.com/xdata/images/hotel/square600/365434449.webp?k=72d36a646d42332f0c9ddaa9368efa4175e4def74f2221baec017a901fe89f98&o=","note":"Cucina, parcheggio e voti forti."},{"name":"Vila Mulla","city":"Ksamil","area":"Ksamil nord","price":203,"score":"8,4","reviews":41,"center":"500 m","beach":"fronte mare","beds":"Tripla · matrimoniale + divano letto","flex":true,"featured":false,"slug":"/hotel/al/guest-house-mulla","photo":"https://cf.bstatic.com/xdata/images/hotel/square600/485448061.webp?k=f9ebe4d762ea4224dddebba8bd3df226f61c155b151b84742c09b19186a1d61a&o=","note":"Fronte mare; lo sconto è già applicato."},{"name":"Pellumb Apartments","city":"Ksamil","area":"Ksamil lago","price":204,"score":"9,0","reviews":94,"center":"600 m","beach":"800 m","beds":"Tripla con balcone · singolo + matrimoniale","flex":true,"featured":false,"slug":"/hotel/al/pellumb-apartments","photo":"https://cf.bstatic.com/xdata/images/hotel/square600/304392486.webp?k=3d6d599476b93228c27c1f1a4527945bce180e7b8879ebee31d9e61b4792825d&o=","note":"Molte recensioni, ma mare più distante."},{"name":"Elton Tafa guesthouse","city":"Ksamil","area":"Ksamil lago","price":204,"score":"9,5","reviews":66,"center":"400 m","beach":"450 m","beds":"Tripla · matrimoniale + divano letto","flex":true,"featured":true,"slug":"/hotel/al/elton-tafa-guesthouse","photo":"https://cf.bstatic.com/xdata/images/hotel/square600/371691301.webp?k=9e13e41a93afbaf80119ed1f8a1afb3d5effbf20cb5b772095868192e369fed3&o=","note":"Uno dei migliori quando il tetto sale a €204."},{"name":"Klevis Guesthouse","city":"Ksamil","area":"Ksamil centro","price":204,"score":"9,7","reviews":4,"center":"350 m","beach":"600 m","beds":"Appartamento 20 m² · singolo + matrimoniale","flex":true,"featured":false,"slug":"/hotel/al/klevis-apartaments","photo":"https://cf.bstatic.com/xdata/images/hotel/square600/883236895.webp?k=06bb4d7220fd4cf97906b07067433d4f0427bb14c9cca1befa1e9e915d1d5e39&o=","note":"Voto alto ma quattro giudizi."},{"name":"Dane apartment","city":"Ksamil","area":"Ksamil sud","price":205,"score":"8,3","reviews":85,"center":"1 km","beach":"500 m","beds":"Matrimoniale + singolo","flex":false,"featured":false,"slug":"/hotel/al/dane-apartment-ksamil","photo":"https://cf.bstatic.com/xdata/images/hotel/square600/571224609.webp?k=157b0651f897f94230eabf41d3f3ed7f570501ce22539c0a686b2a53e97cb520&o=","note":"Buon numero di giudizi; niente flessibilità mostrata."},{"name":"Villa Roku","city":"Ksamil","area":"Ksamil lago","price":207,"score":"8,7","reviews":101,"center":"600 m","beach":"400 m","beds":"Familiare con balcone · singolo + matrimoniale","flex":true,"featured":false,"slug":"/hotel/al/guest-house-roku","photo":"https://cf.bstatic.com/xdata/images/hotel/square600/211213667.webp?k=58d090bf0e74dc876ae04aeca114352e30210103d6852742624dd024861abcbf&o=","note":"Molti giudizi e spiaggia a 400 m."},{"name":"Binos Apartments Ksamil","city":"Ksamil","area":"Ksamil centro","price":207,"score":"10","reviews":3,"center":"500 m","beach":"750 m","beds":"Appartamento 45 m² · divano letto + matrimoniale","flex":true,"featured":false,"slug":"/hotel/al/binos-apartments-ksamil","photo":"https://cf.bstatic.com/xdata/images/hotel/square600/871671813.webp?k=0a5ca3f4a64f21f84b42c531617baeda0fa6f37932bfc34c4547bdc31062b0e4&o=","note":"Spazioso ma con pochissimi giudizi."},{"name":"GB Rooms","city":"Ksamil","area":"Ksamil lago","price":210,"score":"9,6","reviews":186,"center":"600 m","beach":"250 m","beds":"Tripla · singolo + matrimoniale","flex":true,"featured":true,"slug":"/hotel/al/gb-rooms-ksamil","photo":"https://cf.bstatic.com/xdata/images/hotel/square600/563485577.webp?k=0dea9744d49f7917571b9b2504804cc8f09d197418d3263f2ae7357c1f364cf6&o=","note":"Voto e numero di giudizi fortissimi; solo 250 m dal mare."},{"name":"JOHN Apartments","city":"Ksamil","area":"Ksamil centro","price":210,"score":"8,9","reviews":25,"center":"200 m","beach":"350 m","beds":"Tripla · singolo + matrimoniale","flex":true,"featured":false,"slug":"/hotel/al/john-apartments","photo":"https://cf.bstatic.com/xdata/images/hotel/square600/891422492.webp?k=5bfa8c7da16b4a265ad3756665b776d0140f8dc387c3d9ad597a900aafc1fe51&o=","note":"Posizione molto comoda."},{"name":"Seli's White Villa","city":"Ksamil","area":"Ksamil lago","price":210,"score":"9,3","reviews":54,"center":"700 m","beach":"100 m","beds":"Tripla · singolo + matrimoniale","flex":true,"featured":false,"slug":"/hotel/al/selis-white-villa","photo":"https://cf.bstatic.com/xdata/images/hotel/square600/858277430.webp?k=656ea20a35470d1bdb57eb2e20eac07f6f987663e2e7f8643ddd16c97957e1f2&o=","note":"La più vicina al mare della lista."},{"name":"Villa EriBela","city":"Ksamil","area":"Ksamil lago","price":210,"score":"9,4","reviews":54,"center":"400 m","beach":"600 m","beds":"Tripla deluxe · singolo + matrimoniale","flex":true,"featured":false,"slug":"/hotel/al/villa-eribela","photo":"https://cf.bstatic.com/xdata/images/hotel/square600/802565483.webp?k=18b5da71ac890370cb34da1ff6344cc9f38c2ca0ffb735f65ea58c3e4b32d4cc&o=","note":"Ottimo voto, cancellazione e nessun anticipo."}];
+    const stayAreas = {
+      "Ksamil centro":[39.7688,20.0014], "Ksamil lago":[39.7654,20.0135], "Ksamil nord":[39.7760,19.9970],
+      "Ksamil sud":[39.7588,20.0069], "Butrinto / lago":[39.7473,20.0227],
+      "Saranda centro":[39.8751,20.0056], "Saranda nord":[39.8850,20.0108]
+    };
+    const staysPanel = document.getElementById("stays-panel");
+    const stayLayer = L.layerGroup();
+    const stayMarkers = {};
+    function stayCoords(s, index) {
+      const base = stayAreas[s.area] || stayAreas["Ksamil centro"];
+      const ring = (index % 8) + 1, angle = ((index * 137.5) % 360) * Math.PI / 180;
+      const radius = 0.00034 * ring;
+      return [base[0] + Math.cos(angle) * radius, base[1] + Math.sin(angle) * radius];
+    }
+    function clearStayMap() { stayLayer.clearLayers(); Object.keys(stayMarkers).forEach((key) => delete stayMarkers[key]); }
+    function addStayMarkers(shown) {
+      clearStayMap();
+      shown.forEach((s, index) => {
+        const coords = stayCoords(s, index);
+        const icon = L.divIcon({className:"", html:`<div class="stay-pin">${s.number}</div>`, iconSize:[28,28], iconAnchor:[14,14], popupAnchor:[0,-14]});
+        const marker = L.marker(coords, {icon}).addTo(stayLayer);
+        marker.bindPopup(`<div class="popup-title">#${s.number} · ${s.name}</div><div class="popup-deal"><strong>€${s.price} totali · 3 notti · 3 adulti</strong><br>${s.city} · area ${s.area}<br>Voto ${s.score}${s.reviews ? " · " + s.reviews + " giudizi" : ""}<br><a href="${stayBookUrl(s.slug)}" target="_blank" rel="noopener">Booking.com →</a> · <a href="${stayMapUrl(s)}" target="_blank" rel="noopener">mappa esatta →</a></div>`);
+        marker.on("click", () => selectStay(s.id, false));
+        stayMarkers[s.id] = marker;
+      });
+      stayLayer.addTo(map);
+    }
+    function renderStays(mode = "all") {
+      list.style.display = "none"; carsPanel.style.display = "none";
+      if (poisPanel) poisPanel.style.display = "none";
+      if (ksamilPanel) ksamilPanel.style.display = "none";
+      if (corfuBudget) corfuBudget.style.display = "none";
+      if (corfuDecision) corfuDecision.style.display = "none";
+      if (!staysPanel) return;
+      staysPanel.style.display = "block";
+      const sorted = [...stays].sort((a,b) => a.price - b.price || Number(b.score.replace(",",".")) - Number(a.score.replace(",",".")));
+      const shown = sorted.filter((s) => mode === "all" || (mode === "ksamil" && s.city === "Ksamil") || (mode === "cheap" && s.price <= 160) || (mode === "best" && s.featured));
+      staysPanel.innerHTML = `
+        <div class="callout"><strong>44 alloggi comparabili · 28 → 31 agosto · 3 adulti</strong><p>Prezzo totale, tasse incluse quando dichiarate dalla pagina. <strong>Xamil parte da €141.</strong> Saranda scende a <strong>€120</strong>, ma è circa 25–30 minuti di auto da Xamil: il risparmio è reale, la distanza pure.</p></div>
+        <div class="stay-filter-row" aria-label="Filtri alloggi">
+          <button type="button" data-stay-filter="all" class="${mode === "all" ? "active" : ""}">Tutti ${stays.length}</button>
+          <button type="button" data-stay-filter="ksamil" class="${mode === "ksamil" ? "active" : ""}">Solo Xamil · 40</button>
+          <button type="button" data-stay-filter="cheap" class="${mode === "cheap" ? "active" : ""}">Fino a €160</button>
+          <button type="button" data-stay-filter="best" class="${mode === "best" ? "active" : ""}">Scelte forti</button>
+        </div>
+        ${shown.map((s) => `<article class="stay-card" data-stay="${s.id}">
+          <img src="${s.photo}" alt="Foto di ${s.name}" loading="lazy">
+          <div>
+            <div class="stay-name">#${s.number} · ${s.name}</div>
+            <div class="stay-price">€${s.price} totali · 3 notti</div>
+            <div class="stay-meta">${s.city} · ${s.area} · centro ${s.center} · mare ${s.beach}</div>
+            <div class="stay-meta">Voto ${s.score}${s.reviews ? " · " + s.reviews + " giudizi" : ""} · ${s.beds}</div>
+            <div class="stay-badges">${s.featured ? '<span class="stay-badge best">scelta forte</span>' : ""}<span class="stay-badge">Booking.com</span>${s.flex ? '<span class="stay-badge">cancellazione gratuita</span>' : ""}</div>
+            <div class="stay-note">${s.note}</div>
+            <div class="stay-actions"><a href="${stayBookUrl(s.slug)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Apri su Booking.com →</a><a href="${stayMapUrl(s)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Mappa esatta →</a></div>
+          </div>
+        </article>`).join("")}
+        <p class="trip-sources">Foto, disponibilità, prezzi, giudizi e link: <strong>Booking.com</strong>, ricerca effettuata il 25/07/2026 con 3 adulti e 28–31 agosto. I pin della mappa mostrano l’area dell’alloggio; per l’ingresso preciso usa “Mappa esatta”.</p>
+      `;
+      staysPanel.querySelectorAll("[data-stay-filter]").forEach((button) => button.addEventListener("click", () => renderStays(button.dataset.stayFilter)));
+      staysPanel.querySelectorAll("[data-stay]").forEach((card) => card.addEventListener("click", () => selectStay(card.dataset.stay, true)));
+      addStayMarkers(shown);
+      const points = shown.map((s, i) => stayCoords(s, i));
+      if (points.length) map.fitBounds(L.latLngBounds(points), {padding:[35,35], maxZoom:12});
+    }
+    function selectStay(id, pan) {
+      document.querySelectorAll(".stay-card").forEach((card) => card.classList.toggle("active", card.dataset.stay === id));
+      const s = stays.find((item) => item.id === id);
+      const marker = stayMarkers[id];
+      if (!s || !marker) return;
+      marker.openPopup();
+      if (pan) map.flyTo(stayCoords(s, stays.findIndex((item) => item.id === id)), 14, {duration:.65});
+    }
+    stays.forEach((s, index) => { s.id = "stay-" + (index + 1); s.number = index + 1; });
+
     function renderList(filter) {
       if (filter === "ksamil") {
+        stayLayer.remove();
         renderKsamil();
         return;
       }
+      if (filter === "stays") {
+        renderStays();
+        return;
+      }
+      stayLayer.remove();
       if (filter === "cars") {
         if (poisPanel) poisPanel.style.display = "none";
         renderCars();
@@ -1147,6 +1259,11 @@
       if (kind === "ksamil" || raw === "ksamil") {
         document.querySelectorAll("#filters button").forEach((b) => b.classList.toggle("active", b.dataset.filter === "ksamil"));
         renderList("ksamil");
+        return;
+      }
+      if (kind === "stays" || raw === "stays") {
+        document.querySelectorAll("#filters button").forEach((b) => b.classList.toggle("active", b.dataset.filter === "stays"));
+        renderList("stays");
         return;
       }
       if (kind === "pois" || raw === "pois") {
