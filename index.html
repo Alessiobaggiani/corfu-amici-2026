@@ -156,7 +156,7 @@
         <button type="button" class="tab active" data-tab="home">Home</button>
         <button type="button" class="tab" data-tab="zone">Zone</button>
         <button type="button" class="tab" data-tab="giorni">Giorni</button>
-        <button type="button" class="tab" data-tab="escursioni">Escursioni</button>
+        <button type="button" class="tab" data-tab="escursioni">Gite</button>
         <button type="button" class="tab" data-tab="auto">Auto</button>
         <button type="button" class="tab" data-tab="valigia">Valigia</button>
         <a class="tab map-full" href="mappa.html">Apri mappa grande</a>
@@ -168,30 +168,30 @@
     <section class="panel active" id="panel-home">
       <div class="card">
         <h1>Corfù · dossier del gruppo</h1>
-        <p class="lead">Voli già fatti · date congelate. Scegliete zona (con costi chiari), programma giorni, poi max 1–2 escursioni a pagamento.</p>
+        <p class="lead">Voli già fatti · date congelate. Qui trovate tutto per scegliere dove dormire, muovervi con l’auto e decidere cosa vedere, senza dover conoscere Corfù.</p>
         <div class="chips">
           <span class="chip ok">27 ago → 3 set 2026</span>
           <span class="chip ok">3 adulti</span>
           <span class="chip">Casa+auto €500–650</span>
           <span class="chip">Solo auto</span>
-          <span class="chip">Splitwise sempre</span>
+          <span class="chip">Splitwise: solo auto</span>
         </div>
       </div>
       <div class="card">
         <h2>Ordine consigliato</h2>
         <ol>
-          <li><strong>Zone</strong> — dove dormire, con range di spesa</li>
-          <li><strong>Giorni</strong> — programma scritto giorno per giorno</li>
-          <li><strong>Escursioni</strong> — solo quelle a pagamento (foto + prezzi)</li>
+          <li><strong>Zone</strong> — confronto completo: mare, servizi, serate, auto, distanze e budget</li>
+          <li><strong>Giorni</strong> — programma scritto giorno per giorno, con tempi d’auto e spesa prevista</li>
+          <li><strong>Gite</strong> — mete gratuite con l’auto e attività a pagamento, separate con chiarezza</li>
         </ol>
-        <div class="warn"><strong>Budget casa+auto:</strong> €500–650 totali di gruppo. Escursioni a parte.</div>
+        <div class="warn"><strong>Verità sul budget casa+auto:</strong> €500–650 totali per 3 persone. Con auto da €144, la casa deve costare massimo €506; con auto da €192, massimo €458. Le cifre qui sotto servono a scegliere senza sorprese.</div>
       </div>
     </section>
 
     <section class="panel" id="panel-zone">
       <div class="card" style="margin-bottom:12px">
         <h2>Zone dove dormire</h2>
-        <p class="lead">Clicca una zona a sinistra. A destra: costi semplici, budget, cosa c’è vicino, mappa.</p>
+        <p class="lead">Clicca una zona a sinistra. A destra trovi mare, servizi, serate, parcheggio, strade, distanze, pro e contro: tutti i parametri per scegliere bene.</p>
       </div>
       <div class="split">
         <div class="list-col" id="zone-list"></div>
@@ -205,7 +205,7 @@
     <section class="panel" id="panel-giorni">
       <div class="card" style="margin-bottom:12px">
         <h2>Programma giorni</h2>
-        <p class="lead">Un giorno = una meta principale. Clicca il giorno → vedi dove si trova sulla mappa.</p>
+        <p class="lead">Un giorno = una meta principale. Clicca il giorno: vedi perché vale la pena, tempo in auto, costo e alternativa più semplice.</p>
       </div>
       <div class="split">
         <div class="list-col" id="giorni-list"></div>
@@ -218,15 +218,15 @@
 
     <section class="panel" id="panel-escursioni">
       <div class="card" style="margin-bottom:12px">
-        <h2>Escursioni a pagamento (e alternative gratis)</h2>
-        <p class="lead">Filtra per tipo. Ogni scheda: una foto chiara + prezzo + perché. Max 1 grossa + 1 corta.</p>
+        <h2>Gite: gratis con l’auto oppure a pagamento</h2>
+        <p class="lead">Le mete gratuite sono già nel programma e costano solo benzina. Le attività a pagamento sono opzionali: sceglietene al massimo una grande e una corta. Le foto servono solo per orientarvi.</p>
         <div class="filters" id="esc-filters"></div>
         <div class="book-row">
           <a class="book" href="https://www.getyourguide.it/corfu-l405/" target="_blank" rel="noopener">GetYourGuide →</a>
           <a class="book" href="https://www.civitatis.com/it/corfu/" target="_blank" rel="noopener">Civitatis →</a>
           <a class="book" href="https://www.viator.com/Corfu/d4279-ttd" target="_blank" rel="noopener">Viator →</a>
         </div>
-        <p class="src-note">Prezzi indicativi estate 2026 (GetYourGuide / Civitatis). Controllate prima di prenotare.</p>
+        <p class="src-note">Prezzi indicativi estate 2026 (GetYourGuide / Civitatis). Controllate il prezzo prima di prenotare.</p>
       </div>
       <div class="split">
         <div class="list-col" id="esc-list"></div>
@@ -240,12 +240,18 @@
     <section class="panel" id="panel-auto">
       <div class="card">
         <h2>Auto · ritiro aeroporto</h2>
-        <p class="lead">Solo auto. 4–5 posti. Dentro il tetto casa+auto.</p>
-        <div class="ok">Economy 5 posti tipica <strong>~€140–200</strong> / settimana. Media/SUV spesso €750+ → fuori tetto.</div>
+        <p class="lead">Ritiro e riconsegna all’aeroporto CFU · 27 agosto → 3 settembre · 7 giorni. Solo auto: nessun piano alternativo.</p>
+        <div class="ok"><strong>Scelta più sensata:</strong> piccola da 5 posti ~€192. Se volete spremere il budget, Economy/Citigo ~€144 ma controllate bene caparra e copertura.</div>
+        <div class="cost-grid" style="margin-top:10px">
+          <div><b>Economy · Citigo o simile</b><span class="big">~€144</span><div class="pick-meta">Economica. Controllare caparra e copertura.</div></div>
+          <div><b>Piccola · 5 posti</b><span class="big">~€192</span><div class="pick-meta">La più adatta per voi tre.</div></div>
+          <div><b>Fiat 500</b><span class="big">~€154</span><div class="pick-meta">No: l’offerta indicata è solo per 2 posti.</div></div>
+          <div><b>Media / SUV</b><span class="big">~€759–768</span><div class="pick-meta">Più bagagli/strade di montagna, ma fuori budget.</div></div>
+        </div>
         <ul>
-          <li>Ritiro CFU · niente auto da 2 posti</li>
-          <li>Foto al ritiro e alla riconsegna</li>
-          <li>Pagamento → Splitwise</li>
+          <li>Chi guida porta patente fisica e una carta intestata al conducente: controllate prima i requisiti del noleggiatore.</li>
+          <li>Foto e video dell’auto al ritiro e alla riconsegna; segnalate subito ogni segno.</li>
+          <li><strong>Solo l’auto</strong> va su Splitwise: prezzo, benzina ed eventuali pedaggi/parcheggi.</li>
         </ul>
         <a class="link-full" href="mappa.html#cars">Apri mappa grande · noleggi →</a>
       </div>
@@ -253,12 +259,13 @@
 
     <section class="panel" id="panel-valigia">
       <div class="card check">
-        <h2>Valigia · eSIM · emergenze</h2>
+        <h2>Da preparare prima di partire</h2>
         <div class="cost-grid">
-          <div><b>Valigia</b>Costume ×2 · asciugamano · ciabatte · scarpe · felpa · cappello · occhiali · SPF 50 · powerbank · patente · documento</div>
-          <div><b>Telefono / soldi</b>eSIM · mappe offline · Splitwise · screenshot casa/auto · contanti · foto auto</div>
-          <div><b>Farmaci</b>Personali · antidolorifico · cerotti · disinfettante · dopo-puntura · mal d’auto</div>
-          <div><b>Emergenze</b><strong>112</strong> · indirizzo casa · pin Maps · assistenza noleggio</div>
+          <div><b>Valigia</b>Costume ×2 · asciugamano mare · ciabatte · scarpe comode · felpa leggera · cappello · occhiali · crema SPF 50 · borraccia · powerbank.</div>
+          <div><b>Documenti e auto</b>Carta d’identità/passaporto · patente fisica · carta per il noleggio · prenotazioni salvate anche come screenshot · indirizzo e pin della casa.</div>
+          <div><b>Telefono e internet</b>eSIM o piano dati UE controllato prima · mappe scaricate offline · numeri del gruppo · caricatore auto. Splitwise solo per i costi dell’auto.</div>
+          <div><b>Farmaci</b>Farmaci personali · antidolorifico · cerotti · disinfettante · dopo-puntura · anti-mal d’auto · eventuali ricette.</div>
+          <div><b>Emergenze</b><strong>112</strong> gratuito · assistenza noleggio · indirizzo della casa · contatto del proprietario · foto targa e contratto auto.</div>
         </div>
       </div>
     </section>
@@ -281,9 +288,15 @@
         fit:"Stretto / leggermente sopra", fitClass:"b-mid",
         budgetLine:"Casa ~€530 + auto ~€150 ≈ €680 (un filo sopra i 650: cercate casa ≤€500)",
         near:["Mare sotto casa","Moraitika 5 min","Achilleion 20 min","Spiagge sud"],
+        beach:"Spiaggia lunga e facile, subito vicina. Comoda per il bagno quotidiano, meno spettacolare delle baie a ovest.",
+        evenings:"Qualche locale e taverna tra Messonghi e Moraitika; serate tranquille, non è una zona di festa grande.",
+        services:"Supermercati, panifici e noleggi vicini. Base pratica per arrivare e sistemarsi senza giri lunghi.",
+        car:"Strade principali semplici; parcheggio di solito più gestibile che in città. Ottima base per guidare verso sud e centro.",
+        dayTrips:"Achilleion, Corfù Town, Halikounas/Issos e Agios Gordios sono alla portata. Paleokastritsa è la gita lunga della settimana.",
         pros:"Prezzi bassi, mare vicino, buona base sud-est",
         cons:"Meno scenografica dell’ovest",
-        pickIf:"Volete stare nel budget senza rinunciare al mare",
+        pickIf:"Volete stare più vicini possibile al budget, avere il mare a due passi e muovervi in auto senza complicazioni.",
+        avoidIf:"Volete la baia più bella davanti a casa o locali notturni importanti.",
         imgs: IMG.messonghi,
         mapUrl:"mappa.html#zone=messonghi"
       },
@@ -297,9 +310,15 @@
         fit:"Fuori salvo casa ≤€500", fitClass:"b-mid",
         budgetLine:"Solo se trovate casa ≤€500. Altrimenti fuori dai 500–650.",
         near:["Messonghi","Sabbia","Supermercati","Locale serale leggero"],
+        beach:"Sabbia e mare facile, con più atmosfera da località balneare rispetto a Messonghi.",
+        evenings:"Più scelta per passeggiata e cena, ma sempre tranquilla e turistica: non discoteca fino all’alba.",
+        services:"Tutto vicino: spesa, bar, noleggi e spiaggia. È la più pratica se si trova un appartamento davvero economico.",
+        car:"Accesso semplice dalla strada costiera; in piena estate il parcheggio vicino al mare può richiedere un po’ di pazienza.",
+        dayTrips:"Stesse gite di Messonghi; molto comoda per sud, Achilleion e Corfù Town. Ovest e Paleokastritsa richiedono più strada.",
         pros:"Comoda, spiaggia, servizi",
         cons:"Prezzi medi più alti di Messonghi",
-        pickIf:"Casa davvero economica",
+        pickIf:"Trovate una casa sotto €458–506 e preferite più servizi e vita serale leggera.",
+        avoidIf:"Il vostro tetto di €650 è rigido: i prezzi normali sforano.",
         imgs: IMG.moraitika,
         mapUrl:"mappa.html#zone=moraitika"
       },
@@ -313,9 +332,15 @@
         fit:"Stretto", fitClass:"b-mid",
         budgetLine:"Casa ok, ma guidate di più ogni giorno → benzina in più.",
         near:["Sud quieto","Partenze barca Paxos","Meno turismo"],
+        beach:"Sud più naturale e meno affollato; per le spiagge migliori serve comunque usare l’auto.",
+        evenings:"Molto quieta. Bene per dormire e staccare, meno per uscire tutte le sere senza guidare.",
+        services:"Essenziali, ma meno concentrati. Fate attenzione alla distanza fra casa, spesa e spiaggia scelta.",
+        car:"L’auto è obbligatoria ogni giorno; più chilometri e benzina. Vantaggio se scegliete la partenza per Paxos dal porto sud.",
+        dayTrips:"Perfetta per Issos, Halikounas e Paxos da Lefkimmi; scomoda per Town, Paleokastritsa e nord dell’isola.",
         pros:"Economica, calma",
         cons:"Lontana da Paleokastritsa / Town",
-        pickIf:"Ok fare tanti km",
+        pickIf:"La priorità è calma e risparmio sulla casa, e non vi pesa guidare parecchio.",
+        avoidIf:"Volete Corfù Town e Paleokastritsa facili, o cercate locali a pochi minuti a piedi.",
         imgs: IMG.lefkimmi.length ? IMG.lefkimmi : IMG.messonghi,
         mapUrl:"mappa.html#zone=lefkimmi"
       },
@@ -329,9 +354,15 @@
         fit:"Fuori budget", fitClass:"b-bad",
         budgetLine:"Casa da sola già sopra i 650. Solo se alzate il tetto.",
         near:["Aeroporto","Achilleion","Town 20 min","Mare"],
+        beach:"Mare vicino e comodo; non è la spiaggia più spettacolare dell’isola, ma è perfetta appena arrivati.",
+        evenings:"Più scelta per cena e passeggiata rispetto al sud, con ritmo da paesino turistico.",
+        services:"Molto comoda: aeroporto, minimarket e ristoranti vicino. Meno perdita di tempo il primo e l’ultimo giorno.",
+        car:"Strade semplici e distanze corte da aeroporto/Town; in zona mare il parcheggio può riempirsi la sera.",
+        dayTrips:"Ottima per Achilleion, Kanoni e Corfù Town; per sud e Paleokastritsa restano gite di una giornata.",
         pros:"Vicino all’aereo, posizione centrale",
         cons:"Cara per il vostro tetto",
-        pickIf:"Alzate il budget casa+auto",
+        pickIf:"La comodità vale più del tetto di spesa e trovate un’offerta eccezionale.",
+        avoidIf:"Volete rispettare €500–650 per casa e auto: non è compatibile con i prezzi attuali.",
         imgs: IMG.benitses,
         mapUrl:"mappa.html#zone=benitses"
       },
@@ -345,9 +376,15 @@
         fit:"Fuori come base", fitClass:"b-bad",
         budgetLine:"Bellissima baia, troppo cara per dormirci. Meglio meta di giornata.",
         near:["Baia ovest","Tramonti","Glyfada vicino"],
+        beach:"Baia scenografica, sabbia e tramonto: tra le mete più belle della settimana.",
+        evenings:"Gradevole per aperitivo e tramonto, ma la sera non compensa il costo alto della casa.",
+        services:"Locali e servizi turistici presenti, ma prezzi da località molto richiesta in agosto.",
+        car:"La strada finale è più tortuosa/discesa; fate attenzione la sera e mettete in conto il parcheggio vicino alla spiaggia.",
+        dayTrips:"Ideale abbinata a Glyfada o solo come giornata ovest. Non conviene usarla come base per tutto il programma.",
         pros:"Paesaggio wow",
         cons:"Fuori budget come alloggio",
-        pickIf:"Solo come gita dal sud-est",
+        pickIf:"Volete una giornata bellissima con tramonto, non una base economica.",
+        avoidIf:"Cercate il miglior rapporto prezzo/praticità per dormire 7 notti.",
         imgs: IMG.agios,
         mapUrl:"mappa.html#poi=agios-gordios"
       },
@@ -361,23 +398,29 @@
         fit:"Fuori budget", fitClass:"b-bad",
         budgetLine:"Comoda per Town, ma casa tipica fuori dai 500–650.",
         near:["Corfù Town","Marina","Nord-est"],
+        beach:"Comoda e attrezzata, ma meno naturale e spettacolare di ovest e sud selvaggio.",
+        evenings:"Più scelta di bar, ristoranti e marina; ambiente più animato ma meno ‘spiaggia isolata’.",
+        services:"Molto completa: supermercati, ristoranti, marina e vicinanza a Corfù Town.",
+        car:"Distanze brevi verso città e nord; traffico e parcheggi diventano più pesanti attorno a Town e alla marina.",
+        dayTrips:"Comoda per Town, Paleokastritsa, Sidari e nord; lontana dalle spiagge del sud come Issos/Halikounas.",
         pros:"Vicini alla città",
         cons:"Prezzi medi alti",
-        pickIf:"Non siete sul tetto stretto",
+        pickIf:"Preferite città, servizi e nord dell’isola e siete disposti ad alzare il budget.",
+        avoidIf:"Il limite €650 è reale o volete passare più tempo sulle spiagge del sud.",
         imgs: IMG.gouvia,
         mapUrl:"mappa.html#zone=gouvia-dassia"
       }
     ];
 
     const giorni = [
-      { id:"d1", n:1, day:"Giovedì 27 agosto", short:"Arrivo", meta:"Casa + mare sotto casa", lat:39.4667, lng:19.926, why:"Giorno volo: zero stress. Sistematevi, mare vicino, spesa leggera.", tip:"Ritiro auto CFU → casa → spiaggia.", poi:"messonghi-beach", imgs: IMG.messonghi },
-      { id:"d2", n:2, day:"Venerdì 28 agosto", short:"Mare base", meta:"Spiaggia della zona (sud-est)", lat:39.4667, lng:19.926, why:"Recupero. Acqua calda, poca benzina, ritmo lento.", tip:"Tenete forze per Paleokastritsa.", poi:"messonghi-beach", imgs: IMG.messonghi },
-      { id:"d3", n:3, day:"Sabato 29 agosto", short:"Giorno wow", meta:"Paleokastritsa", lat:39.6728, lng:19.7108, why:"La meta forte della settimana. Partite presto. Opzione: barca grotte.", tip:"Parcheggio pieno dopo le 10–11.", poi:"paleokastritsa", imgs: IMG.paleo },
-      { id:"d4", n:4, day:"Domenica 30 agosto", short:"Città", meta:"Corfù Town (UNESCO)", lat:39.6242, lng:19.9216, why:"Centro storico a piedi. Auto fuori. Fortezza + Liston.", tip:"Sera più viva qui.", poi:"corfu-town", imgs: IMG.town },
-      { id:"d5", n:5, day:"Lunedì 31 agosto", short:"Ovest", meta:"Agios Gordios (o Glyfada)", lat:39.531, lng:19.849, why:"Costa ovest: baia e tramonto. Andata e ritorno in giornata.", tip:"Tramonto merita.", poi:"agios-gordios", imgs: IMG.agios },
-      { id:"d6", n:6, day:"Martedì 1 settembre", short:"Natura", meta:"Halikounas / Issos", lat:39.445, lng:19.875, why:"Spiagge più naturali, poca cementificazione. Vicino se dormite a sud.", tip:"Vento a volte forte.", poi:"halikounas", imgs: IMG.halikounas },
-      { id:"d7", n:7, day:"Mercoledì 2 settembre", short:"Flessibile", meta:"Achilleion + mare — oppure Paxos", lat:39.5625, lng:19.9042, why:"Giorno jolly: palazzo vicino + mare, oppure usate questo giorno per l’escursione Paxos.", tip:"Se fate Paxos, prenotate prima.", poi:"achilleion", imgs: IMG.achilleion },
-      { id:"d8", n:8, day:"Giovedì 3 settembre", short:"Partenza", meta:"Aeroporto CFU", lat:39.6019, lng:19.9117, why:"Pieno, riconsegna auto, margine code. Niente mete lontane.", tip:"Uscite con calma.", poi:"airport", imgs: IMG.airport }
+      { id:"d1", n:1, day:"Giovedì 27 agosto", short:"Arrivo", meta:"Casa + mare sotto casa", lat:39.4667, lng:19.926, why:"Giorno volo: zero stress. Sistematevi, bagno vicino e spesa essenziale.", tip:"Ritiro auto CFU → foto auto → casa → spiaggia.", drive:"Dall’aeroporto alla base sud-est: ~30–40 min", cost:"Solo benzina e piccola spesa", planB:"Se arrivate tardi: cena vicino a casa e basta, nessuna corsa.", poi:"messonghi-beach", imgs: IMG.messonghi },
+      { id:"d2", n:2, day:"Venerdì 28 agosto", short:"Mare base", meta:"Spiaggia della zona (sud-est)", lat:39.4667, lng:19.926, why:"Giornata di recupero: acqua calda, poca benzina e ritmo lento prima delle gite più lunghe.", tip:"Tenete forze per Paleokastritsa.", drive:"A piedi o pochi minuti d’auto, secondo la casa scelta", cost:"Gratis · solo lettino/consumazioni se li volete", planB:"Moraitika o Messonghi: scegliete la spiaggia più vicina e non guidate inutilmente.", poi:"messonghi-beach", imgs: IMG.messonghi },
+      { id:"d3", n:3, day:"Sabato 29 agosto", short:"Giorno wow", meta:"Paleokastritsa", lat:39.6728, lng:19.7108, why:"La meta forte della settimana: calette, acqua e panorami diversi dalla costa sud-est.", tip:"Partite presto: il parcheggio si riempie dopo le 10–11.", drive:"Da Messonghi/Moraitika: ~1 h 15–1 h 35 per tratta", cost:"Gratis con l’auto · barca alle grotte facoltativa da ~€40 a persona", planB:"Se il viaggio vi sembra troppo lungo, fate solo spiaggia base e spostate questa gita al giorno con meteo migliore.", poi:"paleokastritsa", imgs: IMG.paleo },
+      { id:"d4", n:4, day:"Domenica 30 agosto", short:"Città", meta:"Corfù Town (UNESCO)", lat:39.6242, lng:19.9216, why:"Centro storico a piedi: fortezza, Liston, vicoli e una sera più viva rispetto alle località di mare.", tip:"Lasciate l’auto fuori dal centro e camminate.", drive:"Da Messonghi/Moraitika: ~35–45 min per tratta", cost:"Gratis per girare · Vecchia Fortezza facoltativa ~€6–10 a persona", planB:"Kanoni/Mouse Island se volete una sosta più corta prima dell’aeroporto o del rientro.", poi:"corfu-town", imgs: IMG.town },
+      { id:"d5", n:5, day:"Lunedì 31 agosto", short:"Ovest", meta:"Agios Gordios (o Glyfada)", lat:39.531, lng:19.849, why:"Costa ovest per baia e tramonto: vale la strada perché è molto diversa dalla costa della base.", tip:"Restate fino al tramonto; guidate piano sul tratto finale.", drive:"Da Messonghi/Moraitika: ~45–60 min per tratta", cost:"Gratis · solo benzina, parcheggio o lettino se scelti", planB:"Glyfada se preferite una spiaggia più ampia; tornate prima se il mare o il vento non vi convincono.", poi:"agios-gordios", imgs: IMG.agios },
+      { id:"d6", n:6, day:"Martedì 1 settembre", short:"Natura", meta:"Halikounas / Issos", lat:39.445, lng:19.875, why:"Spiagge più naturali e spaziose, con dune e meno costruzioni: la giornata mare più libera.", tip:"Può esserci vento: portate cappello e acqua.", drive:"Da Messonghi/Moraitika: ~25–40 min per tratta", cost:"Gratis · solo benzina e consumazioni facoltative", planB:"Se il vento è troppo forte, rientrate verso Messonghi/Moraitika dove il mare può essere più riparato.", poi:"halikounas", imgs: IMG.halikounas },
+      { id:"d7", n:7, day:"Mercoledì 2 settembre", short:"Flessibile", meta:"Achilleion + mare — oppure Paxos", lat:39.5625, lng:19.9042, why:"Giorno jolly: scegliete la versione economica in auto oppure l’unica grande gita in barca della vacanza.", tip:"Paxos va prenotata prima; non sommate altre gite a pagamento nello stesso giorno.", drive:"Achilleion da Messonghi/Moraitika: ~25–35 min · Paxos: giornata intera in barca", cost:"Achilleion ~€10–15 a persona + benzina · Paxos da ~€50–70 a persona", planB:"Se non volete spendere, Achilleion al mattino e mare vicino nel pomeriggio.", poi:"achilleion", imgs: IMG.achilleion },
+      { id:"d8", n:8, day:"Giovedì 3 settembre", short:"Partenza", meta:"Aeroporto CFU", lat:39.6019, lng:19.9117, why:"Riconsegna auto senza ansia: foto finali, benzina come da contratto e margine per code.", tip:"Non programmate mete lontane. Salvate il pin del noleggio.", drive:"Dalla base sud-est a CFU: ~30–40 min; aggiungete tempo per riconsegna", cost:"Benzina finale se richiesta dal contratto", planB:"Se avete tempo libero, solo una sosta vicina all’aeroporto: niente costa ovest o nord.", poi:"airport", imgs: IMG.airport }
     ];
 
     const categories = [
@@ -491,6 +534,17 @@
           <div><b>Pro</b>${z.pros}</div>
           <div><b>Contro</b>${z.cons}</div>
         </div>
+        <div class="cost-grid" style="margin-top:10px">
+          <div><b>Mare e spiaggia</b>${z.beach}</div>
+          <div><b>Serate</b>${z.evenings}</div>
+          <div><b>Servizi / spesa</b>${z.services}</div>
+          <div><b>Auto, strade, parcheggio</b>${z.car}</div>
+        </div>
+        <div class="cost-grid" style="margin-top:10px">
+          <div><b>Gite da qui</b>${z.dayTrips}</div>
+          <div><b>Sceglila se…</b>${z.pickIf}</div>
+          <div><b>Non sceglierla se…</b>${z.avoidIf}</div>
+        </div>
         <a class="link-full" href="${z.mapUrl}">Apri case e prezzi sulla mappa grande →</a>`;
       document.getElementById("cap-zone").textContent = z.name + " · casa da " + euro(z.houseFrom) + " · totale ~" + euro(z.totalLow) + "–" + euro(z.totalHigh);
     }
@@ -505,6 +559,9 @@
         <div class="cost-grid">
           <div><b>Tipo di giornata</b>${g.short}</div>
           <div><b>Consiglio pratico</b>${g.tip}</div>
+          <div><b>Tempo in auto</b>${g.drive}</div>
+          <div><b>Spesa prevista</b>${g.cost}</div>
+          <div><b>Piano semplice se cambia idea/meteo</b>${g.planB}</div>
         </div>
         <a class="link-full" href="mappa.html#poi=${g.poi}">Apri questa meta sulla mappa grande →</a>`;
       document.getElementById("cap-giorni").textContent = g.day + " · " + g.meta;
