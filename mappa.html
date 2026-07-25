@@ -544,6 +544,25 @@
     .premium-stay img { width:90px; height:74px; object-fit:cover; border-radius:9px; }
     @media(max-width:430px){ .stay-card{grid-template-columns:72px minmax(0,1fr);gap:8px}.stay-card img{width:72px;height:105px} }
 
+
+    /* Corfù · prima notte */
+    .prima-notte-panel { display:none; margin:18px 0 28px; }
+    .prima-notte-head { margin:0 0 12px; padding:13px; border:1px solid #9fc7d2; border-radius:14px; background:#e7f5f8; color:#163a47; line-height:1.42; }
+    .prima-notte-head strong { color:#0f596e; }
+    .prima-notte-grid { display:grid; gap:9px; }
+    .prima-notte-card { cursor:pointer; display:block; border:1px solid var(--line); border-radius:14px; background:#fffdf8; padding:11px; }
+    .prima-notte-card:hover,.prima-notte-card.active { border-color:var(--sea); box-shadow:var(--shadow); }
+    .prima-notte-card-top { display:flex; gap:8px; align-items:flex-start; }
+    .prima-notte-number { flex:0 0 auto; display:inline-flex; align-items:center; justify-content:center; width:25px; height:25px; border-radius:50%; background:#0f766e; color:#fff; font-weight:800; font-size:.78rem; }
+    .prima-notte-name { flex:1; font-family:Fraunces,Georgia,serif; font-weight:700; line-height:1.2; }
+    .prima-notte-tag { border-radius:999px; background:#e6f4ea; color:#2f7d4a; padding:3px 7px; font-size:.67rem; font-weight:800; text-align:right; }
+    .prima-notte-price { margin-top:5px; color:var(--cheap); font-size:1rem; font-weight:800; }
+    .prima-notte-meta { margin-top:3px; color:var(--muted); font-size:.78rem; line-height:1.35; }
+    .prima-notte-note { margin-top:5px; font-size:.8rem; line-height:1.35; }
+    .prima-notte-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:7px; }
+    .prima-notte-actions a { color:var(--sea); font-weight:800; font-size:.78rem; }
+    .prima-notte-pin { display:flex; align-items:center; justify-content:center; width:31px; height:31px; border:3px solid #fff; border-radius:50%; background:#0f766e; color:#fff; font:800 12px/1 system-ui,sans-serif; box-shadow:0 2px 9px rgba(0,0,0,.34); }
+
   </style>
 </head>
 <body>
@@ -582,6 +601,7 @@
       </div>
 
       <div class="filters" id="filters">
+        <button type="button" data-filter="prima-notte">Corfù · prima notte</button>
         <button type="button" data-filter="saranda" class="active">Saranda · 28 ago → 1 set</button>
         <button type="button" data-filter="alloggi-31-agosto">Alloggi Corfù · 31 ago</button>
         <button type="button" data-filter="ksamil">Tragitto per Ksamil</button>
@@ -1545,6 +1565,8 @@
     stays.forEach((s, index) => { s.id = "stay-" + (index + 1); s.number = index + 1; });
 
     function renderList(filter) {
+      if (filter === "prima-notte") { window.renderPrimaNotte(); return; }
+      if (typeof window.hidePrimaNotte === "function") window.hidePrimaNotte();
       if (filter === "alloggi-31-agosto") {
         renderAlloggi();
         return;
@@ -1675,6 +1697,11 @@
       const raw = (location.hash || "").replace(/^#/, "");
       if (!raw) return;
       const [kind, id] = raw.includes("=") ? raw.split("=") : [raw, ""];
+      if (kind === "prima-notte" || raw === "prima-notte") {
+        document.querySelectorAll("#filters button").forEach((b) => b.classList.toggle("active", b.dataset.filter === "prima-notte"));
+        renderList("prima-notte");
+        return;
+      }
       if (kind === "alloggi" || raw === "alloggi") {
         document.querySelectorAll("#filters button").forEach((b) => b.classList.toggle("active", b.dataset.filter === "alloggi-31-agosto"));
         renderList("alloggi-31-agosto");
@@ -1745,6 +1772,34 @@
         else fixLinks();
       })();
     </script>
+
+
+  <script>
+  (function(){
+    const FIRST_NIGHT = [{"id":"europe","name":"Europe Hotel","place":"Gitsiali 10 · Città di Corfù","lat":39.6244518,"lng":19.9089763,"price":132,"score":"7,0","tag":"Prezzo più basso","note":"Prezzo più basso delle dieci nella zona giusta.","book":"europe-corfu-town"},{"id":"perama","name":"Hotel Perama","place":"Eth. Lefkimmis · Perama","lat":39.5807296,"lng":19.9129232,"price":148,"score":"8,4","tag":"Scelta equilibrata","note":"Hotel, voto 8,4 e cancellazione gratuita.","book":"perama-hotel"},{"id":"aristides","name":"Aristides Studios","place":"Chrysida · Perama","lat":39.5856267,"lng":19.9055089,"price":152,"score":"9,0","tag":"Voto 9,0","note":"Solo €4 in più di Perama, con voto molto più alto.","book":"aristides-studios"},{"id":"atlantis","name":"Hotel Atlantis","place":"Stratigou Xenofontos 48 · Città di Corfù","lat":39.6255207,"lng":19.9114182,"price":155,"score":"7,1","tag":"Hotel in città","note":"Posizione pratica con prezzo ancora contenuto.","book":"atlantis-corfu-town"},{"id":"folies","name":"Folies Corfu Town Hotel Apartments","place":"Alepou Xabai · Città di Corfù","lat":39.6170246,"lng":19.898189,"price":158,"score":"8,4","tag":"Posizione pratica","note":"Voto 8,4, tra aeroporto e città.","book":"folies-corfu-town-apartments"},{"id":"citymarina","name":"City Marina","place":"Città vecchia di Corfù","lat":39.6268603,"lng":19.9206871,"price":170,"score":"6,9","tag":"Centro storico","note":"Centro storico; voto più basso delle consigliate.","book":"city-marina"},{"id":"spiridoula","name":"Spiridoula's Apartments Corfu","place":"Chrysida · Perama","lat":39.5860422,"lng":19.9026795,"price":187,"score":"8,1","tag":"Appartamento","note":"Buon voto, ma Aristides costa meno e ha voto superiore.","book":"spiridoula-39-s-apartments-corfu"},{"id":"history","name":"History House","place":"Vrela Armeni 3 · Città di Corfù","lat":39.6193075,"lng":19.921565,"price":230,"score":"9,3","tag":"Voto 9,3","note":"Punto centrale e voto più alto, ma prezzo superiore.","book":"history-house"},{"id":"pontikonisi","name":"Pontikonisi Hotel & Suites","place":"Perama · Pontikonisi","lat":39.5846719,"lng":19.9146432,"price":235,"score":"8,5","tag":"Solo adulti","note":"Categoria superiore a Perama; cancellazione gratuita.","book":"pontikonisi"},{"id":"divani","name":"Divani Corfu Palace","place":"Kanoni · Città di Corfù","lat":39.5985946,"lng":19.9223365,"price":266,"score":"8,3","tag":"Più vicino al terminal","note":"Molto vicino all'aeroporto, ma il più caro dei dieci.","book":"divani-corfu-palace"}];
+    const panel=document.createElement("section"), layer=L.layerGroup(), pins={};
+    panel.id="prima-notte-panel"; panel.className="prima-notte-panel"; document.querySelector(".panel").appendChild(panel);
+    const mapUrl=h=>"https://www.google.com/maps/search/?api=1&query="+h.lat+","+h.lng;
+    const bookUrl=h=>"https://www.booking.com/hotel/gr/"+h.book+".it.html?checkin=2026-08-27&checkout=2026-08-28&group_adults=3&req_adults=3&no_rooms=1&group_children=0&req_children=0";
+    function select(id,pan){
+      const h=FIRST_NIGHT.find(x=>x.id===id); if(!h||!pins[id]) return;
+      panel.querySelectorAll(".prima-notte-card").forEach(x=>x.classList.toggle("active",x.dataset.primaId===id));
+      pins[id].openPopup(); if(pan) map.flyTo([h.lat,h.lng],16,{duration:.55});
+    }
+    panel.innerHTML='<div class="prima-notte-head"><strong>Corfù · prima notte · 27 → 28 agosto · 3 adulti</strong><br>Questi 10 puntini usano le coordinate della struttura trovata su Google Maps: non sono messi “vicino alla zona”. Apri <strong>Punto esatto</strong> per controllare ogni posizione.</div><div class="prima-notte-grid">'+FIRST_NIGHT.map((h,i)=>'<article class="prima-notte-card" data-prima-id="'+h.id+'"><div class="prima-notte-card-top"><span class="prima-notte-number">'+(i+1)+'</span><span class="prima-notte-name">'+h.name+'</span><span class="prima-notte-tag">'+h.tag+'</span></div><div class="prima-notte-price">€'+h.price+' totali · una notte</div><div class="prima-notte-meta">3 adulti · voto '+h.score+' · '+h.place+'</div><div class="prima-notte-meta">coordinate '+h.lat.toFixed(6)+', '+h.lng.toFixed(6)+'</div><div class="prima-notte-note">'+h.note+'</div><div class="prima-notte-actions"><a href="'+mapUrl(h)+'" target="_blank" rel="noopener" onclick="event.stopPropagation()">Punto esatto →</a><a href="'+bookUrl(h)+'" target="_blank" rel="noopener" onclick="event.stopPropagation()">Booking con le date →</a></div></article>').join("")+'</div><p class="footnote">Prezzi letti il 25/07/2026: Aeroporto di Corfù · 27–28 agosto 2026 · 3 adulti · una camera. Prezzo totale, non a persona; può cambiare prima della prenotazione.</p>';
+    panel.querySelectorAll("[data-prima-id]").forEach(card=>card.addEventListener("click",()=>select(card.dataset.primaId,true)));
+    FIRST_NIGHT.forEach((h,i)=>{
+      const icon=L.divIcon({className:"",html:'<div class="prima-notte-pin">'+(i+1)+'</div>',iconSize:[31,31],iconAnchor:[15,15],popupAnchor:[0,-15]});
+      const m=L.marker([h.lat,h.lng],{icon}).bindPopup('<div class="popup-title">#'+(i+1)+' · '+h.name+'</div><div class="popup-deal"><strong>€'+h.price+' totali · una notte · 3 adulti</strong><br>Voto '+h.score+' · '+h.place+'<br><a href="'+mapUrl(h)+'" target="_blank" rel="noopener">Punto esatto →</a> · <a href="'+bookUrl(h)+'" target="_blank" rel="noopener">Booking →</a></div>');
+      m.bindTooltip('#'+(i+1)+' · €'+h.price,{direction:"top",offset:[0,-18]}); m.on("click",()=>select(h.id,false)); m.addTo(layer); pins[h.id]=m;
+    });
+    window.hidePrimaNotte=()=>{panel.style.display="none";map.removeLayer(layer);};
+    window.renderPrimaNotte=()=>{
+      list.style.display="none"; carsPanel.style.display="none"; if(poisPanel)poisPanel.style.display="none"; if(ksamilPanel)ksamilPanel.style.display="none"; if(alloggiPanel)alloggiPanel.style.display="none"; if(typeof nascondiMarcatoriAlloggi==="function")nascondiMarcatoriAlloggi(); if(typeof stayLayer!=="undefined")map.removeLayer(stayLayer); if(corfuBudget)corfuBudget.style.display="none"; if(corfuDecision)corfuDecision.style.display="none";
+      panel.style.display="block"; layer.addTo(map); map.fitBounds(L.latLngBounds(FIRST_NIGHT.map(h=>[h.lat,h.lng])),{padding:[38,38],maxZoom:13});
+    };
+  })();
+  </script>
 
   </body>
 </html>
