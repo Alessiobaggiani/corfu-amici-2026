@@ -85,17 +85,31 @@
     .dot.stay { background: #d55328; }
 
     .car-marker-icon {
+      position: relative;
       background: #6b3fa0;
       color: #fff;
       border: 2px solid #fff;
       border-radius: 50%;
-      width: 28px;
-      height: 28px;
+      width: 34px;
+      height: 34px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 14px;
       box-shadow: 0 2px 8px rgba(0,0,0,.25);
+    }
+    .car-marker-icon span {
+      position: absolute;
+      right: -8px;
+      bottom: -8px;
+      min-width: 18px;
+      padding: 1px 4px;
+      border: 2px solid #fff;
+      border-radius: 999px;
+      background: var(--ink);
+      color: #fff;
+      font: 700 10px/1.3 system-ui, sans-serif;
+      text-align: center;
     }
     .stay-marker-icon {
       position: relative;
@@ -239,6 +253,17 @@
       font-weight: 700;
       color: var(--sea);
     }
+    .map-link {
+      border: 0;
+      padding: 0;
+      background: transparent;
+      color: var(--sea);
+      font: inherit;
+      font-weight: 700;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      cursor: pointer;
+    }
     .stay-area {
       margin: 18px 0 24px;
     }
@@ -351,6 +376,36 @@
       margin-bottom: 12px;
     }
     .car-box li, .next-box li { margin-bottom: 6px; }
+    .trip-table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+      margin: 8px 0 12px;
+    }
+    .trip-table {
+      width: 100%;
+      min-width: 690px;
+      border-collapse: collapse;
+      font-size: .8rem;
+    }
+    .trip-table th, .trip-table td {
+      padding: 9px 10px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+    .trip-table th {
+      background: #eef7fa;
+      color: var(--ink);
+      font-size: .73rem;
+      text-transform: uppercase;
+      letter-spacing: .03em;
+    }
+    .trip-table tr:last-child td { border-bottom: 0; }
+    .trip-table a { color: var(--sea); font-weight: 800; }
+    .trip-table .confirmed { color: var(--cheap); font-weight: 800; }
+    .trip-table .indicative { color: var(--mid); font-weight: 800; }
     .footnote {
       font-size: 0.76rem;
       color: var(--muted);
@@ -816,103 +871,65 @@
 
     const airport = { lat: 39.6019, lng: 19.9117, name: "Aeroporto Corfù (CFU)" };
     const tierColor = { cheap: "#2f7d4a", mid: "#b7791f", pricey: "#b42318", scenic: "#1d4e89" };
-    const KAYAK_CARS = "https://www.kayak.it/cars/CFU-a1200/CFU-a1200/2026-08-27/2026-09-03/?sort=price_a";
-    const DISCOVER_CARS = "https://www.discovercars.com/greece/corfu/cfu?date_from=2026-08-27&time_from=12%3A00&date_to=2026-09-03&time_to=12%3A00&age=35";
-
-    // Punti ritiro + offerte reali Kayak 27/08–03/09/2026 (letti oggi)
+    // Quattro punti di ritiro reali: più agenzie nello stesso posto condividono il segnaposto, senza inventare indirizzi diversi.
     const carSpots = [
       {
-        id: "car-airport-desk",
-        name: "Aeroporto · banconi in arrivi",
+        id: "car-terminal",
+        name: "Aeroporto · Arrivi",
         lat: 39.6019, lng: 19.9117,
-        how: "Dentro il terminal (Arrivi). Niente navetta.",
-        companies: "Avis, Hertz, Budget, Enterprise / National, Sixt e altri grandi",
-        note: "Solitamente più comodi; a volte un filo più cari dei locali con navetta."
+        exact: "Dentro gli Arrivi oppure incontro immediatamente fuori dal terminal.",
+        mapQuery: "Corfu International Airport Arrivals",
+        note: "È lo stesso punto fisico per i banconi e per le consegne al terminal."
       },
       {
-        id: "car-airport-shuttle",
-        name: "Aeroporto · navetta / deposito vicino",
-        lat: 39.5985, lng: 19.9065,
-        how: "Uscite, prendete la navetta gratuita del noleggiatore (pochi minuti).",
-        companies: "Green Motion, Autounion, Centauro, Surprice e vari locali",
-        note: "Qui spesso i prezzi più bassi. Controllate tempo di attesa (a volte 15–40 min)."
+        id: "car-kosta",
+        name: "Kosta Georgaki 31",
+        lat: 39.6116345, lng: 19.9071609,
+        exact: "Kosta Georgaki 31, Corfù · circa 300 metri dagli Arrivi.",
+        mapQuery: "Kosta Georgaki 31, Corfu",
+        note: "UNO, Volta4u ed Europcar: controllate se vi aspettano oppure se dovete camminare."
       },
       {
-        id: "car-airport-meet",
-        name: "Aeroporto · incontro in arrivi",
-        lat: 39.6050, lng: 19.9155,
-        how: "Qualcuno vi aspetta in arrivi con cartello e vi porta all’auto.",
-        companies: "Molti broker / agenzie locali (Meet & Greet)",
-        note: "Comodo se il volo è in ritardo — chiedete se l’orario è coperto."
+        id: "car-eptanisou",
+        name: "Leoforos Eptanisou 8",
+        lat: 39.61299, lng: 19.9077,
+        exact: "Leoforos Eptanisou 8, Corfù · ufficio AutoRent.",
+        mapQuery: "Leoforos Eptanisou 8, Corfu",
+        note: "AutoRent indica una navetta gratuita dall’aeroporto."
       },
       {
-        id: "car-port",
-        name: "Porto di Corfù",
-        lat: 39.6275, lng: 19.9035,
-        how: "Utile se arrivate in traghetto, non in aereo.",
-        companies: "Avis e alcune agenzie in zona porto",
-        note: "Per voi (aereo) meglio ritiro CFU."
-      },
-      {
-        id: "car-gouvia",
-        name: "Gouvia / Kontokali (secondario)",
-        lat: 39.651, lng: 19.848,
-        how: "Alcune agenzie locali consegnano vicino alla marina.",
-        companies: "Locali / consegna hotel",
-        note: "Ha senso solo se dormite già lì e non volete guidare dall’aereo."
+        id: "car-riga",
+        name: "Riga Feraiou 21",
+        lat: 39.6139078, lng: 19.910942,
+        exact: "Riga Feraiou 21, Corfu Airport 49100 · uffici Driveaway e Fair Deal.",
+        mapQuery: "21 Riga Feraiou, Corfu",
+        note: "Ritiro vicino all’aeroporto: seguite l’orario confermato dall’agenzia."
       }
     ];
 
+    // Prezzi di partenza pubblicati dalle agenzie. Il totale reale appare dopo avere inserito le date.
     const carOffers = [
-      {
-        name: "Skoda Citigo (o simile) · Economy",
-        total: 144, day: 21, seats: 4, bags: "2",
-        pickup: "Navetta aeroporto", score: "7,8",
-        via: "bsp-auto / Kayak", warn: "Prezzo aggressivo: controllate cauzione e assicurazione.",
-        okFor3: true
-      },
-      {
-        name: "Fiat 500 (o simile) · Piccola",
-        total: 154, day: 22, seats: 2, bags: "1",
-        pickup: "Navetta aeroporto", score: "9,4",
-        via: "Booking.com Cars", warn: "Solo 2 posti — NO per voi tre.",
-        okFor3: false
-      },
-      {
-        name: "Economy / Piccola 5 posti",
-        total: 192, day: 27, seats: 5, bags: "2",
-        pickup: "Navetta aeroporto", score: "9,0",
-        via: "bsp-auto / EconomyBookings", warn: "Buon equilibrio prezzo/posti per 3 adulti.",
-        okFor3: true
-      },
-      {
-        name: "Economy automatica (o simile)",
-        total: 194, day: 28, seats: 4, bags: "2",
-        pickup: "Navetta aeroporto", score: "7,2",
-        via: "bsp-auto", warn: "Se preferite cambio automatico.",
-        okFor3: true
-      },
-      {
-        name: "Kia XCeed (o simile) · Media",
-        total: 759, day: 108, seats: 5, bags: "3–4",
-        pickup: "CFU (DiscoverCars)", score: "—",
-        via: "DiscoverCars", warn: "Più spazio bagagli · prezzo alto stagione.",
-        okFor3: true
-      },
-      {
-        name: "Suzuki Vitara (o simile) · SUV",
-        total: 768, day: 110, seats: 5, bags: "3–4",
-        pickup: "CFU (DiscoverCars)", score: "—",
-        via: "DiscoverCars", warn: "Comoda sulle strade di montagna.",
-        okFor3: true
-      },
-      {
-        name: "Renault Clio (o simile) · Compatta",
-        total: 886, day: 127, seats: 5, bags: "2–3",
-        pickup: "CFU (DiscoverCars)", score: "—",
-        via: "DiscoverCars", warn: "Compatta “comoda”, non il prezzo più basso.",
-        okFor3: true
-      }
+      { agency:"Vidos Cars", spot:"car-terminal", car:"Peugeot 108, Hyundai i10, Kia Rio", price:"da €14,30/giorno", card:"Niente carta e niente deposito dichiarati", url:"https://vidoscars.com/", where:"Consegna gratuita agli Arrivi", booking:"Ritiro e riconsegna: Corfu Airport · date del viaggio · scegli 5 posti" },
+      { agency:"Value Plus", spot:"car-terminal", car:"Fiat 500 Hybrid, Panda, Skoda Fabia automatica", price:"da €37,87/giorno", card:"Senza carta con protezione Gold", url:"https://corfucarrentals.com/", where:"Consegna e ritiro gratuiti agli Arrivi", booking:"Corfu Airport · date del viaggio · piano Gold se non avete carta" },
+      { agency:"First Corfu", spot:"car-terminal", car:"Fiat Panda o Toyota Aygo · 5 posti", price:"da €11/giorno", card:"Nessun deposito dichiarato", url:"https://firstcorfu.com/corfu-airport-car-rental/", where:"Ufficio a 300 m; navetta o incontro agli Arrivi", booking:"Airport (Office) · date del viaggio · 3 adulti · 5 posti" },
+      { agency:"Auto Corfu", spot:"car-terminal", car:"VW Up, Kia Picanto, Hyundai i10, Fiat Panda", price:"prezzo dopo le date", card:"Senza carta con protezione UltraFull", url:"https://autocorfu.com/en/", where:"Consegna al terminal o al vostro hotel", booking:"Corfu Airport · date del viaggio · scelta protezione UltraFull" },
+      { agency:"Ansa Car Rental", spot:"car-terminal", car:"Suzuki Celerio, VW Polo, Fiat Tipo", price:"da €30/giorno", card:"Da chiedere prima di pagare", url:"https://ansacorfu.gr/", where:"Consegna gratuita all’aeroporto", booking:"Corfu Airport · date del viaggio · auto 5 posti" },
+      { agency:"Corfu Auto Rent", spot:"car-terminal", car:"Hyundai i10, Hyundai i20", price:"da €14,90/giorno", card:"Niente carta e niente deposito dichiarati", url:"https://www.corfuautorent.com/", where:"Consegna e ritiro in aeroporto", booking:"Corfu Airport · date del viaggio · categoria economy" },
+      { agency:"RentCorfu", spot:"car-terminal", car:"Piccola, economy e famiglia", price:"prezzo dopo le date", card:"Carta di debito accettata, nessun blocco dichiarato", url:"https://rentcorfu.com/airport", where:"Punto a pochi minuti a piedi dagli Arrivi", booking:"Airport · date del viaggio · auto 5 posti" },
+      { agency:"Eurorent Economy", spot:"car-terminal", car:"Economy e famiglia", price:"prezzo dopo le date", card:"Niente carta e niente deposito dichiarati", url:"https://economycorfucarrental.com/", where:"Servizio aeroporto di Corfù", booking:"Corfu Airport · date del viaggio · categoria economy" },
+      { agency:"Go Car", spot:"car-terminal", car:"Flotta visibile dopo la scelta delle date", price:"prezzo dopo le date", card:"Da chiedere prima di pagare", url:"https://corfuairportcarhire.gr/", where:"Corfu Airport, 49100", booking:"Corfu Airport · date del viaggio · 5 posti" },
+      { agency:"Avis", spot:"car-terminal", car:"Categoria 5 posti / 2 valigie", price:"prezzo dopo le date", card:"Da controllare nel preventivo", url:"https://www.avis.gr/en/", where:"Bancone dentro gli Arrivi", booking:"Corfu Airport · date del viaggio · categoria economy 5 posti" },
+      { agency:"Budget", spot:"car-terminal", car:"Categoria 5 posti / 2 valigie", price:"prezzo dopo le date", card:"Da controllare nel preventivo", url:"https://www.budget.gr/en/", where:"Bancone dentro gli Arrivi", booking:"Corfu Airport · date del viaggio · categoria economy 5 posti" },
+      { agency:"Enterprise", spot:"car-terminal", car:"Mini, economy, compatta e famiglia", price:"prezzo dopo le date", card:"Carta del guidatore e somma bloccata", url:"https://www.enterprise.gr/en/car-hire-locations/gr/corfu-airport-lga8.html", where:"Bancone dentro gli Arrivi", booking:"Corfu Airport · date del viaggio · economy 5 posti" },
+      { agency:"Hertz", spot:"car-terminal", car:"Mini, compatta e SUV", price:"prezzo dopo le date", card:"Carta e somma di garanzia richieste", url:"https://www.hertz.gr/en/", where:"Bancone dentro gli Arrivi", booking:"Corfu Airport · date del viaggio · categoria 5 posti" },
+      { agency:"Thrifty", spot:"car-terminal", car:"Mini, compatta e famiglia", price:"prezzo dopo le date", card:"Carta e somma di garanzia da verificare", url:"https://www.thrifty.com/", where:"Bancone Hertz/Thrifty negli Arrivi", booking:"Corfu Airport · date del viaggio · categoria 5 posti" },
+      { agency:"Sixt", spot:"car-terminal", car:"Compatta, famiglia e SUV", price:"prezzo dopo le date", card:"Carta del guidatore e somma bloccata", url:"https://www.sixt.com/car-rental/greece/corfu/corfu-airport/", where:"Bancone dentro gli Arrivi", booking:"Corfu Airport · date del viaggio · categoria 5 posti" },
+      { agency:"UNO Car Hire", spot:"car-kosta", car:"Peugeot 108, Fiat Panda, Seat Arona", price:"prezzo dopo le date", card:"Carta di credito non obbligatoria", url:"https://unocorfu.com/it/", where:"Kosta Georgaki 31 · circa 300 m dagli Arrivi", booking:"Kosta Georgaki 31 · date del viaggio · categoria e valigie" },
+      { agency:"Volta4u", spot:"car-kosta", car:"Piccola, compatta e automatica", price:"prezzo dopo le date", card:"Carta da verificare prima di pagare", url:"https://www.volta4u.com/", where:"Kosta Georgaki 31", booking:"Kosta Georgaki 31 · date del viaggio · categoria auto" },
+      { agency:"Europcar", spot:"car-kosta", car:"Economy, compatta e famiglia", price:"prezzo dopo le date", card:"Carta da controllare nel preventivo", url:"https://www.europcar.com/", where:"Meet and Greet vicino a Kosta Georgaki", booking:"Corfu Airport · date del viaggio · categoria 5 posti" },
+      { agency:"AutoRent Corfu", spot:"car-eptanisou", car:"Fiat Panda, Hyundai i10, Toyota Yaris", price:"da €28,32/giorno", card:"Senza carta solo Smart o Premium", url:"https://autorentcorfu.com/", where:"Leoforos Eptanisou 8 · navetta gratuita", booking:"Corfu Airport + navetta · date del viaggio · Smart/Premium senza carta" },
+      { agency:"Driveaway Corfu", spot:"car-riga", car:"Opel Corsa, Hyundai i10 automatica, Suzuki Ignis", price:"da €14/giorno", card:"Niente carta e niente deposito dichiarati", url:"https://rentalcarcorfuairport.com/", where:"Riga Feraiou 21", booking:"Riga Feraiou 21 · date del viaggio · modello scelto" },
+      { agency:"Fair Deal", spot:"car-riga", car:"Nissan Micra automatica, 7 e 9 posti", price:"da €9/giorno", card:"Carta non necessaria per prenotare online", url:"https://corfucarsrental.com/", where:"Riga Feraiou 21", booking:"Riga Feraiou 21 · date del viaggio · categoria e bagagli" }
     ];
 
     const map = L.map("map", { scrollWheelZoom: true }).setView([39.62, 19.85], 10);
@@ -949,36 +966,53 @@
       markers[z.id] = marker;
     });
 
-    const carIcon = L.divIcon({
-      className: "",
-      html: '<div class="car-marker-icon">🚗</div>',
-      iconSize: [28, 28],
-      iconAnchor: [14, 14]
-    });
+    function offersAt(spotId) {
+      return carOffers.filter((offer) => offer.spot === spotId);
+    }
+
+    function carIconFor(count) {
+      return L.divIcon({
+        className: "",
+        html: `<div class="car-marker-icon">🚗<span>${count}</span></div>`,
+        iconSize: [34, 34],
+        iconAnchor: [17, 17]
+      });
+    }
+
+    function mapsUrl(query) {
+      return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(query);
+    }
+
+    function rentalRows(offers) {
+      return offers.map((offer) => `
+        <div style="margin-top:9px;padding-top:9px;border-top:1px solid #ddd">
+          <strong>${offer.agency}</strong><br>
+          <span style="color:#2f7d4a;font-weight:700">${offer.price}</span><br>
+          <span style="color:#5a6574">${offer.car}</span><br>
+          <span style="color:#5a6574">Carta/deposito: ${offer.card}</span><br>
+          <a href="${offer.url}" target="_blank" rel="noopener">Prenota con ${offer.agency} →</a>
+        </div>
+      `).join("");
+    }
+
+    function rentalPopup(spot) {
+      const offers = offersAt(spot.id);
+      return `
+        <div class="popup-title">${spot.name}</div>
+        <div class="popup-deal">
+          <strong>Dove:</strong> ${spot.exact}<br>
+          <a href="${mapsUrl(spot.mapQuery)}" target="_blank" rel="noopener">Apri la posizione esatta su Maps →</a>
+          ${rentalRows(offers)}
+        </div>
+      `;
+    }
 
     carSpots.forEach((c) => {
-      const m = L.marker([c.lat, c.lng], { icon: carIcon }).addTo(map);
-      m.bindPopup(`
-        <div class="popup-title">${c.name}</div>
-        <div class="popup-deal">
-          <strong>Come funziona:</strong> ${c.how}<br>
-          <strong>Chi trovate:</strong> ${c.companies}<br>
-          ${c.note}<br><br>
-          <a href="${KAYAK_CARS}" target="_blank" rel="noopener">Confronta prezzi auto (Kayak) →</a>
-        </div>
-      `);
+      const m = L.marker([c.lat, c.lng], { icon: carIconFor(offersAt(c.id).length) }).addTo(map);
+      m.bindPopup(rentalPopup(c), { maxWidth: 350 });
+      m.bindTooltip(`${offersAt(c.id).length} agenzie`, { direction: "top" });
       carMarkers[c.id] = m;
     });
-
-    L.marker([airport.lat, airport.lng]).addTo(map)
-      .bindPopup(`
-        <div class="popup-title">${airport.name}</div>
-        <div class="popup-deal">
-          Hub principale noleggi.<br>
-          Economy da <strong>~€144–200</strong> / settimana · Media/SUV spesso <strong>€750+</strong><br>
-          <a href="${KAYAK_CARS}" target="_blank" rel="noopener">Apri confronto Kayak →</a>
-        </div>
-      `);
 
     // Due percorsi reali per Ksamil: il più economico via Igoumenitsa e il più comodo via Saranda.
     const ksamilStops = {
@@ -1158,47 +1192,41 @@
       if (ksamilPanel) ksamilPanel.style.display = "none";
       if (alloggiPanel) alloggiPanel.style.display = "none";
       nascondiMarcatoriAlloggi();
-      if (corfuBudget) corfuBudget.style.display = "block";
-      if (corfuDecision) corfuDecision.style.display = "block";
+      if (corfuBudget) corfuBudget.style.display = "none";
+      if (corfuDecision) corfuDecision.style.display = "none";
       carsPanel.innerHTML = `
         <div class="callout">
-          <strong>Noleggi auto · 27 ago → 3 set · ritiro CFU</strong>
+          <strong>Noleggi auto · 21 agenzie · 4 punti reali</strong>
           <p>
-            Prezzi letti oggi su Kayak (409 offerte). Per voi tre: scegliete auto da
-            <strong>almeno 4–5 posti</strong> e controllate bagagli.
-            I pin <strong>viola</strong> sulla mappa sono i punti di ritiro.
+            Per ogni agenzia trovi <strong>dove si ritira</strong>, prezzo, auto, carta/deposito e pulsante di prenotazione.
+            Per voi: inserite <strong>ritiro e riconsegna a Corfu Airport</strong>, le date del viaggio e una categoria da <strong>5 posti</strong>.
           </p>
         </div>
         ${carSpots.map((c) => `
           <article class="zone" data-car="${c.id}">
             <div class="zone-top">
               <h2>${c.name}</h2>
-              <span class="badge" style="background:#efe6ff;color:#6b3fa0">Noleggio</span>
+              <span class="badge" style="background:#efe6ff;color:#6b3fa0">${offersAt(c.id).length} agenzie</span>
             </div>
-            <p class="meta">${c.how}</p>
-            <p class="meta"><strong>Agenzie tipiche:</strong> ${c.companies}</p>
+            <p class="meta"><strong>Dove esattamente:</strong> ${c.exact}</p>
+            <p class="meta"><a href="${mapsUrl(c.mapQuery)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Apri la posizione esatta su Maps →</a></p>
             <p class="tagline">${c.note}</p>
+            <div class="deals">
+              ${offersAt(c.id).map((offer) => `
+                <div class="deal">
+                  <div class="deal-name">${offer.agency}</div>
+                  <div class="deal-price ${offer.price.startsWith("da ") ? "" : "mid"}">${offer.price}</div>
+                  <div class="deal-sub"><strong>Auto:</strong> ${offer.car}</div>
+                  <div class="deal-sub"><strong>Ritiro:</strong> ${offer.where}</div>
+                  <div class="deal-sub"><strong>Carta/deposito:</strong> ${offer.card}</div>
+                  <div class="deal-sub"><strong>Inserisci sul sito:</strong> ${offer.booking}</div>
+                  <div class="deal-cta"><a href="${offer.url}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Prenota →</a> · <button type="button" class="map-link" data-rental-spot="${offer.spot}" data-rental-agency="${offer.agency}">Vedi sulla mappa</button></div>
+                </div>
+              `).join("")}
+            </div>
           </article>
         `).join("")}
-        <h3 class="section-title">Offerte reali trovate (totale 7 giorni)</h3>
-        <div class="deals">
-          ${carOffers.map((o) => `
-            <a class="deal" href="${KAYAK_CARS}" target="_blank" rel="noopener">
-              <div class="deal-name">${o.name}${o.okFor3 ? "" : " ⚠️"}</div>
-              <div class="deal-price ${o.total > 500 ? "high" : ""}">
-                € ${o.total.toLocaleString("it-IT")} totali · ≈ € ${o.day}/giorno
-              </div>
-              <div class="deal-sub">
-                ${o.seats} posti · bagagli ~${o.bags} · ${o.pickup}
-                ${o.score !== "—" ? " · voto " + o.score : ""} · via ${o.via}
-              </div>
-              <div class="deal-sub">${o.warn}</div>
-              <div class="deal-cta">Apri confronto e prenota →</div>
-            </a>
-          `).join("")}
-        </div>
-        <a class="search-all" href="${KAYAK_CARS}" target="_blank" rel="noopener">Kayak · tutte le auto CFU →</a><br>
-        <a class="search-all" href="${DISCOVER_CARS}" target="_blank" rel="noopener">DiscoverCars · stessa ricerca →</a>
+        <p class="footnote">Il prezzo indicato è il minimo pubblicato dall’agenzia. Prima di pagare controllate il totale, l’orario, il numero di bagagli e la carta richiesta.</p>
       `;
       carsPanel.querySelectorAll("[data-car]").forEach((el) => {
         el.addEventListener("click", () => {
@@ -1209,7 +1237,16 @@
           map.flyTo([spot.lat, spot.lng], 13, { duration: 0.7 });
         });
       });
-      map.flyTo([airport.lat, airport.lng], 12, { duration: 0.7 });
+      carsPanel.querySelectorAll("[data-rental-spot]").forEach((button) => {
+        button.addEventListener("click", (event) => {
+          event.stopPropagation();
+          const spot = carSpots.find((item) => item.id === button.dataset.rentalSpot);
+          if (!spot) return;
+          carMarkers[spot.id]?.openPopup();
+          map.flyTo([spot.lat, spot.lng], 16, { duration: 0.7 });
+        });
+      });
+      map.fitBounds(carSpots.map((spot) => [spot.lat, spot.lng]), { padding: [45, 45], maxZoom: 15 });
     }
 
     const poisPanel = document.getElementById("pois-panel");
@@ -1298,6 +1335,55 @@
             <div class="deal-sub">La nave dura 50 minuti, ma prima dovete guidare circa 40 km da Corfù città a Lefkimmi; dopo lo sbarco restano gli stessi 69 km fino a Ksamil. Anche con lo sconto massimo pubblicizzato, non batte in modo affidabile la scelta n. 1.</div>
             <div class="deal-cta">Apri Lefkimmi Lines solo se dormite già nel sud di Corfù →</div>
           </a>
+        </div>
+
+        <h3 class="section-title">Solo Saranda · corse verificabili con la vostra auto</h3>
+        <div class="trip-table-wrap">
+          <table class="trip-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Partenza da Corfù</th>
+                <th>Nave</th>
+                <th>Prezzo 3 persone + auto</th>
+                <th>Tempo reale</th>
+                <th>Auto</th>
+                <th>Prenota</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td><strong>09:00</strong></td>
+                <td>MARINA · Finikas</td>
+                <td><strong>€166</strong><br>€96 persone + €70 auto</td>
+                <td>circa 1 h 15 min</td>
+                <td><span class="confirmed">Sì</span> · auto &lt; 4,25 m</td>
+                <td><a href="https://tickets.ionianseaways.com/" target="_blank" rel="noopener">Apri →</a></td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td><strong>13:00</strong></td>
+                <td>MARINA · Finikas</td>
+                <td><strong>€166</strong><br>€96 persone + €70 auto</td>
+                <td>circa 1 h 15 min</td>
+                <td><span class="confirmed">Sì</span> · auto &lt; 4,25 m</td>
+                <td><a href="https://tickets.ionianseaways.com/" target="_blank" rel="noopener">Apri →</a></td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td><strong>19:00</strong></td>
+                <td>MARINA · Finikas</td>
+                <td><strong>€166</strong><br>€96 persone + €70 auto</td>
+                <td>circa 1 h 15 min</td>
+                <td><span class="confirmed">Sì</span> · auto &lt; 4,25 m</td>
+                <td><a href="https://tickets.ionianseaways.com/" target="_blank" rel="noopener">Apri →</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="car-box">
+          <strong>Perché non ci sono dieci righe:</strong> sul calendario estivo Corfù → Saranda compaiono nove partenze, ma nel controllo del <strong>28 agosto</strong> il sistema ha dato posto auto solo sulle tre corse MARINA qui sopra. Gli aliscafi sono più veloci ma, nella simulazione, non avevano garage. Il listino Finikas pubblica <span class="indicative">€111</span> (€22 × 3 + €45 auto), mentre il preventivo sul giorno preciso ha dato €166: per pagare fa fede sempre l'importo finale prima della carta.
         </div>
 
         <h3 class="section-title">Controllo fatto sui siti di prenotazione</h3>
