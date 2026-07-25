@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   
-  <meta name="description" content="Corfù → Ksamil il 28 agosto 2026 con auto privata: traghetti auto, costi per 3 e documenti." />
-  <meta property="og:title" content="Corfù → Ksamil · 28 agosto 2026" />
-  <meta property="og:description" content="Traghetti con auto privata, costi reali per 3 persone e strada Saranda → Ksamil." />
+  <meta name="description" content="Saranda: 40 appartamenti per 3 adulti, dal 28 agosto al 1 settembre 2026, con foto, posizione e prenotazione." />
+  <meta property="og:title" content="Saranda · 28 agosto – 1 settembre 2026" />
+  <meta property="og:description" content="40 appartamenti a Saranda: foto, prezzo per quattro notti, zona e collegamento diretto per prenotare." />
   <meta property="og:type" content="website" />
   <meta name="theme-color" content="#1f6f8b" />
   <link rel="canonical" id="canonical-link" href="" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Corfù → Ksamil · 28 agosto 2026 — auto privata e prezzi per 3</title>
+  <title>Saranda · 28 agosto – 1 settembre 2026 — 40 appartamenti per 3</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
@@ -360,6 +360,16 @@
     .stay-actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:7px; }
     .stay-actions a { color:var(--sea); font-size:.78rem; font-weight:800; }
     .stay-pin { background:#1f6f8b; color:#fff; border:2px solid #fff; border-radius:50%; width:28px; height:28px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:11px; box-shadow:0 2px 8px rgba(0,0,0,.28); }
+    .stay-table-wrap { overflow-x:auto; border:1px solid var(--line); border-radius:14px; background:#fffdf8; }
+    .stay-table { width:100%; min-width:760px; border-collapse:collapse; font-size:.8rem; }
+    .stay-table th { text-align:left; color:var(--muted); font-size:.71rem; letter-spacing:.03em; text-transform:uppercase; background:#f7f2e8; padding:9px 8px; }
+    .stay-table td { vertical-align:middle; padding:8px; border-top:1px solid var(--line); line-height:1.3; }
+    .stay-row { cursor:pointer; }
+    .stay-row:hover,.stay-row.active { background:#eef7f8; }
+    .stay-table img { display:block; width:58px; height:48px; object-fit:cover; border-radius:8px; background:#d7e0e6; }
+    .stay-table a { color:var(--sea); font-weight:800; }
+    .premium-stay { display:grid; grid-template-columns:90px minmax(0,1fr); gap:10px; padding:10px; margin-top:12px; border:1px solid #d9c28c; border-radius:14px; background:#fff9ea; }
+    .premium-stay img { width:90px; height:74px; object-fit:cover; border-radius:9px; }
     @media(max-width:430px){ .stay-card{grid-template-columns:72px minmax(0,1fr);gap:8px}.stay-card img{width:72px;height:105px} }
 
   </style>
@@ -369,7 +379,7 @@
     <a class="back" href="index.html">← Torna al dossier</a>
     <div class="hint">
       <strong>Mappa di supporto alle scelte.</strong>
-      Il pulsante “Ksamil 28 ago” mostra il percorso reale Corfù → Saranda → Ksamil, con tutti i costi per 3.
+      Apri “Saranda 28 ago → 1 set” per i 40 appartamenti: la mappa mostra la zona, ogni riga apre il punto preciso e la prenotazione.
     </div>
   </div>
   <div class="app">
@@ -400,8 +410,8 @@
       </div>
 
       <div class="filters" id="filters">
-        <button type="button" data-filter="ksamil" class="active">Ksamil · 28 ago</button>
-        <button type="button" data-filter="stays">Alloggi · 28–31 ago</button>
+        <button type="button" data-filter="saranda" class="active">Saranda · 28 ago → 1 set</button>
+        <button type="button" data-filter="ksamil">Tragitto per Ksamil</button>
         <button type="button" data-filter="all">Case</button>
         <button type="button" data-filter="cars">Noleggi auto</button>
         <button type="button" data-filter="cheap">Case economiche</button>
@@ -1043,10 +1053,10 @@
     }
 
 
-    // Alloggi per la tappa Xamil: prezzi live letti il 25/07/2026.
+    // Alloggi per la tappa Saranda: prezzi letti il 25/07/2026.
     // I pin indicano l'area dichiarata; il pulsante "mappa esatta" cerca il singolo alloggio.
     const STAY_CHECKIN = "2026-08-28";
-    const STAY_CHECKOUT = "2026-08-31";
+    const STAY_CHECKOUT = "2026-09-01";
     const stayBookUrl = (slug) => `https://www.booking.com${slug}.it.html?checkin=${STAY_CHECKIN}&checkout=${STAY_CHECKOUT}&group_adults=3&req_adults=3&no_rooms=1&group_children=0&req_children=0`;
     const stayMapUrl = (s) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(s.name + ", " + s.city + ", Albania")}`;
     const staySearchUrl = (city) => `https://www.booking.com/searchresults.it.html?ss=${encodeURIComponent(city + ", Albania")}&checkin=${STAY_CHECKIN}&checkout=${STAY_CHECKOUT}&group_adults=3&no_rooms=1&group_children=0&order=price`;
@@ -1054,7 +1064,60 @@
     const stayAreas = {
       "Ksamil centro":[39.7688,20.0014], "Ksamil lago":[39.7654,20.0135], "Ksamil nord":[39.7760,19.9970],
       "Ksamil sud":[39.7588,20.0069], "Butrinto / lago":[39.7473,20.0227],
-      "Saranda centro":[39.8751,20.0056], "Saranda nord":[39.8850,20.0108]
+      "Saranda centro":[39.8751,20.0056], "Saranda nord":[39.8850,20.0108],
+      "Porto e centro":[39.8746,20.0048], "Lungomare":[39.8707,20.0062],
+      "Nord / Rruga Butrinti":[39.8835,20.0104], "Sud / Canale di Corfù":[39.8645,20.0077],
+      "Mucobega":[39.8537,20.0039]
+    };
+    // La lista storica rimane nel file come riferimento del vecchio confronto Ksamil.
+    // La vista pubblica usa soltanto queste 40 proposte di Saranda, tutte controllate per 3 adulti e 4 notti.
+    const sarandaStays = [
+      {name:"Guest house Vila Bega",area:"Porto e centro",price:160,score:"9,3",reviews:34,center:"700 m",beach:"1 km",beds:"Monolocale 34 m² · 3 letti",flex:false,featured:true,slug:"/hotel/al/vila-bega",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/101006362.webp?k=2038cc275b9f09cdb6bb299d0f28b91b4e719f256f93314f97d2d91786111f69&o=",note:"Prezzo più basso con un buon numero di giudizi."},
+      {name:"Centrum Apartment",area:"Porto e centro",price:200,score:"9,6",reviews:6,center:"50 m",beach:"350 m",beds:"Appartamento 79 m² · 3 letti",flex:true,featured:true,slug:"/hotel/al/centrum-apartment-saranda",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/894205911.webp?k=26e0d87b79126b4ac5c16ea01c1ae8e528b8b9f746748cfb79f4097cd2fe05bc&o=",note:"Centralissimo e con pagamento in struttura."},
+      {name:"Andi's GuestHouse",area:"Sud / Canale di Corfù",price:200,score:"9,3",reviews:23,center:"2,6 km",beach:"—",beds:"2 camere · 4 letti",flex:true,featured:true,slug:"/hotel/al/andis-guesthouse",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/554784217.webp?k=c00f70bed6e5a5e6bf51ef862029621675013ef017d354607ee41aabcfd52e2d&o=",note:"Due camere e parcheggio: comodo se avete auto."},
+      {name:"Miri's Villa",area:"Lungomare",price:200,score:"9,0",reviews:50,center:"800 m",beach:"1,1 km",beds:"2 camere · 3 letti",flex:true,featured:true,slug:"/hotel/al/miris-villa",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/580159946.webp?k=c9fdfb11f4c4334eaad86962e63f47c04c84e21524416ef9d7b7725a968a9d5a&o=",note:"Buon equilibrio fra spazio, prezzo e giudizi."},
+      {name:"Villa Morena",area:"Lungomare",price:200,score:"8,4",reviews:14,center:"800 m",beach:"1,1 km",beds:"1 camera · 2 letti",flex:true,featured:false,slug:"/hotel/al/villa-morena",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/551611293.webp?k=dcb076c9708edad31a35e5983911c138f6c9ffd503a1866118830ddda7af82d6&o=",note:"Da confrontare con le scelte più votate allo stesso prezzo."},
+      {name:"Zani Apartment",area:"Porto e centro",price:200,score:"9,2",reviews:30,center:"600 m",beach:"600 m",beds:"1 camera · 3 letti",flex:true,featured:true,slug:"/hotel/al/zani-apartment",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/894544757.webp?k=6de2f126c94d7970d46cb8ac66eda582a5141c86eb155cbc19dc2e49bbdce112&o=",note:"Cucina, parcheggio e distanza comoda dal mare."},
+      {name:"Apartment in Sarande",area:"Lungomare",price:220,score:"9,0",reviews:10,center:"1,3 km",beach:"fronte spiaggia",beds:"1 camera · 3 letti",flex:true,featured:false,slug:"/hotel/al/apartment-in-sarande",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/160426934.webp?k=e4be46bf4965c67da3e47d15a1207f6ecb49ddebca8fe85ecab9eb44734b09b8&o=",note:"Per chi mette il mare davanti alla posizione centrale."},
+      {name:"Leli Apartments",area:"Nord / Rruga Butrinti",price:228,score:"10",reviews:3,center:"2,1 km",beach:"1,1 km",beds:"1 camera · 2 letti",flex:false,featured:false,slug:"/hotel/al/leli-apartments",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/589183648.webp?k=83ca7146aaf40815d1a9e8b4a3af451f0c8e3628ef39bee94e4a23a33415a673&o=",note:"Voto perfetto, ma poche recensioni: leggere bene prima di scegliere."},
+      {name:"Taho Apartments",area:"Nord / Rruga Butrinti",price:228,score:"10",reviews:1,center:"1,9 km",beach:"750 m",beds:"2 camere · 3 letti",flex:true,featured:false,slug:"/hotel/al/the-sunshine-saranda",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/753739459.webp?k=6812f30bda617f412708550aca7b0341b26ba3f3ca758a18406b4869e772a89b&o=",note:"Spazio per tre, ma con una sola recensione."},
+      {name:"Mimoza Apartments",area:"Porto e centro",price:230,score:"9,7",reviews:71,center:"400 m",beach:"850 m",beds:"1 camera · 3 letti",flex:true,featured:true,slug:"/hotel/al/mimoza-apartments",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/694149200.webp?k=509bd4a1b3a09db46269cffa034192ed077d14a5f838b047362f1c50782847f9&o=",note:"Una delle migliori per voto, numero di giudizi e prezzo."},
+      {name:"Petrit Apartments",area:"Lungomare",price:232,score:"9,2",reviews:28,center:"1,1 km",beach:"100 m",beds:"1 camera · 2 letti",flex:true,featured:true,slug:"/hotel/al/petrit-apartments",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/466484157.webp?k=81e6a09f1acec8ab777e62e35c4262c92c2f8a7e95f48c9c1787f3db1a92abc0&o=",note:"La scelta pratica per stare a 100 m dal mare."},
+      {name:"Kreku Apartments Saranda",area:"Nord / Rruga Butrinti",price:235,score:"9,9",reviews:22,center:"2,1 km",beach:"1,5 km",beds:"1 camera · 3 letti",flex:false,featured:true,slug:"/hotel/al/kreku-apartments-saranda",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/562487895.webp?k=ad13bd7e711797b715be9b1b2510d25146e5ebc742563443d6dd8eab0def4e91&o=",note:"Voto molto forte, con spazio per tre."},
+      {name:"B&S Saranda Apartment",area:"Porto e centro",price:236,score:"9,9",reviews:20,center:"300 m",beach:"700 m",beds:"1 camera · 3 letti",flex:true,featured:true,slug:"/hotel/al/b-amp-s-saranda-apartment",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/459270915.webp?k=523f8acf6cb3da21241f91686d5bdd5475e67198c341520c263e3d8178c9daf6&o=",note:"Molto vicino al centro, grande e con cancellazione gratuita."},
+      {name:"Loft Apartments",area:"Lungomare",price:238,score:"9,1",reviews:39,center:"1,6 km",beach:"400 m",beds:"1 camera · 2 letti",flex:true,featured:false,slug:"/hotel/al/loft-apartments",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/383155251.webp?k=bf1806c1c82491f2477c4d562ee570f2b5ccb981b95d4523703399fa7c5eca3a&o=",note:"Vicino al mare, con molte recensioni."},
+      {name:"Vaso’s Apartments",area:"Lungomare",price:240,score:"9,4",reviews:33,center:"900 m",beach:"450 m",beds:"Monolocale · 2 letti",flex:true,featured:true,slug:"/hotel/al/vasos-apartments",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/554493864.webp?k=47cd67ae23274047e1c72813cbfff392373d2a8b509f3843741b8aa5f7e646bc&o=",note:"Scelta solida vicino al mare e con cancellazione gratuita."},
+      {name:"Maxus Apts",area:"Lungomare",price:240,score:"9,5",reviews:81,center:"1,1 km",beach:"100 m",beds:"1 camera · 2 letti",flex:true,featured:true,slug:"/hotel/al/maxus-apts",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/564285698.webp?k=bfae7dac30e127e3b77abcc82124e3ff45912e50b32d18205df31b71cee30926&o=",note:"Molte recensioni, 100 m dal mare: valore alto."},
+      {name:"Studio Salvia",area:"Lungomare",price:240,score:"10",reviews:3,center:"900 m",beach:"150 m",beds:"1 camera · 3 letti",flex:true,featured:false,slug:"/hotel/al/studio-salvia",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/865512304.webp?k=4b51446417a327a5ff33f262f4a5fe6408f969541caaccfc9dc908b9a978fa98&o=",note:"Nuovo e vicino al mare: voto da pesare con il numero basso di giudizi."},
+      {name:"White Pearl Apartments",area:"Nord / Rruga Butrinti",price:240,score:"10",reviews:1,center:"1,7 km",beach:"700 m",beds:"Monolocale · 2 letti",flex:true,featured:false,slug:"/hotel/al/white-pearl-apartments",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/872498425.webp?k=7ed6b6a83e5e70cc16769ba5de436c19b74efb2ce39794cc19de01808d69e663&o=",note:"Nuovissimo: confrontare foto e regole prima di prenotare."},
+      {name:"Ajsi Apartments",area:"Porto e centro",price:240,score:"9,3",reviews:3,center:"700 m",beach:"300 m",beds:"1 camera · 2 letti",flex:false,featured:false,slug:"/hotel/al/ajsi-apartments-saranda",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/847191056.webp?k=9e15839c1704a005e2780bd85aea6d1db1b422700cc6c9b2bd59082abb926ee7&o=",note:"Molto vicino alla spiaggia, ma con pochi giudizi."},
+      {name:"Apartament Stefani",area:"Porto e centro",price:240,score:"9,7",reviews:33,center:"700 m",beach:"1,1 km",beds:"1 camera · 2 letti",flex:true,featured:true,slug:"/hotel/al/apartament-stefani",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/378378117.webp?k=aa1352545caf6227e7575d37254a083f931d2b0bc27d5a37a1902dffc2f04816&o=",note:"Ottimo voto con un numero di giudizi già significativo."},
+      {name:"Alpha Apartaments",area:"Porto e centro",price:240,score:"9,7",reviews:34,center:"700 m",beach:"950 m",beds:"1 camera · 2 letti",flex:false,featured:true,slug:"/hotel/al/alfa-apartaments-sarande",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/564585321.webp?k=a38bcf1b05f9d3ebe9399cb98e56c63354da5c38a34acff514c31183c90e5a9c&o=",note:"Prezzo lineare e recensioni forti."},
+      {name:"Vila Kea",area:"Sud / Canale di Corfù",price:243,score:"9,5",reviews:40,center:"2,3 km",beach:"100 m",beds:"Monolocale · 3 letti",flex:false,featured:true,slug:"/hotel/al/villa-kea-mocobega",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/645285523.webp?k=11835399ab099d87bbe37df7ce09c52b522e14959a0563418e73d4886f08954e&o=",note:"100 m dal mare, con parcheggio e buon numero di giudizi."},
+      {name:"Villa Sai",area:"Porto e centro",price:248,score:"9,2",reviews:4,center:"700 m",beach:"1,1 km",beds:"Attico · 3 letti",flex:true,featured:false,slug:"/hotel/al/villa-sai",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/858035741.webp?k=35b8019953e214c95c82d9c3e94b3935a977c29bfbcb2c8affd051b02523deef&o=",note:"Attico per tre, ancora con pochi giudizi."},
+      {name:"Cozy 1 Bedroom Apartment-Saranda",area:"Nord / Rruga Butrinti",price:252,score:"10",reviews:1,center:"1,7 km",beach:"700 m",beds:"1 camera · 3 letti",flex:true,featured:false,slug:"/hotel/al/deluxe-apartment-saranda1",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/694815114.webp?k=42b4a3d7f683e09ea6a61622097f57893b0479f96de7f0c97800acc44a0e1b92&o=",note:"Molto spazio, ma struttura recente con un solo giudizio."},
+      {name:"Paradise Bay Apartments",area:"Lungomare",price:260,score:"10",reviews:2,center:"1 km",beach:"150 m",beds:"1 camera · 2 letti",flex:true,featured:false,slug:"/hotel/al/paradise-bay-apartments",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/876781056.webp?k=2194ced5392940891a21b809b16e589aa0207b3a596ff2b7c1d298a171305570&o=",note:"Vicino alla spiaggia; controllare bene le poche recensioni."},
+      {name:"Saranda 6 Villa",area:"Nord / Rruga Butrinti",price:260,score:"10",reviews:2,center:"1,7 km",beach:"1 km",beds:"1 camera · matrimoniale",flex:true,featured:false,slug:"/hotel/al/saranda-6-villa",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/698344943.webp?k=ce0b7edb561b9b64fee771647ce7929e8f7d9552f3ac0420240aa6a28f5d93d8&o=",note:"Inserita per la qualità dichiarata, da controllare per la sistemazione letti."},
+      {name:"Bruno's Rooms",area:"Lungomare",price:272,score:"10",reviews:6,center:"1,2 km",beach:"1,6 km",beds:"1 camera · 2 letti",flex:true,featured:false,slug:"/hotel/al/brunos-apartment-saranda",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/682467798.webp?k=88103cc5fcbe7e9a6bf1f5118d7a5ef85c0d4f4e34949d72f965bc085f4fc1a4&o=",note:"Voto altissimo; controllare lo spazio effettivo per tre."},
+      {name:"J&M Luxury Apartments 3",area:"Porto e centro",price:274,score:"10",reviews:3,center:"350 m",beach:"700 m",beds:"2 camere · 3 letti",flex:true,featured:false,slug:"/hotel/al/behari-apartments-1",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/873619258.webp?k=69864c36fede192a8e1626cc6112dc3d370ce6db288b87d88824b77e82b6b201&o=",note:"Due camere in centro; prezzo scontato mostrato dalla ricerca."},
+      {name:"Trojan Apartment Near Ksamil Route",area:"Lungomare",price:280,score:"10",reviews:1,center:"1,3 km",beach:"450 m",beds:"1 camera · matrimoniale",flex:true,featured:false,slug:"/hotel/al/trojan-apartment-saranda1",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/844042027.webp?k=06c149e3f7880e3fcc05b119fbdfd1a169134091d68f95fd3ac0628b81d0e75e&o=",note:"Comodo se poi continuate verso Ksamil; controllare i posti letto."},
+      {name:"Pine Forest View Apartments",area:"Lungomare",price:280,score:"10",reviews:1,center:"1,3 km",beach:"450 m",beds:"1 camera · 2 letti",flex:true,featured:false,slug:"/hotel/al/pine-forest-view-apartments",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/885836621.webp?k=1d812cedafcde99d1f7f21da18d408419ba4de216f0912ee10f804be8434bf47&o=",note:"Nuovo e con vista: confrontarlo con le scelte più consolidate."},
+      {name:"Sweet Home apt",area:"Porto e centro",price:280,score:"10",reviews:1,center:"600 m",beach:"250 m",beds:"1 camera · 4 letti",flex:true,featured:false,slug:"/hotel/al/sweet-home-apt",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/562714846.webp?k=ba4dcbc7d495b6aa7779f15c6ecdd0b87d5d0f9908857a43fbfe6a04f32691ee&o=",note:"Grande e vicino al mare, ma con una sola recensione."},
+      {name:"Saranda Sun Apartment",area:"Lungomare",price:288,score:"10",reviews:3,center:"1 km",beach:"200 m",beds:"1 camera · 2 letti",flex:true,featured:false,slug:"/hotel/al/saranda-sun-apartment",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/836329124.webp?k=0e95c9c0bba8848260b6cba7667e8240bd6f65638891ab04e7ab2b2b82bf514&o=",note:"Offerta mostrata per quattro notti, a 200 m dal mare."},
+      {name:"Rikard Apartment",area:"Porto e centro",price:288,score:"10",reviews:2,center:"500 m",beach:"900 m",beds:"2 camere · 3 letti",flex:true,featured:false,slug:"/hotel/al/rikard-apartment",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/884452439.webp?k=994e4879eea2e9d21d2eea639a91c20417863dc07c949adebc6b1afd68d8594e&o=",note:"Due camere e tre letti: interessante per tre adulti."},
+      {name:"Garden Escape Apt",area:"Porto e centro",price:289,score:"10",reviews:3,center:"700 m",beach:"200 m",beds:"Monolocale · 2 letti",flex:true,featured:false,slug:"/hotel/al/garden-escape-apt",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/890926043.webp?k=bb5fd53ef64e69ae8121051f4f8f7779aa5ff72a3f593bf560e9cad05cebfba5&o=",note:"200 m dalla spiaggia; verificare la configurazione letti."},
+      {name:"Vila Oriku",area:"Sud / Canale di Corfù",price:289,score:"10",reviews:10,center:"4,1 km",beach:"950 m",beds:"Monolocale · 2 letti",flex:true,featured:false,slug:"/hotel/al/villa-oriku",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/580323851.webp?k=d09af94bedd7956128871426cb93756c67244e672df7bb64ee379ecaefc7773b&o=",note:"Più lontana dal centro: valida soprattutto con auto."},
+      {name:"Margaritas Apartments",area:"Porto e centro",price:360,score:"9,3",reviews:128,center:"500 m",beach:"fronte spiaggia",beds:"1 camera · 3 letti",flex:true,featured:true,stars:4,slug:"/hotel/al/margaritas-apartments",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/460224925.webp?k=3a8cff4a55769f76fcd94f5af5e4b17bf3e1eea733a5daace112f66b2b0d4944&o=",note:"4 stelle: fronte mare, molte recensioni e appartamento intero."},
+      {name:"Villa Sildi",area:"Nord / Rruga Butrinti",price:400,score:"9,1",reviews:259,center:"1,7 km",beach:"400 m",beds:"1 camera · 3 letti",flex:true,featured:true,stars:4,slug:"/hotel/al/villa-sildi-gjashte",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/376059928.webp?k=09c9c43cea6ab1738fb5881c7afa784d238a67ebaf46b436a6041cf94d3729fe&o=",note:"4 stelle: il voto è sostenuto da molte recensioni."},
+      {name:"Elidon Apartments",area:"Porto e centro",price:400,score:"9,4",reviews:15,center:"400 m",beach:"250 m",beds:"2 camere · 2 letti",flex:true,featured:false,stars:4,slug:"/hotel/al/sunrise-apartments-saranta",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/372102161.webp?k=b152697aa27c4ac6d33630d7b6c139227e0dd2e4defe6e49f8d05c5df060be4b&o=",note:"4 stelle: centro e mare molto vicini."},
+      {name:"White Residence Luxury Apartments",area:"Sud / Canale di Corfù",price:460,score:"9,4",reviews:295,center:"2,4 km",beach:"fronte spiaggia",beds:"1 camera · 2 letti",flex:false,featured:true,stars:4,slug:"/hotel/al/white-residence-luxury-sea-view-apartments-sarande",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/69164524.webp?k=1ca34a12635718673659e7cf095f7b3f345f58df59850ffbb6c523c61b36a88f&o=",note:"4 stelle: scelta più elegante, sul mare e molto recensita."},
+      {name:"Xhulio Apartments",area:"Porto e centro",price:472,score:"9,1",reviews:207,center:"600 m",beach:"250 m",beds:"1 camera · 4 letti",flex:true,featured:true,stars:4,slug:"/hotel/al/xhulio-apartments",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/203882129.webp?k=7155b6472e5f6a0236acd31f9c687843cf077bcf28b85b414f60dc5642a485b8&o=",note:"4 stelle: quattro posti letto, vicino a centro e mare."}
+    ].map((s) => ({...s, city:"Saranda", bookingSite:"Booking.com"}));
+    stays.splice(0, stays.length, ...sarandaStays);
+    const fiveStarChoice = {
+      name:"Hotel Saranda Butrinti, Affiliated by Meliá", price:1873, score:"5 stelle", center:"centro", beach:"100 m", bookingSite:"Booking.com",
+      slug:"/hotel/al/butrinti", photo:"https://r-xx.bstatic.com/xdata/images/hotel/608x352/899114780.webp?k=7b50a15ea026abe6e779d838295eadb4eaeef76fe2b33a9b6150673c3609e9f3&o=",
+      note:"Alternativa hotel 5 stelle: spa, piscina e posizione sul lungomare. Prezzo letto per 4 notti / 3 adulti; disponibilità da ricontrollare al clic."
     };
     const staysPanel = document.getElementById("stays-panel");
     const stayLayer = L.layerGroup();
@@ -1072,13 +1135,13 @@
         const coords = stayCoords(s, index);
         const icon = L.divIcon({className:"", html:`<div class="stay-pin">${s.number}</div>`, iconSize:[28,28], iconAnchor:[14,14], popupAnchor:[0,-14]});
         const marker = L.marker(coords, {icon}).addTo(stayLayer);
-        marker.bindPopup(`<div class="popup-title">#${s.number} · ${s.name}</div><div class="popup-deal"><strong>€${s.price} totali · 3 notti · 3 adulti</strong><br>${s.city} · area ${s.area}<br>Voto ${s.score}${s.reviews ? " · " + s.reviews + " giudizi" : ""}<br><a href="${stayBookUrl(s.slug)}" target="_blank" rel="noopener">Booking.com →</a> · <a href="${stayMapUrl(s)}" target="_blank" rel="noopener">mappa esatta →</a></div>`);
+        marker.bindPopup(`<div class="popup-title">#${s.number} · ${s.name}</div><div class="popup-deal"><strong>€${s.price} totali · 4 notti · 3 adulti</strong><br>Saranda · zona ${s.area}<br>Voto ${s.score}${s.reviews ? " · " + s.reviews + " giudizi" : ""}<br><a href="${stayBookUrl(s.slug)}" target="_blank" rel="noopener">Booking.com →</a> · <a href="${stayMapUrl(s)}" target="_blank" rel="noopener">mappa esatta →</a></div>`);
         marker.on("click", () => selectStay(s.id, false));
         stayMarkers[s.id] = marker;
       });
       stayLayer.addTo(map);
     }
-    function renderStays(mode = "all") {
+    function renderStays(mode = "saranda") {
       list.style.display = "none"; carsPanel.style.display = "none";
       if (poisPanel) poisPanel.style.display = "none";
       if (ksamilPanel) ksamilPanel.style.display = "none";
@@ -1087,28 +1150,20 @@
       if (!staysPanel) return;
       staysPanel.style.display = "block";
       const sorted = [...stays].sort((a,b) => a.price - b.price || Number(b.score.replace(",",".")) - Number(a.score.replace(",",".")));
-      const shown = sorted.filter((s) => mode === "all" || (mode === "ksamil" && s.city === "Ksamil") || (mode === "cheap" && s.price <= 160) || (mode === "best" && s.featured));
+      const shown = sorted.filter((s) => mode === "saranda" || mode === "all" || (mode === "under-260" && s.price <= 260) || (mode === "best" && s.featured) || (mode === "four-stars" && s.stars === 4));
       staysPanel.innerHTML = `
-        <div class="callout"><strong>44 alloggi comparabili · 28 → 31 agosto · 3 adulti</strong><p>Prezzo totale, tasse incluse quando dichiarate dalla pagina. <strong>Xamil parte da €141.</strong> Saranda scende a <strong>€120</strong>, ma è circa 25–30 minuti di auto da Xamil: il risparmio è reale, la distanza pure.</p></div>
+        <div class="callout"><strong>Saranda · 40 appartamenti · 28 agosto → 1 settembre · 3 adulti</strong><p>Prezzo totale per <strong>4 notti</strong>, tasse incluse quando dichiarate dalla pagina. Ho privilegiato voto, numero di giudizi, spazio per tre e distanza da centro o mare. I prezzi cambiano: apri il collegamento prima di pagare.</p></div>
         <div class="stay-filter-row" aria-label="Filtri alloggi">
-          <button type="button" data-stay-filter="all" class="${mode === "all" ? "active" : ""}">Tutti ${stays.length}</button>
-          <button type="button" data-stay-filter="ksamil" class="${mode === "ksamil" ? "active" : ""}">Solo Xamil · 40</button>
-          <button type="button" data-stay-filter="cheap" class="${mode === "cheap" ? "active" : ""}">Fino a €160</button>
+          <button type="button" data-stay-filter="saranda" class="${mode === "saranda" || mode === "all" ? "active" : ""}">Tutti e 40</button>
+          <button type="button" data-stay-filter="under-260" class="${mode === "under-260" ? "active" : ""}">Fino a €260</button>
           <button type="button" data-stay-filter="best" class="${mode === "best" ? "active" : ""}">Scelte forti</button>
+          <button type="button" data-stay-filter="four-stars" class="${mode === "four-stars" ? "active" : ""}">Appartamenti 4 stelle</button>
         </div>
-        ${shown.map((s) => `<article class="stay-card" data-stay="${s.id}">
-          <img src="${s.photo}" alt="Foto di ${s.name}" loading="lazy">
-          <div>
-            <div class="stay-name">#${s.number} · ${s.name}</div>
-            <div class="stay-price">€${s.price} totali · 3 notti</div>
-            <div class="stay-meta">${s.city} · ${s.area} · centro ${s.center} · mare ${s.beach}</div>
-            <div class="stay-meta">Voto ${s.score}${s.reviews ? " · " + s.reviews + " giudizi" : ""} · ${s.beds}</div>
-            <div class="stay-badges">${s.featured ? '<span class="stay-badge best">scelta forte</span>' : ""}<span class="stay-badge">Booking.com</span>${s.flex ? '<span class="stay-badge">cancellazione gratuita</span>' : ""}</div>
-            <div class="stay-note">${s.note}</div>
-            <div class="stay-actions"><a href="${stayBookUrl(s.slug)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Apri su Booking.com →</a><a href="${stayMapUrl(s)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Mappa esatta →</a></div>
-          </div>
-        </article>`).join("")}
-        <p class="trip-sources">Foto, disponibilità, prezzi, giudizi e link: <strong>Booking.com</strong>, ricerca effettuata il 25/07/2026 con 3 adulti e 28–31 agosto. I pin della mappa mostrano l’area dell’alloggio; per l’ingresso preciso usa “Mappa esatta”.</p>
+        <div class="stay-table-wrap"><table class="stay-table"><thead><tr><th>#</th><th>Foto</th><th>Appartamento</th><th>Prezzo totale</th><th>Voto</th><th>Zona</th><th>Dove prenoti</th></tr></thead><tbody>
+          ${shown.map((s) => `<tr class="stay-row" data-stay="${s.id}"><td>${s.number}</td><td><img src="${s.photo}" alt="Foto di ${s.name}" loading="lazy"></td><td><strong>${s.name}</strong>${s.stars ? '<br><span class="stay-badge best">' + s.stars + ' stelle</span>' : ''}${s.featured ? '<br><span class="stay-badge">scelta qualità/prezzo</span>' : ''}<br><span class="stay-meta">${s.beds} · ${s.note}</span></td><td><strong>€${s.price}</strong><br><span class="stay-meta">4 notti · 3 adulti</span></td><td><strong>${s.score}</strong>${s.reviews ? '<br><span class="stay-meta">' + s.reviews + ' giudizi</span>' : ''}</td><td>${s.area}<br><span class="stay-meta">centro ${s.center}<br>mare ${s.beach}</span><br><a href="${stayMapUrl(s)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Punto esatto →</a></td><td><a href="${stayBookUrl(s.slug)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${s.bookingSite} →</a>${s.flex ? '<br><span class="stay-meta">cancellazione gratuita mostrata</span>' : ''}</td></tr>`).join("")}
+        </tbody></table></div>
+        <div class="premium-stay"><img src="${fiveStarChoice.photo}" alt="Foto di ${fiveStarChoice.name}" loading="lazy"><div><div class="stay-name">Alternativa 5 stelle · ${fiveStarChoice.name}</div><div class="stay-price">€${fiveStarChoice.price} totali · 4 notti · 3 adulti</div><div class="stay-note">${fiveStarChoice.note}</div><div class="stay-actions"><a href="${stayBookUrl(fiveStarChoice.slug)}" target="_blank" rel="noopener">Apri su ${fiveStarChoice.bookingSite} →</a><a href="https://www.booking.com/fivestars/city/al/sarande.it.html" target="_blank" rel="noopener">Vedi altre opzioni 5 stelle →</a></div></div></div>
+        <p class="trip-sources">Foto, disponibilità, prezzi, giudizi e collegamenti letti il 25/07/2026 su <strong>Booking.com</strong>, con 3 adulti e 28 agosto → 1 settembre. I puntini indicano la zona dichiarata a Saranda: per l’ingresso preciso usa “Punto esatto”.</p>
       `;
       staysPanel.querySelectorAll("[data-stay-filter]").forEach((button) => button.addEventListener("click", () => renderStays(button.dataset.stayFilter)));
       staysPanel.querySelectorAll("[data-stay]").forEach((card) => card.addEventListener("click", () => selectStay(card.dataset.stay, true)));
@@ -1117,7 +1172,7 @@
       if (points.length) map.fitBounds(L.latLngBounds(points), {padding:[35,35], maxZoom:12});
     }
     function selectStay(id, pan) {
-      document.querySelectorAll(".stay-card").forEach((card) => card.classList.toggle("active", card.dataset.stay === id));
+      document.querySelectorAll(".stay-card, .stay-row").forEach((card) => card.classList.toggle("active", card.dataset.stay === id));
       const s = stays.find((item) => item.id === id);
       const marker = stayMarkers[id];
       if (!s || !marker) return;
@@ -1127,13 +1182,13 @@
     stays.forEach((s, index) => { s.id = "stay-" + (index + 1); s.number = index + 1; });
 
     function renderList(filter) {
+      if (filter === "saranda" || filter === "stays") {
+        renderStays("saranda");
+        return;
+      }
       if (filter === "ksamil") {
         stayLayer.remove();
         renderKsamil();
-        return;
-      }
-      if (filter === "stays") {
-        renderStays();
         return;
       }
       stayLayer.remove();
@@ -1261,9 +1316,9 @@
         renderList("ksamil");
         return;
       }
-      if (kind === "stays" || raw === "stays") {
-        document.querySelectorAll("#filters button").forEach((b) => b.classList.toggle("active", b.dataset.filter === "stays"));
-        renderList("stays");
+      if (kind === "saranda" || raw === "saranda" || kind === "stays" || raw === "stays") {
+        document.querySelectorAll("#filters button").forEach((b) => b.classList.toggle("active", b.dataset.filter === "saranda"));
+        renderList("saranda");
         return;
       }
       if (kind === "pois" || raw === "pois") {
@@ -1291,7 +1346,7 @@
     }
     window.addEventListener("hashchange", focusFromHash);
 
-    renderList("ksamil");
+    renderList("saranda");
     setTimeout(focusFromHash, 350);
   </script>
 
