@@ -603,14 +603,14 @@
     <a class="back" href="index.html">← Torna al dossier</a>
     <div class="hint">
       <strong>Mappa di supporto alle scelte.</strong>
-      Apri “Alloggi Corfù · 1–3 set” per 50 case di rientro con foto, prezzi e collegamento diretto; “Saranda · 28 ago → 1 set” conserva i 40 appartamenti dell'andata.
+      Apri “Alloggi Corfù · 1–3 set” per 50 case di rientro con foto, prezzi e collegamento diretto; “Saranda · 28 ago → 1 set” conserva i 40 appartamenti e il ritorno Saranda → Corfù del 1 settembre.
     </div>
   </div>
   <div class="app">
     <aside class="panel">
       <h1>Corfù · mappa scelta</h1>
       <p class="subtitle">
-        3 adulti · arrivo da <strong>Ksamil (Xamil) il 1 settembre 2026</strong> ·
+        3 adulti · ritorno da <strong>Saranda → Corfù il 1 settembre 2026</strong> ·
         2 notti a Corfù. Le case qui sotto sono nella costa est/nord-est indicata nello screenshot.
       </p>
 
@@ -1871,6 +1871,8 @@
       const shown = sorted.filter((s) => mode === "saranda" || mode === "all" || (mode === "under-260" && s.price <= 260) || (mode === "best" && s.featured) || (mode === "four-stars" && s.stars === 4));
       staysPanel.innerHTML = `
         <div class="callout"><strong>Saranda · 40 appartamenti · 28 agosto → 1 settembre · 3 adulti</strong><p>Prezzo totale per <strong>4 notti</strong>, tasse incluse quando dichiarate dalla pagina. Ogni puntino usa la posizione dichiarata dalla pagina dell’alloggio: così vedi davvero centro, mare, nord e sud di Saranda. I prezzi cambiano: apri il collegamento prima di pagare.</p></div>
+        <div class="trip-warning"><strong>Ritorno diretto · martedì 1 settembre: Saranda → Corfù.</strong> Nel motore ufficiale compaiono le corse Finikas Highspeed <strong>06:00 → 07:50</strong> e <strong>10:00 → 11:50</strong>. Il collegamento diretto è quindi inserito nel viaggio; però, nella verifica per 3 persone e la vostra auto, il sito blocca entrambe con “nessun posto auto”. Con la macchina non prenotate queste due corse finché il sito non conferma il garage.</div>
+        <div class="car-box"><strong>Ritorno effettivo con auto:</strong> Saranda → confine Qafë Botë / Mavromati → Igoumenitsa → Corfù città. La soluzione verificata è Kerkyra Lines, <strong>KERKYRA 10:00 → 11:30</strong>, il 1 settembre, con 3 persone e auto fino a 4,25 m. Dettagli e pulsante di prenotazione sono nella scheda “Tragitto per Ksamil”.</div>
         <div class="stay-filter-row" aria-label="Filtri alloggi">
           <button type="button" data-stay-filter="saranda" class="${mode === "saranda" || mode === "all" ? "active" : ""}">Tutti e 40</button>
           <button type="button" data-stay-filter="under-260" class="${mode === "under-260" ? "active" : ""}">Fino a €260</button>
