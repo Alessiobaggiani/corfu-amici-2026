@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   
-  <meta name="description" content="Dossier Corfù 27 ago–3 set 2026: zone, programma giorni, escursioni, mappa." />
-  <meta property="og:title" content="Corfù · dossier gruppo · agosto 2026" />
-  <meta property="og:description" content="Zone dove dormire, giorni, escursioni e mappa — 3 adulti, budget casa+auto." />
+  <meta name="description" content="Corfù → Ksamil il 28 agosto 2026: battelli, costi per 3 persone, taxi, furgon e auto a Saranda." />
+  <meta property="og:title" content="Corfù → Ksamil · 28 agosto 2026" />
+  <meta property="og:description" content="Battelli, taxi, furgon e auto a Saranda: costi reali per 3 persone." />
   <meta property="og:type" content="website" />
   <meta name="theme-color" content="#1f6f8b" />
   <link rel="canonical" id="canonical-link" href="" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Corfù · 3 persone · 27 ago–3 set 2026 — zone, km e prezzi reali</title>
+  <title>Corfù → Ksamil · 28 agosto 2026 — battelli, auto e prezzi per 3</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
@@ -240,6 +240,38 @@
       margin-top: 16px;
       line-height: 1.4;
     }
+    .trip-steps {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin: 10px 0 12px;
+    }
+    .trip-step {
+      background: #faf7f0;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 9px;
+      font-size: .82rem;
+      line-height: 1.35;
+    }
+    .trip-step strong { display: block; color: var(--sea); margin-bottom: 2px; }
+    .trip-warning {
+      background: #fff4db;
+      border: 1px solid #edcd8e;
+      border-radius: 12px;
+      padding: 10px 11px;
+      margin: 10px 0;
+      font-size: .84rem;
+      line-height: 1.4;
+    }
+    .trip-sources {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: .75rem;
+      line-height: 1.4;
+    }
+    .trip-sources a { color: var(--sea); font-weight: 700; }
+    @media (max-width: 380px) { .trip-steps { grid-template-columns: 1fr; } }
     #map { width: 100%; height: 100%; min-height: 420px; }
     .leaflet-popup-content-wrapper {
       border-radius: 12px;
@@ -317,16 +349,15 @@
     <a class="back" href="index.html">← Torna al dossier</a>
     <div class="hint">
       <strong>Mappa di supporto alle scelte.</strong>
-      Usa i pin per zone (dormire), mete/attrazioni (gite) e auto (viola). Poi torna al dossier.
+      Il pulsante “Ksamil 28 ago” mostra il percorso reale Corfù → Saranda → Ksamil, con tutti i costi per 3.
     </div>
   </div>
   <div class="app">
     <aside class="panel">
       <h1>Corfù · mappa scelta</h1>
       <p class="subtitle">
-        3 adulti · <strong>27 agosto → 3 settembre 2026</strong> (date congelate · voli già fatti) ·
-        budget casa+auto <strong>€500–650</strong> · solo auto · spese su Splitwise.
-        Per ogni zona: parametri completi per decidere.
+        3 adulti · arrivo a Corfù <strong>27 agosto 2026</strong> · una notte a Corfù ·
+        trasferimento a <strong>Ksamil (Xamil) il 28 agosto</strong>. Qui ci sono sia il passaggio sia le vecchie scelte Corfù.
       </p>
 
       <div class="pill-row">
@@ -338,7 +369,7 @@
         <span class="pill"><span class="dot car"></span> Noleggio auto</span>
       </div>
 
-      <div class="callout">
+      <div class="callout" id="corfu-budget">
         <strong>Budget gruppo: casa + auto €500–650</strong>
         <p>
           Mirate a case ≤ ~€520 + auto economy 5 posti ~€144–200.
@@ -349,7 +380,8 @@
       </div>
 
       <div class="filters" id="filters">
-        <button type="button" data-filter="all" class="active">Case</button>
+        <button type="button" data-filter="ksamil" class="active">Ksamil · 28 ago</button>
+        <button type="button" data-filter="all">Case</button>
         <button type="button" data-filter="cars">Noleggi auto</button>
         <button type="button" data-filter="cheap">Case economiche</button>
         <button type="button" data-filter="best">Case consigliate</button>
@@ -357,24 +389,26 @@
         <button type="button" data-filter="pois">Mete / attrazioni</button>
       </div>
       <div id="pois-panel" style="display:none"></div>
+      <div id="ksamil-panel" style="display:none"></div>
 
       <div id="cars-panel" class="hidden-panel" style="display:none"></div>
       <div id="zones"></div>
 
-      <h3 class="section-title">Ordine di approfondimento</h3>
-      <div class="next-box">
-        <ol>
-          <li><strong>Messonghi</strong> — 1ª per budget casa+auto €500–650.</li>
-          <li><strong>Moraitika</strong> — solo con casa ≤ €520.</li>
-          <li><strong>Lefkimmi / inland</strong> — risparmio estremo, più guida.</li>
-          <li>Ogni spesa comune → <strong>Splitwise</strong>. Dossier completo: <a href="index.html">index.html</a>.</li>
-        </ol>
+      <div id="corfu-decision">
+        <h3 class="section-title">Ordine di approfondimento</h3>
+        <div class="next-box">
+          <ol>
+            <li><strong>Messonghi</strong> — 1ª per budget casa+auto €500–650.</li>
+            <li><strong>Moraitika</strong> — solo con casa ≤ €520.</li>
+            <li><strong>Lefkimmi / inland</strong> — risparmio estremo, più guida.</li>
+            <li>Ogni spesa comune → <strong>Splitwise</strong>. Dossier completo: <a href="index.html">index.html</a>.</li>
+          </ol>
+        </div>
       </div>
 
       <p class="footnote">
-        Case: Booking.com 24/07/2026 · Auto: Kayak.it 24/07/2026 · date 27/08–03/09/2026.
-        I prezzi auto “da €144” sono il totale settimana più basso visto (spesso senza assicurazione full / con cauzione alta):
-        leggete bene cosa include prima di prenotare. Per 3 persone + bagagli evitate le mini da 2 posti.
+        Ksamil: verifica fatta il 25/07/2026. Orari e disponibilità possono cambiare: prima di pagare, controllate il pulsante della compagnia.
+        Per la macchina in Albania controllate sempre deposito, copertura danni, bagagli e che il ritiro sia davvero “Saranda Port”.
       </p>
     </aside>
     <div id="map" role="application" aria-label="Mappa interattiva di Corfù"></div>
@@ -793,6 +827,31 @@
         </div>
       `);
 
+    // Percorso richiesto: la barca arriva a Saranda, poi gli ultimi 17 km sono su strada.
+    const ksamilStops = {
+      corfuPort: { name: "Porto nuovo di Corfù", lat: 39.6354, lng: 19.9057, note: "Arrivo consigliato: un'ora prima per controlli e documento." },
+      sarandaPort: { name: "Porto di Saranda", lat: 39.8746, lng: 20.0048, note: "Qui finisce la barca; taxi, furgon e auto partono da questa zona." },
+      ksamil: { name: "Ksamil (Xamil)", lat: 39.7688, lng: 20.0014, note: "Arrivo finale: 17 km dal porto di Saranda." }
+    };
+    const ksamilIcon = L.divIcon({
+      className: "",
+      html: '<div class="poi-marker-icon">↗</div>',
+      iconSize: [26, 26],
+      iconAnchor: [13, 13]
+    });
+    const ksamilMarkers = {};
+    Object.entries(ksamilStops).forEach(([id, stop]) => {
+      const marker = L.marker([stop.lat, stop.lng], { icon: ksamilIcon }).addTo(map);
+      marker.bindPopup(`<div class="popup-title">${stop.name}</div><div class="popup-deal">${stop.note}</div>`);
+      ksamilMarkers[id] = marker;
+    });
+    L.polyline([
+      [ksamilStops.corfuPort.lat, ksamilStops.corfuPort.lng],
+      [ksamilStops.sarandaPort.lat, ksamilStops.sarandaPort.lng],
+      [ksamilStops.ksamil.lat, ksamilStops.ksamil.lng]
+    ], { color: "#1f6f8b", weight: 3, dashArray: "7 6", opacity: .85 }).addTo(map)
+      .bindTooltip("Corfù → Saranda → Ksamil", { sticky: true });
+
     L.polygon([
       [39.56, 19.90], [39.52, 19.90], [39.45, 19.92], [39.45, 19.96], [39.56, 19.94]
     ], { color: "#2f7d4a", weight: 1, fillColor: "#2f7d4a", fillOpacity: 0.08 }).addTo(map)
@@ -800,10 +859,16 @@
 
     const list = document.getElementById("zones");
     const carsPanel = document.getElementById("cars-panel");
+    const ksamilPanel = document.getElementById("ksamil-panel");
+    const corfuBudget = document.getElementById("corfu-budget");
+    const corfuDecision = document.getElementById("corfu-decision");
 
     function renderCars() {
       list.style.display = "none";
       carsPanel.style.display = "block";
+      if (ksamilPanel) ksamilPanel.style.display = "none";
+      if (corfuBudget) corfuBudget.style.display = "block";
+      if (corfuDecision) corfuDecision.style.display = "block";
       carsPanel.innerHTML = `
         <div class="callout">
           <strong>Noleggi auto · 27 ago → 3 set · ritiro CFU</strong>
@@ -861,6 +926,9 @@
     function renderPois() {
       list.style.display = "none";
       carsPanel.style.display = "none";
+      if (ksamilPanel) ksamilPanel.style.display = "none";
+      if (corfuBudget) corfuBudget.style.display = "block";
+      if (corfuDecision) corfuDecision.style.display = "block";
       if (poisPanel) poisPanel.style.display = "block";
       if (!poisPanel) return;
       poisPanel.innerHTML = `
@@ -887,7 +955,89 @@
       });
     }
 
+    function renderKsamil() {
+      list.style.display = "none";
+      carsPanel.style.display = "none";
+      if (poisPanel) poisPanel.style.display = "none";
+      if (!ksamilPanel) return;
+      ksamilPanel.style.display = "block";
+      if (corfuBudget) corfuBudget.style.display = "none";
+      if (corfuDecision) corfuDecision.style.display = "none";
+      ksamilPanel.innerHTML = `
+        <div class="callout">
+          <strong>Scelta consigliata · venerdì 28 agosto</strong>
+          <p><strong>Ionian Seaways 08:45 → 09:15</strong>, poi taxi dal porto di Saranda a Ksamil. Per tre: <strong>€67–70 totali</strong> stimati (barca €57 + taxi €10–13 per tutta l’auto). È il miglior equilibrio tra prezzo, semplicità e arrivo presto.</p>
+        </div>
+
+        <div class="trip-steps">
+          <div class="trip-step"><strong>07:45 · Corfù</strong>Porto Nuovo. Arrivate un’ora prima: controlli e documento.</div>
+          <div class="trip-step"><strong>08:45 → 09:15</strong>Barca per Saranda. La rotta non arriva direttamente a Ksamil.</div>
+          <div class="trip-step"><strong>~09:30 → 10:00</strong>Taxi 17 km fino a Ksamil; con traffico estivo calcolate qualcosa in più.</div>
+        </div>
+
+        <div class="trip-warning"><strong>Macchina da Corfù: no.</strong> Le auto a noleggio prese a Corfù non sono ammesse verso l’Albania. Se vi serve una macchina a Ksamil, prendetela <strong>al porto di Saranda</strong> appena sbarcati.</div>
+
+        <h3 class="section-title">Tutte le scelte, già calcolate per 3</h3>
+        <div class="deals">
+          <a class="deal" href="https://tickets.ionianseaways.com/" target="_blank" rel="noopener">
+            <div class="deal-name">★ Miglior rapporto qualità/prezzo · barca + taxi</div>
+            <div class="deal-price">€67–70 totali</div>
+            <div class="deal-sub">Ionian Seaways: 3 adulti × €19 = €57 · taxi Saranda → Ksamil €10–13 per tutta l’auto · 30 min di barca + 25–30 min di taxi.</div>
+            <div class="deal-cta">Apri Ionian Seaways e prenota →</div>
+          </a>
+          <a class="deal" href="https://tickets.ionianseaways.com/" target="_blank" rel="noopener">
+            <div class="deal-name">Più economica · barca + furgon condiviso</div>
+            <div class="deal-price">da €61,50 totali</div>
+            <div class="deal-sub">Stessa barca €57 + furgon €1,50 a testa. Parte circa ogni 30 min dall’area del porto: economico, ma può essere pieno e dovete aspettare.</div>
+            <div class="deal-cta">Prenota la barca · il furgon si paga sul posto →</div>
+          </a>
+          <a class="deal" href="https://tickets.ionianseaways.com/" target="_blank" rel="noopener">
+            <div class="deal-name">Zero pensieri · barca + autista già prenotato</div>
+            <div class="deal-price mid">€72–82 totali</div>
+            <div class="deal-sub">Barca €57 + trasferimento privato €15–25. Conviene se avete molti bagagli o non volete cercare un taxi appena usciti dal porto.</div>
+            <div class="deal-cta">Chiedete il trasferimento al vostro alloggio di Ksamil →</div>
+          </a>
+          <a class="deal" href="https://www.discovercars.com/albania/saranda/saranda-port" target="_blank" rel="noopener">
+            <div class="deal-name">Con macchina per il viaggio in Albania</div>
+            <div class="deal-price mid">da €97 il primo giorno · €297–363 per 6 giorni</div>
+            <div class="deal-sub">Barca €57 + auto presa al porto di Saranda. Riferimento di mercato: auto piccola da €40/giorno, mediana €51/giorno; per 28 ago → 3 set fa €240–306 di auto. Esclusi benzina, deposito e copertura danni.</div>
+            <div class="deal-cta">Confronta auto con ritiro “Saranda Port” →</div>
+          </a>
+        </div>
+
+        <h3 class="section-title">Battelli da confrontare</h3>
+        <div class="deals">
+          <a class="deal" href="https://tickets.ionianseaways.com/" target="_blank" rel="noopener">
+            <div class="deal-name">Ionian Seaways · scelta principale</div>
+            <div class="deal-price">€19/adulto · €57 in tre</div>
+            <div class="deal-sub">Orario estivo pubblicato: 08:45 → 09:15, 09:15 → 10:20, 11:30 → 12:00, 13:00 → 14:05, 16:30 → 17:00, 19:15 → 20:20. Prenotate la corsa delle 08:45.</div>
+            <div class="deal-cta">Vedi disponibilità reale →</div>
+          </a>
+          <a class="deal" href="https://www.ferries.gr/en/ferry-companies/finikas-lines/route/corfu-saranda/" target="_blank" rel="noopener">
+            <div class="deal-name">Finikas Lines · alternativa diretta</div>
+            <div class="deal-price mid">€22 nave / €24 aliscafo per adulto</div>
+            <div class="deal-sub">In alta stagione: €66–72 in tre, sola barca. Ha più corse giornaliere; usatela se Ionian non ha posto o l’orario vi è più comodo.</div>
+            <div class="deal-cta">Vedi orari e prezzo →</div>
+          </a>
+          <a class="deal" href="https://www.directferries.com/corfu_saranda_ferry.htm" target="_blank" rel="noopener">
+            <div class="deal-name">Albania Luxury Ferries · terza alternativa</div>
+            <div class="deal-price mid">3 corse/giorno · circa 30 min</div>
+            <div class="deal-sub">È attiva sulla stessa rotta. Controllate il prezzo della data precisa prima di pagare: orari e barche possono cambiare.</div>
+            <div class="deal-cta">Confronta tutte e tre le compagnie →</div>
+          </a>
+        </div>
+
+        <p class="trip-sources">Verificato il 25/07/2026: <a href="https://ionianseaways.com/timetable/" target="_blank" rel="noopener">Ionian Seaways</a> (orari e divieto per auto a noleggio), <a href="https://www.ferries.gr/en/ferry-companies/ionian-seaways/route/corfu-saranda/" target="_blank" rel="noopener">orari/prezzo Ionian</a>, <a href="https://www.ferries.gr/en/ferry-companies/finikas-lines/route/corfu-saranda/" target="_blank" rel="noopener">Finikas</a>, <a href="https://stayalbanianriviera.com/guides/saranda-to-ksamil-transport-guide" target="_blank" rel="noopener">taxi e furgon</a>, <a href="https://www.discovercars.com/albania/saranda/saranda-port" target="_blank" rel="noopener">auto al porto</a>. Prezzi e disponibilità cambiano: fate il controllo finale nei pulsanti prima di pagare.</p>
+      `;
+      ksamilMarkers.ksamil?.openPopup();
+      map.flyTo([39.74, 19.96], 10, { duration: 0.7 });
+    }
+
     function renderList(filter) {
+      if (filter === "ksamil") {
+        renderKsamil();
+        return;
+      }
       if (filter === "cars") {
         if (poisPanel) poisPanel.style.display = "none";
         renderCars();
@@ -898,8 +1048,11 @@
         return;
       }
       if (poisPanel) poisPanel.style.display = "none";
+      if (ksamilPanel) ksamilPanel.style.display = "none";
       carsPanel.style.display = "none";
       list.style.display = "block";
+      if (corfuBudget) corfuBudget.style.display = "block";
+      if (corfuDecision) corfuDecision.style.display = "block";
       list.innerHTML = "";
       const sorted = [...zones].sort((a, b) => a.deals[0].total - b.deals[0].total);
       sorted.forEach((z) => {
@@ -1004,6 +1157,11 @@
         renderList("cars");
         return;
       }
+      if (kind === "ksamil" || raw === "ksamil") {
+        document.querySelectorAll("#filters button").forEach((b) => b.classList.toggle("active", b.dataset.filter === "ksamil"));
+        renderList("ksamil");
+        return;
+      }
       if (kind === "pois" || raw === "pois") {
         document.querySelectorAll("#filters button").forEach((b) => b.classList.toggle("active", b.dataset.filter === "pois"));
         renderList("pois");
@@ -1029,7 +1187,7 @@
     }
     window.addEventListener("hashchange", focusFromHash);
 
-    renderList("all");
+    renderList("ksamil");
     setTimeout(focusFromHash, 350);
   </script>
 
