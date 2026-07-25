@@ -563,6 +563,10 @@
     .prima-notte-actions a { color:var(--sea); font-weight:800; font-size:.78rem; }
     .prima-notte-pin { display:flex; align-items:center; justify-content:center; width:31px; height:31px; border:3px solid #fff; border-radius:50%; background:#0f766e; color:#fff; font:800 12px/1 system-ui,sans-serif; box-shadow:0 2px 9px rgba(0,0,0,.34); }
 
+
+    .prima-notte-centro { display:flex; align-items:center; justify-content:center; width:38px; height:38px; border:3px solid #fff; border-radius:50%; background:#c78317; color:#fff; font:800 16px/1 system-ui,sans-serif; box-shadow:0 2px 10px rgba(0,0,0,.4); }
+    .leaflet-tooltip.prima-notte-centro-label { border:1px solid #9b6815; border-radius:8px; background:#fffdf8; color:#513600; box-shadow:0 2px 8px rgba(0,0,0,.2); font:800 12px/1.25 system-ui,sans-serif; padding:5px 7px; }
+
   </style>
 </head>
 <body>
@@ -1839,13 +1843,20 @@
       panel.querySelectorAll(".prima-notte-card").forEach(x=>x.classList.toggle("active",x.dataset.primaId===id));
       pins[id].openPopup(); if(pan) map.flyTo([h.lat,h.lng],16,{duration:.55});
     }
-    panel.innerHTML='<div class="prima-notte-head"><strong>Corfù · prima notte · 27 → 28 agosto · 3 adulti</strong><br>Questi 10 puntini usano le coordinate della struttura trovata su Google Maps: non sono messi “vicino alla zona”. Apri <strong>Punto esatto</strong> per controllare ogni posizione.</div><div class="prima-notte-grid">'+FIRST_NIGHT.map((h,i)=>'<article class="prima-notte-card" data-prima-id="'+h.id+'"><div class="prima-notte-card-top"><span class="prima-notte-number">'+(i+1)+'</span><span class="prima-notte-name">'+h.name+'</span><span class="prima-notte-tag">'+h.tag+'</span></div><div class="prima-notte-price">€'+h.price+' totali · una notte</div><div class="prima-notte-meta">3 adulti · voto '+h.score+' · '+h.place+'</div><div class="prima-notte-meta">coordinate '+h.lat.toFixed(6)+', '+h.lng.toFixed(6)+'</div><div class="prima-notte-note">'+h.note+'</div><div class="prima-notte-actions"><a href="'+mapUrl(h)+'" target="_blank" rel="noopener" onclick="event.stopPropagation()">Punto esatto →</a><a href="'+bookUrl(h)+'" target="_blank" rel="noopener" onclick="event.stopPropagation()">Booking con le date →</a></div></article>').join("")+'</div><p class="footnote">Prezzi letti il 25/07/2026: Aeroporto di Corfù · 27–28 agosto 2026 · 3 adulti · una camera. Prezzo totale, non a persona; può cambiare prima della prenotazione.</p>';
+    panel.innerHTML='<div class="prima-notte-head"><strong>Corfù · prima notte · 27 → 28 agosto · 3 adulti</strong><br>Questi 10 puntini usano le coordinate della struttura trovata su Google Maps: non sono messi “vicino alla zona”. Apri <strong>Punto esatto</strong> per controllare ogni posizione. La stella gialla fissa indica il <strong>CENTRO DI CORFÙ · Spianada / Liston</strong>.</div><div class="prima-notte-grid">'+FIRST_NIGHT.map((h,i)=>'<article class="prima-notte-card" data-prima-id="'+h.id+'"><div class="prima-notte-card-top"><span class="prima-notte-number">'+(i+1)+'</span><span class="prima-notte-name">'+h.name+'</span><span class="prima-notte-tag">'+h.tag+'</span></div><div class="prima-notte-price">€'+h.price+' totali · una notte</div><div class="prima-notte-meta">3 adulti · voto '+h.score+' · '+h.place+'</div><div class="prima-notte-meta">coordinate '+h.lat.toFixed(6)+', '+h.lng.toFixed(6)+'</div><div class="prima-notte-note">'+h.note+'</div><div class="prima-notte-actions"><a href="'+mapUrl(h)+'" target="_blank" rel="noopener" onclick="event.stopPropagation()">Punto esatto →</a><a href="'+bookUrl(h)+'" target="_blank" rel="noopener" onclick="event.stopPropagation()">Booking con le date →</a></div></article>').join("")+'</div><p class="footnote">Prezzi letti il 25/07/2026: Aeroporto di Corfù · 27–28 agosto 2026 · 3 adulti · una camera. Prezzo totale, non a persona; può cambiare prima della prenotazione.</p>';
     panel.querySelectorAll("[data-prima-id]").forEach(card=>card.addEventListener("click",()=>select(card.dataset.primaId,true)));
     FIRST_NIGHT.forEach((h,i)=>{
       const icon=L.divIcon({className:"",html:'<div class="prima-notte-pin">'+(i+1)+'</div>',iconSize:[31,31],iconAnchor:[15,15],popupAnchor:[0,-15]});
       const m=L.marker([h.lat,h.lng],{icon}).bindPopup('<div class="popup-title">#'+(i+1)+' · '+h.name+'</div><div class="popup-deal"><strong>€'+h.price+' totali · una notte · 3 adulti</strong><br>Voto '+h.score+' · '+h.place+'<br><a href="'+mapUrl(h)+'" target="_blank" rel="noopener">Punto esatto →</a> · <a href="'+bookUrl(h)+'" target="_blank" rel="noopener">Booking →</a></div>');
       m.bindTooltip('#'+(i+1)+' · €'+h.price,{direction:"top",offset:[0,-18]}); m.on("click",()=>select(h.id,false)); m.addTo(layer); pins[h.id]=m;
     });
+
+    const CENTRO_CORFU = {lat:39.624760,lng:19.924874};
+    const centroIcon=L.divIcon({className:"",html:'<div class="prima-notte-centro">★</div>',iconSize:[38,38],iconAnchor:[19,19],popupAnchor:[0,-19]});
+    L.marker([CENTRO_CORFU.lat,CENTRO_CORFU.lng],{icon:centroIcon}).addTo(map)
+      .bindPopup('<div class="popup-title">Centro di Corfù</div><div class="popup-deal">Spianada / Liston · punto fisso per orientarsi tra aeroporto, città e Perama.<br><a href="https://www.google.com/maps/search/?api=1&query=39.624760,19.924874" target="_blank" rel="noopener">Apri il centro sulla mappa →</a></div>')
+      .bindTooltip("CENTRO DI CORFÙ · Spianada / Liston",{permanent:true,direction:"top",className:"prima-notte-centro-label",offset:[0,-20]});
+
     window.hidePrimaNotte=()=>{panel.style.display="none";map.removeLayer(layer);};
     window.renderPrimaNotte=()=>{
       list.style.display="none"; carsPanel.style.display="none"; if(poisPanel)poisPanel.style.display="none"; if(ksamilPanel)ksamilPanel.style.display="none"; if(alloggiPanel)alloggiPanel.style.display="none"; if(typeof nascondiMarcatoriAlloggi==="function")nascondiMarcatoriAlloggi(); if(typeof stayLayer!=="undefined")map.removeLayer(stayLayer); if(corfuBudget)corfuBudget.style.display="none"; if(corfuDecision)corfuDecision.style.display="none";
