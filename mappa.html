@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   
-  <meta name="description" content="Corfù e Ksamil 2026: mappa, viaggio e 50 alloggi verificati per 1–3 settembre, 3 adulti." />
-  <meta property="og:title" content="Corfù · 50 alloggi per 1–3 settembre 2026" />
-  <meta property="og:description" content="Mappa della costa est/nord-est, foto, prezzi per 3 adulti e link diretti agli alloggi." />
+  <meta name="description" content="Corfù e Saranda 2026: 50 alloggi a Corfù per 1–3 settembre e 40 appartamenti a Saranda per 28 agosto–1 settembre, per 3 adulti." />
+  <meta property="og:title" content="Corfù e Saranda · alloggi 2026" />
+  <meta property="og:description" content="Mappe, foto, prezzi e collegamenti diretti agli alloggi per 3 adulti." />
   <meta property="og:type" content="website" />
   <meta name="theme-color" content="#1f6f8b" />
   <link rel="canonical" id="canonical-link" href="" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Corfù · 50 alloggi per 1–3 settembre 2026 — foto, prezzi e mappa</title>
+  <title>Corfù e Saranda · alloggi 2026 — foto, prezzi e mappa</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
@@ -85,17 +85,31 @@
     .dot.stay { background: #d55328; }
 
     .car-marker-icon {
+      position: relative;
       background: #6b3fa0;
       color: #fff;
       border: 2px solid #fff;
       border-radius: 50%;
-      width: 28px;
-      height: 28px;
+      width: 34px;
+      height: 34px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 14px;
       box-shadow: 0 2px 8px rgba(0,0,0,.25);
+    }
+    .car-marker-icon span {
+      position: absolute;
+      right: -8px;
+      bottom: -8px;
+      min-width: 18px;
+      padding: 1px 4px;
+      border: 2px solid #fff;
+      border-radius: 999px;
+      background: var(--ink);
+      color: #fff;
+      font: 700 10px/1.3 system-ui, sans-serif;
+      text-align: center;
     }
     .stay-marker-icon {
       position: relative;
@@ -239,6 +253,17 @@
       font-weight: 700;
       color: var(--sea);
     }
+    .map-link {
+      border: 0;
+      padding: 0;
+      background: transparent;
+      color: var(--sea);
+      font: inherit;
+      font-weight: 700;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      cursor: pointer;
+    }
     .stay-area {
       margin: 18px 0 24px;
     }
@@ -351,6 +376,36 @@
       margin-bottom: 12px;
     }
     .car-box li, .next-box li { margin-bottom: 6px; }
+    .trip-table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+      margin: 8px 0 12px;
+    }
+    .trip-table {
+      width: 100%;
+      min-width: 690px;
+      border-collapse: collapse;
+      font-size: .8rem;
+    }
+    .trip-table th, .trip-table td {
+      padding: 9px 10px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+    .trip-table th {
+      background: #eef7fa;
+      color: var(--ink);
+      font-size: .73rem;
+      text-transform: uppercase;
+      letter-spacing: .03em;
+    }
+    .trip-table tr:last-child td { border-bottom: 0; }
+    .trip-table a { color: var(--sea); font-weight: 800; }
+    .trip-table .confirmed { color: var(--cheap); font-weight: 800; }
+    .trip-table .indicative { color: var(--mid); font-weight: 800; }
     .footnote {
       font-size: 0.76rem;
       color: var(--muted);
@@ -477,6 +532,16 @@
     .stay-actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:7px; }
     .stay-actions a { color:var(--sea); font-size:.78rem; font-weight:800; }
     .stay-pin { background:#1f6f8b; color:#fff; border:2px solid #fff; border-radius:50%; width:28px; height:28px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:11px; box-shadow:0 2px 8px rgba(0,0,0,.28); }
+    .stay-table-wrap { overflow-x:auto; border:1px solid var(--line); border-radius:14px; background:#fffdf8; }
+    .stay-table { width:100%; min-width:760px; border-collapse:collapse; font-size:.8rem; }
+    .stay-table th { text-align:left; color:var(--muted); font-size:.71rem; letter-spacing:.03em; text-transform:uppercase; background:#f7f2e8; padding:9px 8px; }
+    .stay-table td { vertical-align:middle; padding:8px; border-top:1px solid var(--line); line-height:1.3; }
+    .stay-row { cursor:pointer; }
+    .stay-row:hover,.stay-row.active { background:#eef7f8; }
+    .stay-table img { display:block; width:58px; height:48px; object-fit:cover; border-radius:8px; background:#d7e0e6; }
+    .stay-table a { color:var(--sea); font-weight:800; }
+    .premium-stay { display:grid; grid-template-columns:90px minmax(0,1fr); gap:10px; padding:10px; margin-top:12px; border:1px solid #d9c28c; border-radius:14px; background:#fff9ea; }
+    .premium-stay img { width:90px; height:74px; object-fit:cover; border-radius:9px; }
     @media(max-width:430px){ .stay-card{grid-template-columns:72px minmax(0,1fr);gap:8px}.stay-card img{width:72px;height:105px} }
 
   </style>
@@ -486,7 +551,7 @@
     <a class="back" href="index.html">← Torna al dossier</a>
     <div class="hint">
       <strong>Mappa di supporto alle scelte.</strong>
-      Scegli “Alloggi 1 set” per vedere sulla mappa 50 case con foto, prezzi e link diretti. Il pulsante Ksamil conserva viaggio e costi.
+      Apri “Alloggi Corfù · 1–3 set” per 50 case di rientro con foto, prezzi e collegamento diretto; “Saranda · 28 ago → 1 set” conserva i 40 appartamenti dell'andata.
     </div>
   </div>
   <div class="app">
@@ -517,9 +582,9 @@
       </div>
 
       <div class="filters" id="filters">
-        <button type="button" data-filter="alloggi-31-agosto" class="active">Alloggi Corfù · 1 set</button>
-        <button type="button" data-filter="stays">Alloggi Xamil · 28–31 ago</button>
-        <button type="button" data-filter="ksamil">Ksamil · 28 ago</button>
+        <button type="button" data-filter="alloggi-31-agosto" class="active">Alloggi Corfù · 1–3 set</button>
+        <button type="button" data-filter="saranda">Saranda · 28 ago → 1 set</button>
+        <button type="button" data-filter="ksamil">Tragitto per Ksamil</button>
         <button type="button" data-filter="all">Case</button>
         <button type="button" data-filter="cars">Noleggi auto</button>
         <button type="button" data-filter="cheap">Case economiche</button>
@@ -806,103 +871,65 @@
 
     const airport = { lat: 39.6019, lng: 19.9117, name: "Aeroporto Corfù (CFU)" };
     const tierColor = { cheap: "#2f7d4a", mid: "#b7791f", pricey: "#b42318", scenic: "#1d4e89" };
-    const KAYAK_CARS = "https://www.kayak.it/cars/CFU-a1200/CFU-a1200/2026-08-27/2026-09-03/?sort=price_a";
-    const DISCOVER_CARS = "https://www.discovercars.com/greece/corfu/cfu?date_from=2026-08-27&time_from=12%3A00&date_to=2026-09-03&time_to=12%3A00&age=35";
-
-    // Punti ritiro + offerte reali Kayak 27/08–03/09/2026 (letti oggi)
+    // Quattro punti di ritiro reali: più agenzie nello stesso posto condividono il segnaposto, senza inventare indirizzi diversi.
     const carSpots = [
       {
-        id: "car-airport-desk",
-        name: "Aeroporto · banconi in arrivi",
+        id: "car-terminal",
+        name: "Aeroporto · Arrivi",
         lat: 39.6019, lng: 19.9117,
-        how: "Dentro il terminal (Arrivi). Niente navetta.",
-        companies: "Avis, Hertz, Budget, Enterprise / National, Sixt e altri grandi",
-        note: "Solitamente più comodi; a volte un filo più cari dei locali con navetta."
+        exact: "Dentro gli Arrivi oppure incontro immediatamente fuori dal terminal.",
+        mapQuery: "Corfu International Airport Arrivals",
+        note: "È lo stesso punto fisico per i banconi e per le consegne al terminal."
       },
       {
-        id: "car-airport-shuttle",
-        name: "Aeroporto · navetta / deposito vicino",
-        lat: 39.5985, lng: 19.9065,
-        how: "Uscite, prendete la navetta gratuita del noleggiatore (pochi minuti).",
-        companies: "Green Motion, Autounion, Centauro, Surprice e vari locali",
-        note: "Qui spesso i prezzi più bassi. Controllate tempo di attesa (a volte 15–40 min)."
+        id: "car-kosta",
+        name: "Kosta Georgaki 31",
+        lat: 39.6116345, lng: 19.9071609,
+        exact: "Kosta Georgaki 31, Corfù · circa 300 metri dagli Arrivi.",
+        mapQuery: "Kosta Georgaki 31, Corfu",
+        note: "UNO, Volta4u ed Europcar: controllate se vi aspettano oppure se dovete camminare."
       },
       {
-        id: "car-airport-meet",
-        name: "Aeroporto · incontro in arrivi",
-        lat: 39.6050, lng: 19.9155,
-        how: "Qualcuno vi aspetta in arrivi con cartello e vi porta all’auto.",
-        companies: "Molti broker / agenzie locali (Meet & Greet)",
-        note: "Comodo se il volo è in ritardo — chiedete se l’orario è coperto."
+        id: "car-eptanisou",
+        name: "Leoforos Eptanisou 8",
+        lat: 39.61299, lng: 19.9077,
+        exact: "Leoforos Eptanisou 8, Corfù · ufficio AutoRent.",
+        mapQuery: "Leoforos Eptanisou 8, Corfu",
+        note: "AutoRent indica una navetta gratuita dall’aeroporto."
       },
       {
-        id: "car-port",
-        name: "Porto di Corfù",
-        lat: 39.6275, lng: 19.9035,
-        how: "Utile se arrivate in traghetto, non in aereo.",
-        companies: "Avis e alcune agenzie in zona porto",
-        note: "Per voi (aereo) meglio ritiro CFU."
-      },
-      {
-        id: "car-gouvia",
-        name: "Gouvia / Kontokali (secondario)",
-        lat: 39.651, lng: 19.848,
-        how: "Alcune agenzie locali consegnano vicino alla marina.",
-        companies: "Locali / consegna hotel",
-        note: "Ha senso solo se dormite già lì e non volete guidare dall’aereo."
+        id: "car-riga",
+        name: "Riga Feraiou 21",
+        lat: 39.6139078, lng: 19.910942,
+        exact: "Riga Feraiou 21, Corfu Airport 49100 · uffici Driveaway e Fair Deal.",
+        mapQuery: "21 Riga Feraiou, Corfu",
+        note: "Ritiro vicino all’aeroporto: seguite l’orario confermato dall’agenzia."
       }
     ];
 
+    // Prezzi di partenza pubblicati dalle agenzie. Il totale reale appare dopo avere inserito le date.
     const carOffers = [
-      {
-        name: "Skoda Citigo (o simile) · Economy",
-        total: 144, day: 21, seats: 4, bags: "2",
-        pickup: "Navetta aeroporto", score: "7,8",
-        via: "bsp-auto / Kayak", warn: "Prezzo aggressivo: controllate cauzione e assicurazione.",
-        okFor3: true
-      },
-      {
-        name: "Fiat 500 (o simile) · Piccola",
-        total: 154, day: 22, seats: 2, bags: "1",
-        pickup: "Navetta aeroporto", score: "9,4",
-        via: "Booking.com Cars", warn: "Solo 2 posti — NO per voi tre.",
-        okFor3: false
-      },
-      {
-        name: "Economy / Piccola 5 posti",
-        total: 192, day: 27, seats: 5, bags: "2",
-        pickup: "Navetta aeroporto", score: "9,0",
-        via: "bsp-auto / EconomyBookings", warn: "Buon equilibrio prezzo/posti per 3 adulti.",
-        okFor3: true
-      },
-      {
-        name: "Economy automatica (o simile)",
-        total: 194, day: 28, seats: 4, bags: "2",
-        pickup: "Navetta aeroporto", score: "7,2",
-        via: "bsp-auto", warn: "Se preferite cambio automatico.",
-        okFor3: true
-      },
-      {
-        name: "Kia XCeed (o simile) · Media",
-        total: 759, day: 108, seats: 5, bags: "3–4",
-        pickup: "CFU (DiscoverCars)", score: "—",
-        via: "DiscoverCars", warn: "Più spazio bagagli · prezzo alto stagione.",
-        okFor3: true
-      },
-      {
-        name: "Suzuki Vitara (o simile) · SUV",
-        total: 768, day: 110, seats: 5, bags: "3–4",
-        pickup: "CFU (DiscoverCars)", score: "—",
-        via: "DiscoverCars", warn: "Comoda sulle strade di montagna.",
-        okFor3: true
-      },
-      {
-        name: "Renault Clio (o simile) · Compatta",
-        total: 886, day: 127, seats: 5, bags: "2–3",
-        pickup: "CFU (DiscoverCars)", score: "—",
-        via: "DiscoverCars", warn: "Compatta “comoda”, non il prezzo più basso.",
-        okFor3: true
-      }
+      { agency:"Vidos Cars", spot:"car-terminal", car:"Peugeot 108, Hyundai i10, Kia Rio", price:"da €14,30/giorno", card:"Niente carta e niente deposito dichiarati", url:"https://vidoscars.com/", where:"Consegna gratuita agli Arrivi", booking:"Ritiro e riconsegna: Corfu Airport · date del viaggio · scegli 5 posti" },
+      { agency:"Value Plus", spot:"car-terminal", car:"Fiat 500 Hybrid, Panda, Skoda Fabia automatica", price:"da €37,87/giorno", card:"Senza carta con protezione Gold", url:"https://corfucarrentals.com/", where:"Consegna e ritiro gratuiti agli Arrivi", booking:"Corfu Airport · date del viaggio · piano Gold se non avete carta" },
+      { agency:"First Corfu", spot:"car-terminal", car:"Fiat Panda o Toyota Aygo · 5 posti", price:"da €11/giorno", card:"Nessun deposito dichiarato", url:"https://firstcorfu.com/corfu-airport-car-rental/", where:"Ufficio a 300 m; navetta o incontro agli Arrivi", booking:"Airport (Office) · date del viaggio · 3 adulti · 5 posti" },
+      { agency:"Auto Corfu", spot:"car-terminal", car:"VW Up, Kia Picanto, Hyundai i10, Fiat Panda", price:"prezzo dopo le date", card:"Senza carta con protezione UltraFull", url:"https://autocorfu.com/en/", where:"Consegna al terminal o al vostro hotel", booking:"Corfu Airport · date del viaggio · scelta protezione UltraFull" },
+      { agency:"Ansa Car Rental", spot:"car-terminal", car:"Suzuki Celerio, VW Polo, Fiat Tipo", price:"da €30/giorno", card:"Da chiedere prima di pagare", url:"https://ansacorfu.gr/", where:"Consegna gratuita all’aeroporto", booking:"Corfu Airport · date del viaggio · auto 5 posti" },
+      { agency:"Corfu Auto Rent", spot:"car-terminal", car:"Hyundai i10, Hyundai i20", price:"da €14,90/giorno", card:"Niente carta e niente deposito dichiarati", url:"https://www.corfuautorent.com/", where:"Consegna e ritiro in aeroporto", booking:"Corfu Airport · date del viaggio · categoria economy" },
+      { agency:"RentCorfu", spot:"car-terminal", car:"Piccola, economy e famiglia", price:"prezzo dopo le date", card:"Carta di debito accettata, nessun blocco dichiarato", url:"https://rentcorfu.com/airport", where:"Punto a pochi minuti a piedi dagli Arrivi", booking:"Airport · date del viaggio · auto 5 posti" },
+      { agency:"Eurorent Economy", spot:"car-terminal", car:"Economy e famiglia", price:"prezzo dopo le date", card:"Niente carta e niente deposito dichiarati", url:"https://economycorfucarrental.com/", where:"Servizio aeroporto di Corfù", booking:"Corfu Airport · date del viaggio · categoria economy" },
+      { agency:"Go Car", spot:"car-terminal", car:"Flotta visibile dopo la scelta delle date", price:"prezzo dopo le date", card:"Da chiedere prima di pagare", url:"https://corfuairportcarhire.gr/", where:"Corfu Airport, 49100", booking:"Corfu Airport · date del viaggio · 5 posti" },
+      { agency:"Avis", spot:"car-terminal", car:"Categoria 5 posti / 2 valigie", price:"prezzo dopo le date", card:"Da controllare nel preventivo", url:"https://www.avis.gr/en/", where:"Bancone dentro gli Arrivi", booking:"Corfu Airport · date del viaggio · categoria economy 5 posti" },
+      { agency:"Budget", spot:"car-terminal", car:"Categoria 5 posti / 2 valigie", price:"prezzo dopo le date", card:"Da controllare nel preventivo", url:"https://www.budget.gr/en/", where:"Bancone dentro gli Arrivi", booking:"Corfu Airport · date del viaggio · categoria economy 5 posti" },
+      { agency:"Enterprise", spot:"car-terminal", car:"Mini, economy, compatta e famiglia", price:"prezzo dopo le date", card:"Carta del guidatore e somma bloccata", url:"https://www.enterprise.gr/en/car-hire-locations/gr/corfu-airport-lga8.html", where:"Bancone dentro gli Arrivi", booking:"Corfu Airport · date del viaggio · economy 5 posti" },
+      { agency:"Hertz", spot:"car-terminal", car:"Mini, compatta e SUV", price:"prezzo dopo le date", card:"Carta e somma di garanzia richieste", url:"https://www.hertz.gr/en/", where:"Bancone dentro gli Arrivi", booking:"Corfu Airport · date del viaggio · categoria 5 posti" },
+      { agency:"Thrifty", spot:"car-terminal", car:"Mini, compatta e famiglia", price:"prezzo dopo le date", card:"Carta e somma di garanzia da verificare", url:"https://www.thrifty.com/", where:"Bancone Hertz/Thrifty negli Arrivi", booking:"Corfu Airport · date del viaggio · categoria 5 posti" },
+      { agency:"Sixt", spot:"car-terminal", car:"Compatta, famiglia e SUV", price:"prezzo dopo le date", card:"Carta del guidatore e somma bloccata", url:"https://www.sixt.com/car-rental/greece/corfu/corfu-airport/", where:"Bancone dentro gli Arrivi", booking:"Corfu Airport · date del viaggio · categoria 5 posti" },
+      { agency:"UNO Car Hire", spot:"car-kosta", car:"Peugeot 108, Fiat Panda, Seat Arona", price:"prezzo dopo le date", card:"Carta di credito non obbligatoria", url:"https://unocorfu.com/it/", where:"Kosta Georgaki 31 · circa 300 m dagli Arrivi", booking:"Kosta Georgaki 31 · date del viaggio · categoria e valigie" },
+      { agency:"Volta4u", spot:"car-kosta", car:"Piccola, compatta e automatica", price:"prezzo dopo le date", card:"Carta da verificare prima di pagare", url:"https://www.volta4u.com/", where:"Kosta Georgaki 31", booking:"Kosta Georgaki 31 · date del viaggio · categoria auto" },
+      { agency:"Europcar", spot:"car-kosta", car:"Economy, compatta e famiglia", price:"prezzo dopo le date", card:"Carta da controllare nel preventivo", url:"https://www.europcar.com/", where:"Meet and Greet vicino a Kosta Georgaki", booking:"Corfu Airport · date del viaggio · categoria 5 posti" },
+      { agency:"AutoRent Corfu", spot:"car-eptanisou", car:"Fiat Panda, Hyundai i10, Toyota Yaris", price:"da €28,32/giorno", card:"Senza carta solo Smart o Premium", url:"https://autorentcorfu.com/", where:"Leoforos Eptanisou 8 · navetta gratuita", booking:"Corfu Airport + navetta · date del viaggio · Smart/Premium senza carta" },
+      { agency:"Driveaway Corfu", spot:"car-riga", car:"Opel Corsa, Hyundai i10 automatica, Suzuki Ignis", price:"da €14/giorno", card:"Niente carta e niente deposito dichiarati", url:"https://rentalcarcorfuairport.com/", where:"Riga Feraiou 21", booking:"Riga Feraiou 21 · date del viaggio · modello scelto" },
+      { agency:"Fair Deal", spot:"car-riga", car:"Nissan Micra automatica, 7 e 9 posti", price:"da €9/giorno", card:"Carta non necessaria per prenotare online", url:"https://corfucarsrental.com/", where:"Riga Feraiou 21", booking:"Riga Feraiou 21 · date del viaggio · categoria e bagagli" }
     ];
 
     const map = L.map("map", { scrollWheelZoom: true }).setView([39.62, 19.85], 10);
@@ -939,40 +966,59 @@
       markers[z.id] = marker;
     });
 
-    const carIcon = L.divIcon({
-      className: "",
-      html: '<div class="car-marker-icon">🚗</div>',
-      iconSize: [28, 28],
-      iconAnchor: [14, 14]
-    });
+    function offersAt(spotId) {
+      return carOffers.filter((offer) => offer.spot === spotId);
+    }
+
+    function carIconFor(count) {
+      return L.divIcon({
+        className: "",
+        html: `<div class="car-marker-icon">🚗<span>${count}</span></div>`,
+        iconSize: [34, 34],
+        iconAnchor: [17, 17]
+      });
+    }
+
+    function mapsUrl(query) {
+      return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(query);
+    }
+
+    function rentalRows(offers) {
+      return offers.map((offer) => `
+        <div style="margin-top:9px;padding-top:9px;border-top:1px solid #ddd">
+          <strong>${offer.agency}</strong><br>
+          <span style="color:#2f7d4a;font-weight:700">${offer.price}</span><br>
+          <span style="color:#5a6574">${offer.car}</span><br>
+          <span style="color:#5a6574">Carta/deposito: ${offer.card}</span><br>
+          <a href="${offer.url}" target="_blank" rel="noopener">Prenota con ${offer.agency} →</a>
+        </div>
+      `).join("");
+    }
+
+    function rentalPopup(spot) {
+      const offers = offersAt(spot.id);
+      return `
+        <div class="popup-title">${spot.name}</div>
+        <div class="popup-deal">
+          <strong>Dove:</strong> ${spot.exact}<br>
+          <a href="${mapsUrl(spot.mapQuery)}" target="_blank" rel="noopener">Apri la posizione esatta su Maps →</a>
+          ${rentalRows(offers)}
+        </div>
+      `;
+    }
 
     carSpots.forEach((c) => {
-      const m = L.marker([c.lat, c.lng], { icon: carIcon }).addTo(map);
-      m.bindPopup(`
-        <div class="popup-title">${c.name}</div>
-        <div class="popup-deal">
-          <strong>Come funziona:</strong> ${c.how}<br>
-          <strong>Chi trovate:</strong> ${c.companies}<br>
-          ${c.note}<br><br>
-          <a href="${KAYAK_CARS}" target="_blank" rel="noopener">Confronta prezzi auto (Kayak) →</a>
-        </div>
-      `);
+      const m = L.marker([c.lat, c.lng], { icon: carIconFor(offersAt(c.id).length) }).addTo(map);
+      m.bindPopup(rentalPopup(c), { maxWidth: 350 });
+      m.bindTooltip(`${offersAt(c.id).length} agenzie`, { direction: "top" });
       carMarkers[c.id] = m;
     });
 
-    L.marker([airport.lat, airport.lng]).addTo(map)
-      .bindPopup(`
-        <div class="popup-title">${airport.name}</div>
-        <div class="popup-deal">
-          Hub principale noleggi.<br>
-          Economy da <strong>~€144–200</strong> / settimana · Media/SUV spesso <strong>€750+</strong><br>
-          <a href="${KAYAK_CARS}" target="_blank" rel="noopener">Apri confronto Kayak →</a>
-        </div>
-      `);
-
-    // Percorso richiesto: la barca arriva a Saranda, poi gli ultimi 17 km sono su strada.
+    // Due percorsi reali per Ksamil: il più economico via Igoumenitsa e il più comodo via Saranda.
     const ksamilStops = {
       corfuPort: { name: "Porto nuovo di Corfù", lat: 39.6354, lng: 19.9057, note: "Arrivo consigliato: un'ora prima per controlli e documento." },
+      igoumenitsaPort: { name: "Porto di Igoumenitsa", lat: 39.5036, lng: 20.2655, note: "Sbarco della scelta più economica. Da qui si prosegue in auto verso il confine greco-albanese." },
+      mavromatiBorder: { name: "Confine Mavromati / Qafë Botë", lat: 39.664, lng: 20.18, note: "Controllo di frontiera Grecia → Albania: in agosto tenete un margine per l'attesa." },
       sarandaPort: { name: "Porto di Saranda", lat: 39.8746, lng: 20.0048, note: "Qui finisce la barca; taxi, furgon e auto partono da questa zona." },
       ksamil: { name: "Ksamil (Xamil)", lat: 39.7688, lng: 20.0014, note: "Arrivo finale: 17 km dal porto di Saranda." }
     };
@@ -993,7 +1039,14 @@
       [ksamilStops.sarandaPort.lat, ksamilStops.sarandaPort.lng],
       [ksamilStops.ksamil.lat, ksamilStops.ksamil.lng]
     ], { color: "#1f6f8b", weight: 3, dashArray: "7 6", opacity: .85 }).addTo(map)
-      .bindTooltip("Corfù → Saranda → Ksamil", { sticky: true });
+      .bindTooltip("Più comodo: Corfù → Saranda → Ksamil", { sticky: true });
+    L.polyline([
+      [ksamilStops.corfuPort.lat, ksamilStops.corfuPort.lng],
+      [ksamilStops.igoumenitsaPort.lat, ksamilStops.igoumenitsaPort.lng],
+      [ksamilStops.mavromatiBorder.lat, ksamilStops.mavromatiBorder.lng],
+      [ksamilStops.ksamil.lat, ksamilStops.ksamil.lng]
+    ], { color: "#2f7d4a", weight: 4, dashArray: "10 5", opacity: .9 }).addTo(map)
+      .bindTooltip("Più economico: Corfù → Igoumenitsa → Ksamil", { sticky: true });
 
     L.polygon([
       [39.56, 19.90], [39.52, 19.90], [39.45, 19.92], [39.45, 19.96], [39.56, 19.94]
@@ -1139,47 +1192,41 @@
       if (ksamilPanel) ksamilPanel.style.display = "none";
       if (alloggiPanel) alloggiPanel.style.display = "none";
       nascondiMarcatoriAlloggi();
-      if (corfuBudget) corfuBudget.style.display = "block";
-      if (corfuDecision) corfuDecision.style.display = "block";
+      if (corfuBudget) corfuBudget.style.display = "none";
+      if (corfuDecision) corfuDecision.style.display = "none";
       carsPanel.innerHTML = `
         <div class="callout">
-          <strong>Noleggi auto · 27 ago → 3 set · ritiro CFU</strong>
+          <strong>Noleggi auto · 21 agenzie · 4 punti reali</strong>
           <p>
-            Prezzi letti oggi su Kayak (409 offerte). Per voi tre: scegliete auto da
-            <strong>almeno 4–5 posti</strong> e controllate bagagli.
-            I pin <strong>viola</strong> sulla mappa sono i punti di ritiro.
+            Per ogni agenzia trovi <strong>dove si ritira</strong>, prezzo, auto, carta/deposito e pulsante di prenotazione.
+            Per voi: inserite <strong>ritiro e riconsegna a Corfu Airport</strong>, le date del viaggio e una categoria da <strong>5 posti</strong>.
           </p>
         </div>
         ${carSpots.map((c) => `
           <article class="zone" data-car="${c.id}">
             <div class="zone-top">
               <h2>${c.name}</h2>
-              <span class="badge" style="background:#efe6ff;color:#6b3fa0">Noleggio</span>
+              <span class="badge" style="background:#efe6ff;color:#6b3fa0">${offersAt(c.id).length} agenzie</span>
             </div>
-            <p class="meta">${c.how}</p>
-            <p class="meta"><strong>Agenzie tipiche:</strong> ${c.companies}</p>
+            <p class="meta"><strong>Dove esattamente:</strong> ${c.exact}</p>
+            <p class="meta"><a href="${mapsUrl(c.mapQuery)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Apri la posizione esatta su Maps →</a></p>
             <p class="tagline">${c.note}</p>
+            <div class="deals">
+              ${offersAt(c.id).map((offer) => `
+                <div class="deal">
+                  <div class="deal-name">${offer.agency}</div>
+                  <div class="deal-price ${offer.price.startsWith("da ") ? "" : "mid"}">${offer.price}</div>
+                  <div class="deal-sub"><strong>Auto:</strong> ${offer.car}</div>
+                  <div class="deal-sub"><strong>Ritiro:</strong> ${offer.where}</div>
+                  <div class="deal-sub"><strong>Carta/deposito:</strong> ${offer.card}</div>
+                  <div class="deal-sub"><strong>Inserisci sul sito:</strong> ${offer.booking}</div>
+                  <div class="deal-cta"><a href="${offer.url}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Prenota →</a> · <button type="button" class="map-link" data-rental-spot="${offer.spot}" data-rental-agency="${offer.agency}">Vedi sulla mappa</button></div>
+                </div>
+              `).join("")}
+            </div>
           </article>
         `).join("")}
-        <h3 class="section-title">Offerte reali trovate (totale 7 giorni)</h3>
-        <div class="deals">
-          ${carOffers.map((o) => `
-            <a class="deal" href="${KAYAK_CARS}" target="_blank" rel="noopener">
-              <div class="deal-name">${o.name}${o.okFor3 ? "" : " ⚠️"}</div>
-              <div class="deal-price ${o.total > 500 ? "high" : ""}">
-                € ${o.total.toLocaleString("it-IT")} totali · ≈ € ${o.day}/giorno
-              </div>
-              <div class="deal-sub">
-                ${o.seats} posti · bagagli ~${o.bags} · ${o.pickup}
-                ${o.score !== "—" ? " · voto " + o.score : ""} · via ${o.via}
-              </div>
-              <div class="deal-sub">${o.warn}</div>
-              <div class="deal-cta">Apri confronto e prenota →</div>
-            </a>
-          `).join("")}
-        </div>
-        <a class="search-all" href="${KAYAK_CARS}" target="_blank" rel="noopener">Kayak · tutte le auto CFU →</a><br>
-        <a class="search-all" href="${DISCOVER_CARS}" target="_blank" rel="noopener">DiscoverCars · stessa ricerca →</a>
+        <p class="footnote">Il prezzo indicato è il minimo pubblicato dall’agenzia. Prima di pagare controllate il totale, l’orario, il numero di bagagli e la carta richiesta.</p>
       `;
       carsPanel.querySelectorAll("[data-car]").forEach((el) => {
         el.addEventListener("click", () => {
@@ -1190,7 +1237,16 @@
           map.flyTo([spot.lat, spot.lng], 13, { duration: 0.7 });
         });
       });
-      map.flyTo([airport.lat, airport.lng], 12, { duration: 0.7 });
+      carsPanel.querySelectorAll("[data-rental-spot]").forEach((button) => {
+        button.addEventListener("click", (event) => {
+          event.stopPropagation();
+          const spot = carSpots.find((item) => item.id === button.dataset.rentalSpot);
+          if (!spot) return;
+          carMarkers[spot.id]?.openPopup();
+          map.flyTo([spot.lat, spot.lng], 16, { duration: 0.7 });
+        });
+      });
+      map.fitBounds(carSpots.map((spot) => [spot.lat, spot.lng]), { padding: [45, 45], maxZoom: 15 });
     }
 
     const poisPanel = document.getElementById("pois-panel");
@@ -1241,43 +1297,103 @@
       if (corfuDecision) corfuDecision.style.display = "none";
       ksamilPanel.innerHTML = `
         <div class="callout">
-          <strong>Scelta consigliata · auto privata a bordo · venerdì 28 agosto</strong>
-          <p><strong>Finikas Lines, scegliendo “Ferry Boat”</strong>: porta voi tre e la vostra auto da Corfù a Saranda. Tariffa alta stagione pubblicata: <strong>€111 solo andata</strong> (€22 × 3 persone + €45 auto). Da Saranda guidate gli ultimi 17 km fino a Ksamil.</p>
+          <strong>Scelta più economica · venerdì 28 agosto · 3 persone + auto privata</strong>
+          <p><strong>Kerkyra Lines: Corfù città → Igoumenitsa, corsa delle 06:30.</strong> Per una macchina normale sotto 4,25 m il prezzo pubblicato è <strong>€35 solo andata</strong> (€5 × 3 persone + €20 auto). Poi guidate circa 69 km fino a Ksamil. Stimando €8–11 di carburante, il trasferimento costa <strong>circa €43–46</strong>, più l'eventuale assicurazione albanese.</p>
         </div>
 
         <div class="trip-steps">
-          <div class="trip-step"><strong>1. Porto Nuovo di Corfù</strong>Arrivate almeno un’ora prima della corsa scelta: controlli su persone e auto.</div>
-          <div class="trip-step"><strong>2. Corfù → Saranda</strong>Scegliete una nave con scritto <strong>Ferry Boat</strong>, non l’aliscafo: l’auto sale solo sulla nave grande.</div>
-          <div class="trip-step"><strong>3. Saranda → Ksamil</strong>Guidate 17 km, circa 25–30 minuti più eventuale traffico estivo.</div>
+          <div class="trip-step"><strong>1. Porto Nuovo di Corfù · 06:30</strong>Arrivate almeno un'ora prima. La nave Kerkyra Lines arriva a Igoumenitsa alle 07:45.</div>
+          <div class="trip-step"><strong>2. Igoumenitsa → confine Mavromati / Qafë Botë</strong>Guidate verso nord. Il tratto completo Igoumenitsa → Ksamil è circa 69 km e richiede all'incirca un'ora e mezza, senza la possibile attesa alla frontiera.</div>
+          <div class="trip-step"><strong>3. Confine → Ksamil</strong>Entrate in Albania e proseguite fino a Ksamil. Calcolate un margine: ad agosto la frontiera può rallentare molto il viaggio.</div>
         </div>
 
-        <div class="trip-warning"><strong>Nessun battello diretto per Ksamil.</strong> Tutti arrivano a <strong>Saranda</strong>. La buona notizia è che, con la vostra auto, non vi servono taxi né furgon: sbarcate e guidate fino a Ksamil.</div>
+        <div class="trip-warning"><strong>Nessun battello di linea diretto per Ksamil.</strong> L'unico battello diretto utile con auto va a <strong>Saranda</strong>, poi sono 17 km di guida fino a Ksamil. È più comodo, ma non è la scelta meno cara.</div>
 
-        <h3 class="section-title">Classifica per voi · auto privata</h3>
+        <h3 class="section-title">Classifica per voi · prezzo e comodità</h3>
         <div class="deals">
-          <a class="deal" href="https://finikas-lines.liknoss.com/" target="_blank" rel="noopener">
-            <div class="deal-name">1. Finikas Lines · migliore scelta</div>
-            <div class="deal-price">€111 solo andata · 3 persone + auto</div>
-            <div class="deal-sub">Prezzo 2026 pubblicato per alta stagione: 3 adulti €66 + auto privata €45. Scegliete la voce <strong>Ferry Boat</strong> e inserite targa e dimensione dell’auto. È la prima scelta perché prezzo e posto auto sono pubblicati chiaramente.</div>
-            <div class="deal-cta">Apri Finikas e cerca “Corfu → Saranda”, 28 agosto, 3 adulti, 1 auto →</div>
+          <a class="deal" href="https://kerkyralines.com/en/online-ticket/" target="_blank" rel="noopener">
+            <div class="deal-name">1. Kerkyra Lines · scelta più economica</div>
+            <div class="deal-price">€35 battello · circa €43–46 con la benzina</div>
+            <div class="deal-sub">Corfù città → Igoumenitsa alle <strong>06:30</strong>, arrivo 07:45. Prezzo 2026 per 3 adulti + auto sotto 4,25 m: €5 × 3 + €20. Poi circa 69 km di guida fino a Ksamil. È il minimo verificato tra i traghetti che possono portare la macchina.</div>
+            <div class="deal-cta">Apri Kerkyra Lines e cerca “Corfu → Igoumenitsa”, 28 agosto, 3 adulti, 1 auto →</div>
           </a>
           <a class="deal" href="https://tickets.ionianseaways.com/" target="_blank" rel="noopener">
-            <div class="deal-name">2. Ionian Seaways · ottima riserva</div>
-            <div class="deal-price mid">Prezzo da controllare nella schermata di acquisto</div>
-            <div class="deal-sub">La compagnia ha una nave per passeggeri e auto, con traversata di 55–70 minuti, e vieta espressamente solo le <strong>auto a noleggio</strong>. Per la vostra auto privata, selezionate 1 auto e prendete una corsa con garage.</div>
-            <div class="deal-cta">Apri Ionian e verifica posto auto →</div>
+            <div class="deal-name">2. Finikas / Marina via Saranda · più comoda</div>
+            <div class="deal-price mid">€166 battello · circa €168–170 con la benzina</div>
+            <div class="deal-sub">Preventivo fatto sul 28 agosto: la nave <strong>MARINA</strong> porta l'auto alle 09:00, 13:00 o 19:00; 3 adulti €96 + auto sotto 4,25 m €70. Traversata reale circa 1 ora e 15 minuti, poi solo 17 km Saranda → Ksamil. Costa circa €123 in più, ma evita la lunga guida dal confine.</div>
+            <div class="deal-cta">Apri la prenotazione e scegli “MARINA”, non un aliscafo →</div>
           </a>
-          <a class="deal" href="https://finikas-lines.com/" target="_blank" rel="noopener">
-            <div class="deal-name">3. Piano di riserva se non trovate posto auto</div>
-            <div class="deal-price mid">Più lungo e meno comodo</div>
-            <div class="deal-sub">Andate a Igoumenitsa con la vostra auto e poi entrate in Albania via strada. Ha senso solo se le due compagnie non hanno garage libero: per arrivare a Ksamil è molto più lungo del passaggio diretto su Saranda.</div>
-            <div class="deal-cta">Prima tentate Finikas, poi Ionian →</div>
+          <a class="deal" href="https://www.kerkyraseaways.gr/en/booking" target="_blank" rel="noopener">
+            <div class="deal-name">3. Kerkyra Seaways · stessa strada, prezzo più alto</div>
+            <div class="deal-price mid">€65,10 battello · circa €73–76 con la benzina</div>
+            <div class="deal-sub">Preventivo fatto per la corsa delle 07:00: 3 adulti e auto normale. È una buona riserva se Kerkyra Lines non ha spazio, ma per la stessa strada pagate circa €30 in più.</div>
+            <div class="deal-cta">Apri Kerkyra Seaways e controlla lo spazio per l'auto →</div>
+          </a>
+          <a class="deal" href="https://lefkimmilines.gr/en/reservation-en/" target="_blank" rel="noopener">
+            <div class="deal-name">4. Lefkimmi Lines · da scartare se dormite a Corfù città</div>
+            <div class="deal-price mid">€44 di listino, più circa €16–22 di benzina</div>
+            <div class="deal-sub">La nave dura 50 minuti, ma prima dovete guidare circa 40 km da Corfù città a Lefkimmi; dopo lo sbarco restano gli stessi 69 km fino a Ksamil. Anche con lo sconto massimo pubblicizzato, non batte in modo affidabile la scelta n. 1.</div>
+            <div class="deal-cta">Apri Lefkimmi Lines solo se dormite già nel sud di Corfù →</div>
           </a>
         </div>
 
-        <h3 class="section-title">Orari da cercare il 28 agosto</h3>
+        <h3 class="section-title">Solo Saranda · corse verificabili con la vostra auto</h3>
+        <div class="trip-table-wrap">
+          <table class="trip-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Partenza da Corfù</th>
+                <th>Nave</th>
+                <th>Prezzo 3 persone + auto</th>
+                <th>Tempo reale</th>
+                <th>Auto</th>
+                <th>Prenota</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td><strong>09:00</strong></td>
+                <td>MARINA · Finikas</td>
+                <td><strong>€166</strong><br>€96 persone + €70 auto</td>
+                <td>circa 1 h 15 min</td>
+                <td><span class="confirmed">Sì</span> · auto &lt; 4,25 m</td>
+                <td><a href="https://tickets.ionianseaways.com/" target="_blank" rel="noopener">Apri →</a></td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td><strong>13:00</strong></td>
+                <td>MARINA · Finikas</td>
+                <td><strong>€166</strong><br>€96 persone + €70 auto</td>
+                <td>circa 1 h 15 min</td>
+                <td><span class="confirmed">Sì</span> · auto &lt; 4,25 m</td>
+                <td><a href="https://tickets.ionianseaways.com/" target="_blank" rel="noopener">Apri →</a></td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td><strong>19:00</strong></td>
+                <td>MARINA · Finikas</td>
+                <td><strong>€166</strong><br>€96 persone + €70 auto</td>
+                <td>circa 1 h 15 min</td>
+                <td><span class="confirmed">Sì</span> · auto &lt; 4,25 m</td>
+                <td><a href="https://tickets.ionianseaways.com/" target="_blank" rel="noopener">Apri →</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
         <div class="car-box">
-          Finikas pubblica ogni giorno in luglio-agosto le partenze Corfù → Saranda alle <strong>08:15, 09:00, 11:45, 13:00, 16:30 e 19:00</strong>. Non tutte sono necessariamente navi con garage: nella scelta cercate il nome <strong>Ferry Boat</strong> oppure chiedete “auto privata a bordo”. Non scegliete un aliscafo.
+          <strong>Perché non ci sono dieci righe:</strong> sul calendario estivo Corfù → Saranda compaiono nove partenze, ma nel controllo del <strong>28 agosto</strong> il sistema ha dato posto auto solo sulle tre corse MARINA qui sopra. Gli aliscafi sono più veloci ma, nella simulazione, non avevano garage. Il listino Finikas pubblica <span class="indicative">€111</span> (€22 × 3 + €45 auto), mentre il preventivo sul giorno preciso ha dato €166: per pagare fa fede sempre l'importo finale prima della carta.
+        </div>
+
+        <h3 class="section-title">Controllo fatto sui siti di prenotazione</h3>
+        <div class="car-box">
+          <ul>
+            <li><strong>Kerkyra Lines:</strong> prezzo 2026 confermato €35 per 3 adulti + auto normale e corse del venerdì, inclusa 06:30 → 07:45.</li>
+            <li><strong>Kerkyra Seaways:</strong> preventivo sul giorno preciso €65,10 per la corsa delle 07:00.</li>
+            <li><strong>Ionian Seaways:</strong> preventivo sul giorno preciso €166 per MARINA. Gli aliscafi mostrati nello stesso elenco non hanno garage: non sceglieteli con l'auto.</li>
+            <li><strong>Ferryhopper, Booktickets e Ferries.gr:</strong> usati per confronto di orari e listini. Nessuno ha dato un'opzione con auto più economica di Kerkyra Lines. <strong>Direct Ferries non è usato per decidere:</strong> nella stessa pagina dice sia che l'auto non può salire sia che mostra prezzi auto.</li>
+          </ul>
         </div>
 
         <h3 class="section-title">Cosa portare e controllare</h3>
@@ -1286,21 +1402,22 @@
             <li>Documento valido per l’espatrio per ciascuno.</li>
             <li>Patente italiana e libretto della macchina.</li>
             <li>Copertura assicurativa valida in Albania: molte assicurazioni italiane non la includono. Se la vostra non copre l’Albania, alla frontiera marittima serve un’assicurazione temporanea albanese (riferimento indicativo: ~€50 per 15 giorni).</li>
-            <li>Biglietto con la targa corretta e arrivo al porto almeno un’ora prima.</li>
+            <li>Biglietto con targa e misura dell'auto corrette. Tutti i prezzi qui sopra sono per un'auto normale sotto 4,25 m.</li>
+            <li>Se scegliete la strada economica, prevedete una riserva di tempo alla frontiera: in estate le attese possono essere lunghe.</li>
           </ul>
         </div>
 
-        <p class="trip-sources">Verificato il 25/07/2026: <a href="https://finikas-lines.com/" target="_blank" rel="noopener">Finikas</a> (navi, prenotazione e sconto auto), <a href="https://www.ferries.gr/en/ferry-companies/finikas-lines/route/corfu-saranda/" target="_blank" rel="noopener">tariffa 2026 Finikas</a>, <a href="https://ionianseaways.com/timetable/" target="_blank" rel="noopener">Ionian Seaways</a> (nave con auto e regola sulle auto a noleggio), <a href="https://www.viaggiaresicuri.it/schede_paese/pdf/ALB.pdf" target="_blank" rel="noopener">Viaggiare Sicuri – Albania</a>. Prezzo e garage vanno confermati nella pagina della compagnia prima di pagare.</p>
+        <p class="trip-sources">Ricerca e simulazioni aggiornate il 25/07/2026: <a href="https://kerkyralines.com/en/online-ticket/" target="_blank" rel="noopener">Kerkyra Lines</a>, <a href="https://www.ferries.gr/en/ferry-companies/kerkyra-lines/route/corfu-igoumenitsa-corfu/" target="_blank" rel="noopener">listino 2026 Kerkyra Lines</a>, <a href="https://www.kerkyraseaways.gr/en/booking" target="_blank" rel="noopener">Kerkyra Seaways</a>, <a href="https://tickets.ionianseaways.com/" target="_blank" rel="noopener">Ionian Seaways / Finikas</a>, <a href="https://lefkimmilines.gr/en/reservation-en/" target="_blank" rel="noopener">Lefkimmi Lines</a>, <a href="https://www.ferryhopper.com/en/ferry-routes/direct/corfu-igoumenitsa" target="_blank" rel="noopener">Ferryhopper</a>, <a href="https://www.directferries.com/corfu_saranda_ferry.htm" target="_blank" rel="noopener">Direct Ferries</a> e <a href="https://www.viaggiaresicuri.it/schede_paese/pdf/ALB.pdf" target="_blank" rel="noopener">Viaggiare Sicuri – Albania</a>. Prima di pagare, ricontrollate posto auto e prezzo sul sito della compagnia: ad agosto possono cambiare.</p>
       `;
       ksamilMarkers.ksamil?.openPopup();
-      map.flyTo([39.74, 19.96], 10, { duration: 0.7 });
+      map.flyTo([39.66, 20.03], 9, { duration: 0.7 });
     }
 
 
-    // Alloggi per la tappa Xamil: prezzi live letti il 25/07/2026.
+    // Alloggi per la tappa Saranda: prezzi letti il 25/07/2026.
     // I pin indicano l'area dichiarata; il pulsante "mappa esatta" cerca il singolo alloggio.
     const STAY_CHECKIN = "2026-08-28";
-    const STAY_CHECKOUT = "2026-08-31";
+    const STAY_CHECKOUT = "2026-09-01";
     const stayBookUrl = (slug) => `https://www.booking.com${slug}.it.html?checkin=${STAY_CHECKIN}&checkout=${STAY_CHECKOUT}&group_adults=3&req_adults=3&no_rooms=1&group_children=0&req_children=0`;
     const stayMapUrl = (s) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(s.name + ", " + s.city + ", Albania")}`;
     const staySearchUrl = (city) => `https://www.booking.com/searchresults.it.html?ss=${encodeURIComponent(city + ", Albania")}&checkin=${STAY_CHECKIN}&checkout=${STAY_CHECKOUT}&group_adults=3&no_rooms=1&group_children=0&order=price`;
@@ -1308,7 +1425,60 @@
     const stayAreas = {
       "Ksamil centro":[39.7688,20.0014], "Ksamil lago":[39.7654,20.0135], "Ksamil nord":[39.7760,19.9970],
       "Ksamil sud":[39.7588,20.0069], "Butrinto / lago":[39.7473,20.0227],
-      "Saranda centro":[39.8751,20.0056], "Saranda nord":[39.8850,20.0108]
+      "Saranda centro":[39.8751,20.0056], "Saranda nord":[39.8850,20.0108],
+      "Porto e centro":[39.8746,20.0048], "Lungomare":[39.8707,20.0062],
+      "Nord / Rruga Butrinti":[39.8835,20.0104], "Sud / Canale di Corfù":[39.8645,20.0077],
+      "Mucobega":[39.8537,20.0039]
+    };
+    // La lista storica rimane nel file come riferimento del vecchio confronto Ksamil.
+    // La vista pubblica usa soltanto queste 40 proposte di Saranda, tutte controllate per 3 adulti e 4 notti.
+    const sarandaStays = [
+      {name:"Guest house Vila Bega",area:"Porto e centro",price:160,score:"9,3",reviews:34,center:"700 m",beach:"1 km",beds:"Monolocale 34 m² · 3 letti",flex:false,featured:true,slug:"/hotel/al/vila-bega",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/101006362.webp?k=2038cc275b9f09cdb6bb299d0f28b91b4e719f256f93314f97d2d91786111f69&o=",note:"Prezzo più basso con un buon numero di giudizi."},
+      {name:"Centrum Apartment",area:"Porto e centro",price:200,score:"9,6",reviews:6,center:"50 m",beach:"350 m",beds:"Appartamento 79 m² · 3 letti",flex:true,featured:true,slug:"/hotel/al/centrum-apartment-saranda",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/894205911.webp?k=26e0d87b79126b4ac5c16ea01c1ae8e528b8b9f746748cfb79f4097cd2fe05bc&o=",note:"Centralissimo e con pagamento in struttura."},
+      {name:"Andi's GuestHouse",area:"Sud / Canale di Corfù",price:200,score:"9,3",reviews:23,center:"2,6 km",beach:"—",beds:"2 camere · 4 letti",flex:true,featured:true,slug:"/hotel/al/andis-guesthouse",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/554784217.webp?k=c00f70bed6e5a5e6bf51ef862029621675013ef017d354607ee41aabcfd52e2d&o=",note:"Due camere e parcheggio: comodo se avete auto."},
+      {name:"Miri's Villa",area:"Lungomare",price:200,score:"9,0",reviews:50,center:"800 m",beach:"1,1 km",beds:"2 camere · 3 letti",flex:true,featured:true,slug:"/hotel/al/miris-villa",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/580159946.webp?k=c9fdfb11f4c4334eaad86962e63f47c04c84e21524416ef9d7b7725a968a9d5a&o=",note:"Buon equilibrio fra spazio, prezzo e giudizi."},
+      {name:"Villa Morena",area:"Lungomare",price:200,score:"8,4",reviews:14,center:"800 m",beach:"1,1 km",beds:"1 camera · 2 letti",flex:true,featured:false,slug:"/hotel/al/villa-morena",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/551611293.webp?k=dcb076c9708edad31a35e5983911c138f6c9ffd503a1866118830ddda7af82d6&o=",note:"Da confrontare con le scelte più votate allo stesso prezzo."},
+      {name:"Zani Apartment",area:"Porto e centro",price:200,score:"9,2",reviews:30,center:"600 m",beach:"600 m",beds:"1 camera · 3 letti",flex:true,featured:true,slug:"/hotel/al/zani-apartment",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/894544757.webp?k=6de2f126c94d7970d46cb8ac66eda582a5141c86eb155cbc19dc2e49bbdce112&o=",note:"Cucina, parcheggio e distanza comoda dal mare."},
+      {name:"Apartment in Sarande",area:"Lungomare",price:220,score:"9,0",reviews:10,center:"1,3 km",beach:"fronte spiaggia",beds:"1 camera · 3 letti",flex:true,featured:false,slug:"/hotel/al/apartment-in-sarande",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/160426934.webp?k=e4be46bf4965c67da3e47d15a1207f6ecb49ddebca8fe85ecab9eb44734b09b8&o=",note:"Per chi mette il mare davanti alla posizione centrale."},
+      {name:"Leli Apartments",area:"Nord / Rruga Butrinti",price:228,score:"10",reviews:3,center:"2,1 km",beach:"1,1 km",beds:"1 camera · 2 letti",flex:false,featured:false,slug:"/hotel/al/leli-apartments",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/589183648.webp?k=83ca7146aaf40815d1a9e8b4a3af451f0c8e3628ef39bee94e4a23a33415a673&o=",note:"Voto perfetto, ma poche recensioni: leggere bene prima di scegliere."},
+      {name:"Taho Apartments",area:"Nord / Rruga Butrinti",price:228,score:"10",reviews:1,center:"1,9 km",beach:"750 m",beds:"2 camere · 3 letti",flex:true,featured:false,slug:"/hotel/al/the-sunshine-saranda",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/753739459.webp?k=6812f30bda617f412708550aca7b0341b26ba3f3ca758a18406b4869e772a89b&o=",note:"Spazio per tre, ma con una sola recensione."},
+      {name:"Mimoza Apartments",area:"Porto e centro",price:230,score:"9,7",reviews:71,center:"400 m",beach:"850 m",beds:"1 camera · 3 letti",flex:true,featured:true,slug:"/hotel/al/mimoza-apartments",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/694149200.webp?k=509bd4a1b3a09db46269cffa034192ed077d14a5f838b047362f1c50782847f9&o=",note:"Una delle migliori per voto, numero di giudizi e prezzo."},
+      {name:"Petrit Apartments",area:"Lungomare",price:232,score:"9,2",reviews:28,center:"1,1 km",beach:"100 m",beds:"1 camera · 2 letti",flex:true,featured:true,slug:"/hotel/al/petrit-apartments",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/466484157.webp?k=81e6a09f1acec8ab777e62e35c4262c92c2f8a7e95f48c9c1787f3db1a92abc0&o=",note:"La scelta pratica per stare a 100 m dal mare."},
+      {name:"Kreku Apartments Saranda",area:"Nord / Rruga Butrinti",price:235,score:"9,9",reviews:22,center:"2,1 km",beach:"1,5 km",beds:"1 camera · 3 letti",flex:false,featured:true,slug:"/hotel/al/kreku-apartments-saranda",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/562487895.webp?k=ad13bd7e711797b715be9b1b2510d25146e5ebc742563443d6dd8eab0def4e91&o=",note:"Voto molto forte, con spazio per tre."},
+      {name:"B&S Saranda Apartment",area:"Porto e centro",price:236,score:"9,9",reviews:20,center:"300 m",beach:"700 m",beds:"1 camera · 3 letti",flex:true,featured:true,slug:"/hotel/al/b-amp-s-saranda-apartment",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/459270915.webp?k=523f8acf6cb3da21241f91686d5bdd5475e67198c341520c263e3d8178c9daf6&o=",note:"Molto vicino al centro, grande e con cancellazione gratuita."},
+      {name:"Loft Apartments",area:"Lungomare",price:238,score:"9,1",reviews:39,center:"1,6 km",beach:"400 m",beds:"1 camera · 2 letti",flex:true,featured:false,slug:"/hotel/al/loft-apartments",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/383155251.webp?k=bf1806c1c82491f2477c4d562ee570f2b5ccb981b95d4523703399fa7c5eca3a&o=",note:"Vicino al mare, con molte recensioni."},
+      {name:"Vaso’s Apartments",area:"Lungomare",price:240,score:"9,4",reviews:33,center:"900 m",beach:"450 m",beds:"Monolocale · 2 letti",flex:true,featured:true,slug:"/hotel/al/vasos-apartments",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/554493864.webp?k=47cd67ae23274047e1c72813cbfff392373d2a8b509f3843741b8aa5f7e646bc&o=",note:"Scelta solida vicino al mare e con cancellazione gratuita."},
+      {name:"Maxus Apts",area:"Lungomare",price:240,score:"9,5",reviews:81,center:"1,1 km",beach:"100 m",beds:"1 camera · 2 letti",flex:true,featured:true,slug:"/hotel/al/maxus-apts",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/564285698.webp?k=bfae7dac30e127e3b77abcc82124e3ff45912e50b32d18205df31b71cee30926&o=",note:"Molte recensioni, 100 m dal mare: valore alto."},
+      {name:"Studio Salvia",area:"Lungomare",price:240,score:"10",reviews:3,center:"900 m",beach:"150 m",beds:"1 camera · 3 letti",flex:true,featured:false,slug:"/hotel/al/studio-salvia",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/865512304.webp?k=4b51446417a327a5ff33f262f4a5fe6408f969541caaccfc9dc908b9a978fa98&o=",note:"Nuovo e vicino al mare: voto da pesare con il numero basso di giudizi."},
+      {name:"White Pearl Apartments",area:"Nord / Rruga Butrinti",price:240,score:"10",reviews:1,center:"1,7 km",beach:"700 m",beds:"Monolocale · 2 letti",flex:true,featured:false,slug:"/hotel/al/white-pearl-apartments",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/872498425.webp?k=7ed6b6a83e5e70cc16769ba5de436c19b74efb2ce39794cc19de01808d69e663&o=",note:"Nuovissimo: confrontare foto e regole prima di prenotare."},
+      {name:"Ajsi Apartments",area:"Porto e centro",price:240,score:"9,3",reviews:3,center:"700 m",beach:"300 m",beds:"1 camera · 2 letti",flex:false,featured:false,slug:"/hotel/al/ajsi-apartments-saranda",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/847191056.webp?k=9e15839c1704a005e2780bd85aea6d1db1b422700cc6c9b2bd59082abb926ee7&o=",note:"Molto vicino alla spiaggia, ma con pochi giudizi."},
+      {name:"Apartament Stefani",area:"Porto e centro",price:240,score:"9,7",reviews:33,center:"700 m",beach:"1,1 km",beds:"1 camera · 2 letti",flex:true,featured:true,slug:"/hotel/al/apartament-stefani",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/378378117.webp?k=aa1352545caf6227e7575d37254a083f931d2b0bc27d5a37a1902dffc2f04816&o=",note:"Ottimo voto con un numero di giudizi già significativo."},
+      {name:"Alpha Apartaments",area:"Porto e centro",price:240,score:"9,7",reviews:34,center:"700 m",beach:"950 m",beds:"1 camera · 2 letti",flex:false,featured:true,slug:"/hotel/al/alfa-apartaments-sarande",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/564585321.webp?k=a38bcf1b05f9d3ebe9399cb98e56c63354da5c38a34acff514c31183c90e5a9c&o=",note:"Prezzo lineare e recensioni forti."},
+      {name:"Vila Kea",area:"Sud / Canale di Corfù",price:243,score:"9,5",reviews:40,center:"2,3 km",beach:"100 m",beds:"Monolocale · 3 letti",flex:false,featured:true,slug:"/hotel/al/villa-kea-mocobega",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/645285523.webp?k=11835399ab099d87bbe37df7ce09c52b522e14959a0563418e73d4886f08954e&o=",note:"100 m dal mare, con parcheggio e buon numero di giudizi."},
+      {name:"Villa Sai",area:"Porto e centro",price:248,score:"9,2",reviews:4,center:"700 m",beach:"1,1 km",beds:"Attico · 3 letti",flex:true,featured:false,slug:"/hotel/al/villa-sai",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/858035741.webp?k=35b8019953e214c95c82d9c3e94b3935a977c29bfbcb2c8affd051b02523deef&o=",note:"Attico per tre, ancora con pochi giudizi."},
+      {name:"Cozy 1 Bedroom Apartment-Saranda",area:"Nord / Rruga Butrinti",price:252,score:"10",reviews:1,center:"1,7 km",beach:"700 m",beds:"1 camera · 3 letti",flex:true,featured:false,slug:"/hotel/al/deluxe-apartment-saranda1",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/694815114.webp?k=42b4a3d7f683e09ea6a61622097f57893b0479f96de7f0c97800acc44a0e1b92&o=",note:"Molto spazio, ma struttura recente con un solo giudizio."},
+      {name:"Paradise Bay Apartments",area:"Lungomare",price:260,score:"10",reviews:2,center:"1 km",beach:"150 m",beds:"1 camera · 2 letti",flex:true,featured:false,slug:"/hotel/al/paradise-bay-apartments",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/876781056.webp?k=2194ced5392940891a21b809b16e589aa0207b3a596ff2b7c1d298a171305570&o=",note:"Vicino alla spiaggia; controllare bene le poche recensioni."},
+      {name:"Saranda 6 Villa",area:"Nord / Rruga Butrinti",price:260,score:"10",reviews:2,center:"1,7 km",beach:"1 km",beds:"1 camera · matrimoniale",flex:true,featured:false,slug:"/hotel/al/saranda-6-villa",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/698344943.webp?k=ce0b7edb561b9b64fee771647ce7929e8f7d9552f3ac0420240aa6a28f5d93d8&o=",note:"Inserita per la qualità dichiarata, da controllare per la sistemazione letti."},
+      {name:"Bruno's Rooms",area:"Lungomare",price:272,score:"10",reviews:6,center:"1,2 km",beach:"1,6 km",beds:"1 camera · 2 letti",flex:true,featured:false,slug:"/hotel/al/brunos-apartment-saranda",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/682467798.webp?k=88103cc5fcbe7e9a6bf1f5118d7a5ef85c0d4f4e34949d72f965bc085f4fc1a4&o=",note:"Voto altissimo; controllare lo spazio effettivo per tre."},
+      {name:"J&M Luxury Apartments 3",area:"Porto e centro",price:274,score:"10",reviews:3,center:"350 m",beach:"700 m",beds:"2 camere · 3 letti",flex:true,featured:false,slug:"/hotel/al/behari-apartments-1",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/873619258.webp?k=69864c36fede192a8e1626cc6112dc3d370ce6db288b87d88824b77e82b6b201&o=",note:"Due camere in centro; prezzo scontato mostrato dalla ricerca."},
+      {name:"Trojan Apartment Near Ksamil Route",area:"Lungomare",price:280,score:"10",reviews:1,center:"1,3 km",beach:"450 m",beds:"1 camera · matrimoniale",flex:true,featured:false,slug:"/hotel/al/trojan-apartment-saranda1",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/844042027.webp?k=06c149e3f7880e3fcc05b119fbdfd1a169134091d68f95fd3ac0628b81d0e75e&o=",note:"Comodo se poi continuate verso Ksamil; controllare i posti letto."},
+      {name:"Pine Forest View Apartments",area:"Lungomare",price:280,score:"10",reviews:1,center:"1,3 km",beach:"450 m",beds:"1 camera · 2 letti",flex:true,featured:false,slug:"/hotel/al/pine-forest-view-apartments",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/885836621.webp?k=1d812cedafcde99d1f7f21da18d408419ba4de216f0912ee10f804be8434bf47&o=",note:"Nuovo e con vista: confrontarlo con le scelte più consolidate."},
+      {name:"Sweet Home apt",area:"Porto e centro",price:280,score:"10",reviews:1,center:"600 m",beach:"250 m",beds:"1 camera · 4 letti",flex:true,featured:false,slug:"/hotel/al/sweet-home-apt",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/562714846.webp?k=ba4dcbc7d495b6aa7779f15c6ecdd0b87d5d0f9908857a43fbfe6a04f32691ee&o=",note:"Grande e vicino al mare, ma con una sola recensione."},
+      {name:"Saranda Sun Apartment",area:"Lungomare",price:288,score:"10",reviews:3,center:"1 km",beach:"200 m",beds:"1 camera · 2 letti",flex:true,featured:false,slug:"/hotel/al/saranda-sun-apartment",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/836329124.webp?k=0e95c9c0bba8848260b6cba7667e8240bd6f65638891ab04e7ab2b2b82bf514&o=",note:"Offerta mostrata per quattro notti, a 200 m dal mare."},
+      {name:"Rikard Apartment",area:"Porto e centro",price:288,score:"10",reviews:2,center:"500 m",beach:"900 m",beds:"2 camere · 3 letti",flex:true,featured:false,slug:"/hotel/al/rikard-apartment",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/884452439.webp?k=994e4879eea2e9d21d2eea639a91c20417863dc07c949adebc6b1afd68d8594e&o=",note:"Due camere e tre letti: interessante per tre adulti."},
+      {name:"Garden Escape Apt",area:"Porto e centro",price:289,score:"10",reviews:3,center:"700 m",beach:"200 m",beds:"Monolocale · 2 letti",flex:true,featured:false,slug:"/hotel/al/garden-escape-apt",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/890926043.webp?k=bb5fd53ef64e69ae8121051f4f8f7779aa5ff72a3f593bf560e9cad05cebfba5&o=",note:"200 m dalla spiaggia; verificare la configurazione letti."},
+      {name:"Vila Oriku",area:"Sud / Canale di Corfù",price:289,score:"10",reviews:10,center:"4,1 km",beach:"950 m",beds:"Monolocale · 2 letti",flex:true,featured:false,slug:"/hotel/al/villa-oriku",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/580323851.webp?k=d09af94bedd7956128871426cb93756c67244e672df7bb64ee379ecaefc7773b&o=",note:"Più lontana dal centro: valida soprattutto con auto."},
+      {name:"Margaritas Apartments",area:"Porto e centro",price:360,score:"9,3",reviews:128,center:"500 m",beach:"fronte spiaggia",beds:"1 camera · 3 letti",flex:true,featured:true,stars:4,slug:"/hotel/al/margaritas-apartments",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/460224925.webp?k=3a8cff4a55769f76fcd94f5af5e4b17bf3e1eea733a5daace112f66b2b0d4944&o=",note:"4 stelle: fronte mare, molte recensioni e appartamento intero."},
+      {name:"Villa Sildi",area:"Nord / Rruga Butrinti",price:400,score:"9,1",reviews:259,center:"1,7 km",beach:"400 m",beds:"1 camera · 3 letti",flex:true,featured:true,stars:4,slug:"/hotel/al/villa-sildi-gjashte",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/376059928.webp?k=09c9c43cea6ab1738fb5881c7afa784d238a67ebaf46b436a6041cf94d3729fe&o=",note:"4 stelle: il voto è sostenuto da molte recensioni."},
+      {name:"Elidon Apartments",area:"Porto e centro",price:400,score:"9,4",reviews:15,center:"400 m",beach:"250 m",beds:"2 camere · 2 letti",flex:true,featured:false,stars:4,slug:"/hotel/al/sunrise-apartments-saranta",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/372102161.webp?k=b152697aa27c4ac6d33630d7b6c139227e0dd2e4defe6e49f8d05c5df060be4b&o=",note:"4 stelle: centro e mare molto vicini."},
+      {name:"White Residence Luxury Apartments",area:"Sud / Canale di Corfù",price:460,score:"9,4",reviews:295,center:"2,4 km",beach:"fronte spiaggia",beds:"1 camera · 2 letti",flex:false,featured:true,stars:4,slug:"/hotel/al/white-residence-luxury-sea-view-apartments-sarande",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/69164524.webp?k=1ca34a12635718673659e7cf095f7b3f345f58df59850ffbb6c523c61b36a88f&o=",note:"4 stelle: scelta più elegante, sul mare e molto recensita."},
+      {name:"Xhulio Apartments",area:"Porto e centro",price:472,score:"9,1",reviews:207,center:"600 m",beach:"250 m",beds:"1 camera · 4 letti",flex:true,featured:true,stars:4,slug:"/hotel/al/xhulio-apartments",photo:"https://cf.bstatic.com/xdata/images/hotel/square600/203882129.webp?k=7155b6472e5f6a0236acd31f9c687843cf077bcf28b85b414f60dc5642a485b8&o=",note:"4 stelle: quattro posti letto, vicino a centro e mare."}
+    ].map((s) => ({...s, city:"Saranda", bookingSite:"Booking.com"}));
+    stays.splice(0, stays.length, ...sarandaStays);
+    const fiveStarChoice = {
+      name:"Hotel Saranda Butrinti, Affiliated by Meliá", price:1873, score:"5 stelle", center:"centro", beach:"100 m", bookingSite:"Booking.com",
+      slug:"/hotel/al/butrinti", photo:"https://r-xx.bstatic.com/xdata/images/hotel/608x352/899114780.webp?k=7b50a15ea026abe6e779d838295eadb4eaeef76fe2b33a9b6150673c3609e9f3&o=",
+      note:"Alternativa hotel 5 stelle: spa, piscina e posizione sul lungomare. Prezzo letto per 4 notti / 3 adulti; disponibilità da ricontrollare al clic."
     };
     const staysPanel = document.getElementById("stays-panel");
     const stayLayer = L.layerGroup();
@@ -1326,13 +1496,13 @@
         const coords = stayCoords(s, index);
         const icon = L.divIcon({className:"", html:`<div class="stay-pin">${s.number}</div>`, iconSize:[28,28], iconAnchor:[14,14], popupAnchor:[0,-14]});
         const marker = L.marker(coords, {icon}).addTo(stayLayer);
-        marker.bindPopup(`<div class="popup-title">#${s.number} · ${s.name}</div><div class="popup-deal"><strong>€${s.price} totali · 3 notti · 3 adulti</strong><br>${s.city} · area ${s.area}<br>Voto ${s.score}${s.reviews ? " · " + s.reviews + " giudizi" : ""}<br><a href="${stayBookUrl(s.slug)}" target="_blank" rel="noopener">Booking.com →</a> · <a href="${stayMapUrl(s)}" target="_blank" rel="noopener">mappa esatta →</a></div>`);
+        marker.bindPopup(`<div class="popup-title">#${s.number} · ${s.name}</div><div class="popup-deal"><strong>€${s.price} totali · 4 notti · 3 adulti</strong><br>Saranda · zona ${s.area}<br>Voto ${s.score}${s.reviews ? " · " + s.reviews + " giudizi" : ""}<br><a href="${stayBookUrl(s.slug)}" target="_blank" rel="noopener">Booking.com →</a> · <a href="${stayMapUrl(s)}" target="_blank" rel="noopener">mappa esatta →</a></div>`);
         marker.on("click", () => selectStay(s.id, false));
         stayMarkers[s.id] = marker;
       });
       stayLayer.addTo(map);
     }
-    function renderStays(mode = "all") {
+    function renderStays(mode = "saranda") {
       list.style.display = "none"; carsPanel.style.display = "none";
       if (poisPanel) poisPanel.style.display = "none";
       if (ksamilPanel) ksamilPanel.style.display = "none";
@@ -1343,28 +1513,20 @@
       if (!staysPanel) return;
       staysPanel.style.display = "block";
       const sorted = [...stays].sort((a,b) => a.price - b.price || Number(b.score.replace(",",".")) - Number(a.score.replace(",",".")));
-      const shown = sorted.filter((s) => mode === "all" || (mode === "ksamil" && s.city === "Ksamil") || (mode === "cheap" && s.price <= 160) || (mode === "best" && s.featured));
+      const shown = sorted.filter((s) => mode === "saranda" || mode === "all" || (mode === "under-260" && s.price <= 260) || (mode === "best" && s.featured) || (mode === "four-stars" && s.stars === 4));
       staysPanel.innerHTML = `
-        <div class="callout"><strong>44 alloggi comparabili · 28 → 31 agosto · 3 adulti</strong><p>Prezzo totale, tasse incluse quando dichiarate dalla pagina. <strong>Xamil parte da €141.</strong> Saranda scende a <strong>€120</strong>, ma è circa 25–30 minuti di auto da Xamil: il risparmio è reale, la distanza pure.</p></div>
+        <div class="callout"><strong>Saranda · 40 appartamenti · 28 agosto → 1 settembre · 3 adulti</strong><p>Prezzo totale per <strong>4 notti</strong>, tasse incluse quando dichiarate dalla pagina. Ho privilegiato voto, numero di giudizi, spazio per tre e distanza da centro o mare. I prezzi cambiano: apri il collegamento prima di pagare.</p></div>
         <div class="stay-filter-row" aria-label="Filtri alloggi">
-          <button type="button" data-stay-filter="all" class="${mode === "all" ? "active" : ""}">Tutti ${stays.length}</button>
-          <button type="button" data-stay-filter="ksamil" class="${mode === "ksamil" ? "active" : ""}">Solo Xamil · 40</button>
-          <button type="button" data-stay-filter="cheap" class="${mode === "cheap" ? "active" : ""}">Fino a €160</button>
+          <button type="button" data-stay-filter="saranda" class="${mode === "saranda" || mode === "all" ? "active" : ""}">Tutti e 40</button>
+          <button type="button" data-stay-filter="under-260" class="${mode === "under-260" ? "active" : ""}">Fino a €260</button>
           <button type="button" data-stay-filter="best" class="${mode === "best" ? "active" : ""}">Scelte forti</button>
+          <button type="button" data-stay-filter="four-stars" class="${mode === "four-stars" ? "active" : ""}">Appartamenti 4 stelle</button>
         </div>
-        ${shown.map((s) => `<article class="stay-card" data-stay="${s.id}">
-          <img src="${s.photo}" alt="Foto di ${s.name}" loading="lazy">
-          <div>
-            <div class="stay-name">#${s.number} · ${s.name}</div>
-            <div class="stay-price">€${s.price} totali · 3 notti</div>
-            <div class="stay-meta">${s.city} · ${s.area} · centro ${s.center} · mare ${s.beach}</div>
-            <div class="stay-meta">Voto ${s.score}${s.reviews ? " · " + s.reviews + " giudizi" : ""} · ${s.beds}</div>
-            <div class="stay-badges">${s.featured ? '<span class="stay-badge best">scelta forte</span>' : ""}<span class="stay-badge">Booking.com</span>${s.flex ? '<span class="stay-badge">cancellazione gratuita</span>' : ""}</div>
-            <div class="stay-note">${s.note}</div>
-            <div class="stay-actions"><a href="${stayBookUrl(s.slug)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Apri su Booking.com →</a><a href="${stayMapUrl(s)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Mappa esatta →</a></div>
-          </div>
-        </article>`).join("")}
-        <p class="trip-sources">Foto, disponibilità, prezzi, giudizi e link: <strong>Booking.com</strong>, ricerca effettuata il 25/07/2026 con 3 adulti e 28–31 agosto. I pin della mappa mostrano l’area dell’alloggio; per l’ingresso preciso usa “Mappa esatta”.</p>
+        <div class="stay-table-wrap"><table class="stay-table"><thead><tr><th>#</th><th>Foto</th><th>Appartamento</th><th>Prezzo totale</th><th>Voto</th><th>Zona</th><th>Dove prenoti</th></tr></thead><tbody>
+          ${shown.map((s) => `<tr class="stay-row" data-stay="${s.id}"><td>${s.number}</td><td><img src="${s.photo}" alt="Foto di ${s.name}" loading="lazy"></td><td><strong>${s.name}</strong>${s.stars ? '<br><span class="stay-badge best">' + s.stars + ' stelle</span>' : ''}${s.featured ? '<br><span class="stay-badge">scelta qualità/prezzo</span>' : ''}<br><span class="stay-meta">${s.beds} · ${s.note}</span></td><td><strong>€${s.price}</strong><br><span class="stay-meta">4 notti · 3 adulti</span></td><td><strong>${s.score}</strong>${s.reviews ? '<br><span class="stay-meta">' + s.reviews + ' giudizi</span>' : ''}</td><td>${s.area}<br><span class="stay-meta">centro ${s.center}<br>mare ${s.beach}</span><br><a href="${stayMapUrl(s)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Punto esatto →</a></td><td><a href="${stayBookUrl(s.slug)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${s.bookingSite} →</a>${s.flex ? '<br><span class="stay-meta">cancellazione gratuita mostrata</span>' : ''}</td></tr>`).join("")}
+        </tbody></table></div>
+        <div class="premium-stay"><img src="${fiveStarChoice.photo}" alt="Foto di ${fiveStarChoice.name}" loading="lazy"><div><div class="stay-name">Alternativa 5 stelle · ${fiveStarChoice.name}</div><div class="stay-price">€${fiveStarChoice.price} totali · 4 notti · 3 adulti</div><div class="stay-note">${fiveStarChoice.note}</div><div class="stay-actions"><a href="${stayBookUrl(fiveStarChoice.slug)}" target="_blank" rel="noopener">Apri su ${fiveStarChoice.bookingSite} →</a><a href="https://www.booking.com/fivestars/city/al/sarande.it.html" target="_blank" rel="noopener">Vedi altre opzioni 5 stelle →</a></div></div></div>
+        <p class="trip-sources">Foto, disponibilità, prezzi, giudizi e collegamenti letti il 25/07/2026 su <strong>Booking.com</strong>, con 3 adulti e 28 agosto → 1 settembre. I puntini indicano la zona dichiarata a Saranda: per l’ingresso preciso usa “Punto esatto”.</p>
       `;
       staysPanel.querySelectorAll("[data-stay-filter]").forEach((button) => button.addEventListener("click", () => renderStays(button.dataset.stayFilter)));
       staysPanel.querySelectorAll("[data-stay]").forEach((card) => card.addEventListener("click", () => selectStay(card.dataset.stay, true)));
@@ -1373,7 +1535,7 @@
       if (points.length) map.fitBounds(L.latLngBounds(points), {padding:[35,35], maxZoom:12});
     }
     function selectStay(id, pan) {
-      document.querySelectorAll(".stay-card").forEach((card) => card.classList.toggle("active", card.dataset.stay === id));
+      document.querySelectorAll(".stay-card, .stay-row").forEach((card) => card.classList.toggle("active", card.dataset.stay === id));
       const s = stays.find((item) => item.id === id);
       const marker = stayMarkers[id];
       if (!s || !marker) return;
@@ -1387,13 +1549,13 @@
         renderAlloggi();
         return;
       }
+      if (filter === "saranda" || filter === "stays") {
+        renderStays("saranda");
+        return;
+      }
       if (filter === "ksamil") {
         stayLayer.remove();
         renderKsamil();
-        return;
-      }
-      if (filter === "stays") {
-        renderStays();
         return;
       }
       stayLayer.remove();
@@ -1533,9 +1695,9 @@
         renderList("ksamil");
         return;
       }
-      if (kind === "stays" || raw === "stays") {
-        document.querySelectorAll("#filters button").forEach((b) => b.classList.toggle("active", b.dataset.filter === "stays"));
-        renderList("stays");
+      if (kind === "saranda" || raw === "saranda" || kind === "stays" || raw === "stays") {
+        document.querySelectorAll("#filters button").forEach((b) => b.classList.toggle("active", b.dataset.filter === "saranda"));
+        renderList("saranda");
         return;
       }
       if (kind === "pois" || raw === "pois") {
