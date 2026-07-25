@@ -351,6 +351,36 @@
       margin-bottom: 12px;
     }
     .car-box li, .next-box li { margin-bottom: 6px; }
+    .trip-table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+      margin: 8px 0 12px;
+    }
+    .trip-table {
+      width: 100%;
+      min-width: 690px;
+      border-collapse: collapse;
+      font-size: .8rem;
+    }
+    .trip-table th, .trip-table td {
+      padding: 9px 10px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+    .trip-table th {
+      background: #eef7fa;
+      color: var(--ink);
+      font-size: .73rem;
+      text-transform: uppercase;
+      letter-spacing: .03em;
+    }
+    .trip-table tr:last-child td { border-bottom: 0; }
+    .trip-table a { color: var(--sea); font-weight: 800; }
+    .trip-table .confirmed { color: var(--cheap); font-weight: 800; }
+    .trip-table .indicative { color: var(--mid); font-weight: 800; }
     .footnote {
       font-size: 0.76rem;
       color: var(--muted);
@@ -1298,6 +1328,55 @@
             <div class="deal-sub">La nave dura 50 minuti, ma prima dovete guidare circa 40 km da Corfù città a Lefkimmi; dopo lo sbarco restano gli stessi 69 km fino a Ksamil. Anche con lo sconto massimo pubblicizzato, non batte in modo affidabile la scelta n. 1.</div>
             <div class="deal-cta">Apri Lefkimmi Lines solo se dormite già nel sud di Corfù →</div>
           </a>
+        </div>
+
+        <h3 class="section-title">Solo Saranda · corse verificabili con la vostra auto</h3>
+        <div class="trip-table-wrap">
+          <table class="trip-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Partenza da Corfù</th>
+                <th>Nave</th>
+                <th>Prezzo 3 persone + auto</th>
+                <th>Tempo reale</th>
+                <th>Auto</th>
+                <th>Prenota</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td><strong>09:00</strong></td>
+                <td>MARINA · Finikas</td>
+                <td><strong>€166</strong><br>€96 persone + €70 auto</td>
+                <td>circa 1 h 15 min</td>
+                <td><span class="confirmed">Sì</span> · auto &lt; 4,25 m</td>
+                <td><a href="https://tickets.ionianseaways.com/" target="_blank" rel="noopener">Apri →</a></td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td><strong>13:00</strong></td>
+                <td>MARINA · Finikas</td>
+                <td><strong>€166</strong><br>€96 persone + €70 auto</td>
+                <td>circa 1 h 15 min</td>
+                <td><span class="confirmed">Sì</span> · auto &lt; 4,25 m</td>
+                <td><a href="https://tickets.ionianseaways.com/" target="_blank" rel="noopener">Apri →</a></td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td><strong>19:00</strong></td>
+                <td>MARINA · Finikas</td>
+                <td><strong>€166</strong><br>€96 persone + €70 auto</td>
+                <td>circa 1 h 15 min</td>
+                <td><span class="confirmed">Sì</span> · auto &lt; 4,25 m</td>
+                <td><a href="https://tickets.ionianseaways.com/" target="_blank" rel="noopener">Apri →</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="car-box">
+          <strong>Perché non ci sono dieci righe:</strong> sul calendario estivo Corfù → Saranda compaiono nove partenze, ma nel controllo del <strong>28 agosto</strong> il sistema ha dato posto auto solo sulle tre corse MARINA qui sopra. Gli aliscafi sono più veloci ma, nella simulazione, non avevano garage. Il listino Finikas pubblica <span class="indicative">€111</span> (€22 × 3 + €45 auto), mentre il preventivo sul giorno preciso ha dato €166: per pagare fa fede sempre l'importo finale prima della carta.
         </div>
 
         <h3 class="section-title">Controllo fatto sui siti di prenotazione</h3>
